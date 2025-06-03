@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Update="TextTemplates\Domain.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>Domain.cs</LastGenOutput>
+    </None>
     <None Update="TextTemplates\Dto.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>Dto.cs</LastGenOutput>
@@ -24,6 +28,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="TextTemplates\Domain.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Domain.tt</DependentUpon>
+    </Compile>
     <Compile Update="TextTemplates\Dto.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

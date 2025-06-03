@@ -1,0 +1,20 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+using HPMS.DataAccess.Models;
+using HPMS.DataAccess.Repositories;
+using HPMS.Shared.Dtos;
+using RepositoryFramework;
+
+namespace HPMS.ServiceLayer.Domains;
+
+public interface I<#= this.EntityDefinition.Name #>Domain : IRfDomain<<#= this.EntityDefinition.Name #>Dto>
+{
+}
+
+public class <#= this.EntityDefinition.Name #>Domain(IHpmsRepository<<#= this.EntityDefinition.Name #>> <#= this.EntityDefinition.CamelCaseName #>Repository, IRfEntityDtoMapper<<#= this.EntityDefinition.Name #>, <#= this.EntityDefinition.Name #>Dto> mapper, IRfMemoryCache<RfDomain<<#= this.EntityDefinition.Name #>, <#= this.EntityDefinition.Name #>Dto>> domainCache)
+    : RfDomain<<#= this.EntityDefinition.Name #>, <#= this.EntityDefinition.Name #>Dto>(<#= this.EntityDefinition.CamelCaseName #>Repository, mapper, domainCache, v1 => v1.OrderBy(e => e.Sri).ThenBy(e => e.MpStart).ThenBy(e => e.MpEnd)), I<#= this.EntityDefinition.Name #>Domain
+{
+}

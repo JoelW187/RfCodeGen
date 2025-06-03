@@ -126,8 +126,10 @@ public record ProjectFolder(string FullName) : SourceCodeFolderBase(FullName)
 {
     public DataAccessFolder DataAccess { get; } = new(Path.Combine(FullName, "HPMS.DataAccess"));
     public SharedFolder Shared { get; } = new(Path.Combine(FullName, "HPMS.Shared"));
+    public ServiceLayerFolder ServiceLayer { get; } = new(Path.Combine(FullName, "HPMS.ServiceLayer"));
 }
 
+//DataAccess
 public record DataAccessFolder(string FullName) : SourceCodeFolderBase(FullName)
 {
     public DataAccessModelsFolder Models { get; } = new(Path.Combine(FullName, "Models"));
@@ -140,9 +142,18 @@ public record DataAccessModelsFolder(string FullName) : SourceCodeFolderBase(Ful
 
 public record DataAccessModelsPartialsFolder(string FullName) : SourceCodeFolderBase(FullName) { }
 
+//Shared
 public record SharedFolder(string FullName) : SourceCodeFolderBase(FullName)
 {
     public SharedDtosFolder Dtos { get; } = new(Path.Combine(FullName, "Dtos"));
 }
 
 public record SharedDtosFolder(string FullName) : SourceCodeFolderBase(FullName) { }
+
+//ServiceLayer
+public record ServiceLayerFolder(string FullName) : SourceCodeFolderBase(FullName)
+{
+    public ServiceLayerDomainFolder Domain { get; } = new(Path.Combine(FullName, "Domains"));
+}
+
+public record ServiceLayerDomainFolder(string FullName) : SourceCodeFolderBase(FullName) { }

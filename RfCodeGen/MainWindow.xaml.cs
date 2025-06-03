@@ -110,11 +110,15 @@ public partial class MainWindow : Window
             string dtoFileName = Path.Combine(this.ViewModel.ProjectFolder.Shared.Dtos.FullName, $"{entityDefinition.Name}Dto.cs");
             File.WriteAllText(dtoFileName, dtoContent, Encoding.UTF8);
         }
-        //var testEntity = this.ViewModel.Entities.Single(v1 => v1.FileName == "AadtSingleUnit.cs");
 
-        //ModelPartial modelPartial = new(testEntity);
-        //string modelPartialContent = modelPartial.TransformText();
-        //File.WriteAllText(@"c:\junk\partialtest.cs", modelPartialContent, Encoding.UTF8);
+        //ServiceLayer domain
+        foreach(var entityDefinition in entityDefinitions)
+        {
+            Domain domain = new(entityDefinition);
+            string domainContent = domain.TransformText();
+            string domainFileName = Path.Combine(this.ViewModel.ProjectFolder.ServiceLayer.Domain.FullName, $"{entityDefinition.Name}Domain.cs");
+            File.WriteAllText(domainFileName, domainContent, Encoding.UTF8);
+        }
     }
 }
 
@@ -127,6 +131,7 @@ public record EntityDefinitionDto(string Name)
     public bool IFeature { get; set; }
     public bool IPointFeature { get; set; }
     public bool ILinearFeature { get; set; }
+    public string CamelCaseName => char.ToLowerInvariant(this.Name[0]) + this.Name[1..];
 
     public string Interfaces
     {
