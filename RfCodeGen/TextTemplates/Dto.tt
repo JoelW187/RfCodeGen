@@ -1,0 +1,20 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+using HPMS.Shared.Interfaces;
+using System.Diagnostics;
+using System.ComponentModel.DataAnnotations;
+
+namespace HPMS.Shared.Dtos;
+
+public partial class <#= this.EntityDefinition.Name #>Dto : DtoBase<#= this.EntityDefinition.Interfaces==string.Empty ? "" : $", {this.EntityDefinition.Interfaces}" #>
+{
+<# foreach(var property in this.EntityDefinition.Properties){ #>
+	<# if(property.Required) { #>
+[Required]
+	<# } #>
+<#= property.Modifier #> <#= property.Type #> <#= property.Name #> { get; set; }
+<# } #>
+}
