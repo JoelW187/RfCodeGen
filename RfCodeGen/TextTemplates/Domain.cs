@@ -33,84 +33,84 @@ namespace RfCodeGen.TextTemplates
                     "\r\npublic interface I");
             
             #line 13 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen\TextTemplates\Domain.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDefinition.Name));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Name));
             
             #line default
             #line hidden
             this.Write("Domain : IRfDomain<");
             
             #line 13 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen\TextTemplates\Domain.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDefinition.Name));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Name));
             
             #line default
             #line hidden
             this.Write("Dto>\r\n{\r\n}\r\n\r\npublic class ");
             
             #line 17 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen\TextTemplates\Domain.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDefinition.Name));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Name));
             
             #line default
             #line hidden
             this.Write("Domain(IHpmsRepository<");
             
             #line 17 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen\TextTemplates\Domain.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDefinition.Name));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Name));
             
             #line default
             #line hidden
             this.Write("> ");
             
             #line 17 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen\TextTemplates\Domain.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDefinition.CamelCaseName));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.CamelCaseName));
             
             #line default
             #line hidden
             this.Write("Repository, IRfEntityDtoMapper<");
             
             #line 17 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen\TextTemplates\Domain.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDefinition.Name));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Name));
             
             #line default
             #line hidden
             this.Write(", ");
             
             #line 17 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen\TextTemplates\Domain.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDefinition.Name));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Name));
             
             #line default
             #line hidden
             this.Write("Dto> mapper, IRfMemoryCache<RfDomain<");
             
             #line 17 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen\TextTemplates\Domain.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDefinition.Name));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Name));
             
             #line default
             #line hidden
             this.Write(", ");
             
             #line 17 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen\TextTemplates\Domain.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDefinition.Name));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Name));
             
             #line default
             #line hidden
             this.Write("Dto>> domainCache)\r\n    : RfDomain<");
             
             #line 18 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen\TextTemplates\Domain.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDefinition.Name));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Name));
             
             #line default
             #line hidden
             this.Write(", ");
             
             #line 18 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen\TextTemplates\Domain.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDefinition.Name));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Name));
             
             #line default
             #line hidden
             this.Write("Dto>(");
             
             #line 18 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen\TextTemplates\Domain.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDefinition.CamelCaseName));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.CamelCaseName));
             
             #line default
             #line hidden
@@ -118,7 +118,7 @@ namespace RfCodeGen.TextTemplates
                     "rt).ThenBy(e => e.MpEnd)), I");
             
             #line 18 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen\TextTemplates\Domain.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDefinition.Name));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Name));
             
             #line default
             #line hidden

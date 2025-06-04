@@ -18,7 +18,7 @@ namespace RfCodeGen.TextTemplates
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "C:\Source\mbakerintlapps\NJDOT\NJDOT_HPMS\src\NJDOT_HPMS\RfCodeGen\TextTemplates\Dto.tt"
+    #line 1 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen\TextTemplates\Dto.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "17.0.0.0")]
     public partial class Dto : DtoBase
     {
@@ -31,62 +31,62 @@ namespace RfCodeGen.TextTemplates
             this.Write("using HPMS.Shared.Interfaces;\r\nusing System.Diagnostics;\r\nusing System.ComponentM" +
                     "odel.DataAnnotations;\r\n\r\nnamespace HPMS.Shared.Dtos;\r\n\r\npublic partial class ");
             
-            #line 12 "C:\Source\mbakerintlapps\NJDOT\NJDOT_HPMS\src\NJDOT_HPMS\RfCodeGen\TextTemplates\Dto.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDefinition.Name));
+            #line 12 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen\TextTemplates\Dto.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Name));
             
             #line default
             #line hidden
             this.Write("Dto : DtoBase");
             
-            #line 12 "C:\Source\mbakerintlapps\NJDOT\NJDOT_HPMS\src\NJDOT_HPMS\RfCodeGen\TextTemplates\Dto.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDefinition.Interfaces==string.Empty ? "" : $", {this.EntityDefinition.Interfaces}"));
+            #line 12 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen\TextTemplates\Dto.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Interfaces==string.Empty ? "" : $", {this.EntityDescriptor.Interfaces}"));
             
             #line default
             #line hidden
             this.Write("\r\n{\r\n");
             
-            #line 14 "C:\Source\mbakerintlapps\NJDOT\NJDOT_HPMS\src\NJDOT_HPMS\RfCodeGen\TextTemplates\Dto.tt"
- foreach(var property in this.EntityDefinition.Properties){ 
+            #line 14 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen\TextTemplates\Dto.tt"
+ foreach(var property in this.EntityDescriptor.Properties){ 
             
             #line default
             #line hidden
             this.Write("\t");
             
-            #line 15 "C:\Source\mbakerintlapps\NJDOT\NJDOT_HPMS\src\NJDOT_HPMS\RfCodeGen\TextTemplates\Dto.tt"
+            #line 15 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen\TextTemplates\Dto.tt"
  if(property.Required) { 
             
             #line default
             #line hidden
             this.Write("[Required]\r\n\t");
             
-            #line 17 "C:\Source\mbakerintlapps\NJDOT\NJDOT_HPMS\src\NJDOT_HPMS\RfCodeGen\TextTemplates\Dto.tt"
+            #line 17 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen\TextTemplates\Dto.tt"
  } 
             
             #line default
             #line hidden
             
-            #line 18 "C:\Source\mbakerintlapps\NJDOT\NJDOT_HPMS\src\NJDOT_HPMS\RfCodeGen\TextTemplates\Dto.tt"
+            #line 18 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen\TextTemplates\Dto.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Modifier));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 18 "C:\Source\mbakerintlapps\NJDOT\NJDOT_HPMS\src\NJDOT_HPMS\RfCodeGen\TextTemplates\Dto.tt"
+            #line 18 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen\TextTemplates\Dto.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Type));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 18 "C:\Source\mbakerintlapps\NJDOT\NJDOT_HPMS\src\NJDOT_HPMS\RfCodeGen\TextTemplates\Dto.tt"
+            #line 18 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen\TextTemplates\Dto.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
             
             #line default
             #line hidden
             this.Write(" { get; set; }\r\n");
             
-            #line 19 "C:\Source\mbakerintlapps\NJDOT\NJDOT_HPMS\src\NJDOT_HPMS\RfCodeGen\TextTemplates\Dto.tt"
+            #line 19 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen\TextTemplates\Dto.tt"
  } 
             
             #line default

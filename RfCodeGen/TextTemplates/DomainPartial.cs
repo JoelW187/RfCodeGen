@@ -1,17 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using RfCodeGen.Shared.Dtos;
 
 namespace RfCodeGen.TextTemplates;
 
-public partial class Domain : DomainBase
+public partial class Domain(EntityDescriptorDto entityDescriptor) : DomainBase
 {
-    private EntityDefinitionDto EntityDefinition { get; set; }
-
-    public Domain(EntityDefinitionDto entityDefinition)
-    {
-        this.EntityDefinition = entityDefinition;
-    }
+    private EntityDescriptorDto EntityDescriptor { get; set; } = entityDescriptor;
 }

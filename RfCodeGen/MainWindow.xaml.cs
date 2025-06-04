@@ -1,14 +1,8 @@
-﻿using RfCodeGen.TextTemplates;
+﻿using RfCodeGen.Shared.Dtos;
+using RfCodeGen.TextTemplates;
 using System.IO;
 using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 
 namespace RfCodeGen;
 
@@ -69,7 +63,7 @@ public partial class MainWindow : Window
         }
 
         //Dto
-        List<EntityDefinitionDto> entityDefinitions = [];
+        List<EntityDescriptorDto> entityDescriptors = [];
         foreach(EntityDto entity in this.ViewModel.Entities.Where(v1 => v1.IsSelected))
         {
             IEnumerable<string> lines = File.ReadAllLines(entity.FullName);
@@ -77,7 +71,7 @@ public partial class MainWindow : Window
             //string declaration = lines.First();
             var propertyLines = lines.SkipWhile(v1 => v1 != "{").Skip(1).TakeWhile(v1 => v1 != "}").Where(v1 => !string.IsNullOrWhiteSpace(v1));
 
-            EntityDefinitionDto entityDefinition = new(entity.Name);    //, declaration);
+            EntityDescriptorDto entityDescriptor = new(entity.Name);    //, declaration);
             foreach(string propertyLine in propertyLines)
             {
                 var pieces = propertyLine.Trim().Split(' ');
@@ -90,65 +84,34 @@ public partial class MainWindow : Window
                 {
                     Required = name.Equals("Sri", StringComparison.OrdinalIgnoreCase) || name.Equals("MpStart", StringComparison.OrdinalIgnoreCase) || name.Equals("MpEnd", StringComparison.OrdinalIgnoreCase),
                 };
-                entityDefinition.Properties.Add(entityProperty);
+                entityDescriptor.Properties.Add(entityProperty);
             }
 
-            entityDefinition.IParentSri = entityDefinition.Properties.Any(v1 => v1.Name.Equals("ParentSri", StringComparison.OrdinalIgnoreCase));
-            entityDefinition.ICheckout = entityDefinition.Properties.Any(v1 => v1.Name.Equals("WrkId", StringComparison.OrdinalIgnoreCase) || v1.Name.Equals("ChoutWrkId", StringComparison.OrdinalIgnoreCase));
-            entityDefinition.IInventory = entityDefinition.Properties.Any(v1 => v1.Name.Equals("InvDate", StringComparison.OrdinalIgnoreCase));
-            entityDefinition.IFeature = entityDefinition.Properties.Any(v1 => v1.Name.Equals("Sri", StringComparison.OrdinalIgnoreCase));
-            entityDefinition.IPointFeature = entityDefinition.Properties.Any(v1 => entityDefinition.IFeature && v1.Name.Equals("MpStart", StringComparison.OrdinalIgnoreCase));
-            entityDefinition.ILinearFeature = entityDefinition.Properties.Any(v1 => entityDefinition.IFeature && v1.Name.Equals("MpEnd", StringComparison.OrdinalIgnoreCase));
+            entityDescriptor.IParentSri = entityDescriptor.Properties.Any(v1 => v1.Name.Equals("ParentSri", StringComparison.OrdinalIgnoreCase));
+            entityDescriptor.ICheckout = entityDescriptor.Properties.Any(v1 => v1.Name.Equals("WrkId", StringComparison.OrdinalIgnoreCase) || v1.Name.Equals("ChoutWrkId", StringComparison.OrdinalIgnoreCase));
+            entityDescriptor.IInventory = entityDescriptor.Properties.Any(v1 => v1.Name.Equals("InvDate", StringComparison.OrdinalIgnoreCase));
+            entityDescriptor.IFeature = entityDescriptor.Properties.Any(v1 => v1.Name.Equals("Sri", StringComparison.OrdinalIgnoreCase));
+            entityDescriptor.IPointFeature = entityDescriptor.Properties.Any(v1 => entityDescriptor.IFeature && v1.Name.Equals("MpStart", StringComparison.OrdinalIgnoreCase));
+            entityDescriptor.ILinearFeature = entityDescriptor.Properties.Any(v1 => entityDescriptor.IFeature && v1.Name.Equals("MpEnd", StringComparison.OrdinalIgnoreCase));
 
-            entityDefinitions.Add(entityDefinition);
+            entityDescriptors.Add(entityDescriptor);
         }
 
-        foreach(var entityDefinition in entityDefinitions)
+        foreach(var entityDescriptor in entityDescriptors)
         {
-            Dto dto=new(entityDefinition);
+            Dto dto=new(entityDescriptor);
             string dtoContent = dto.TransformText();
-            string dtoFileName = Path.Combine(this.ViewModel.ProjectFolder.Shared.Dtos.FullName, $"{entityDefinition.Name}Dto.cs");
+            string dtoFileName = Path.Combine(this.ViewModel.ProjectFolder.Shared.Dtos.FullName, $"{entityDescriptor.Name}Dto.cs");
             File.WriteAllText(dtoFileName, dtoContent, Encoding.UTF8);
         }
 
         //ServiceLayer domain
-        foreach(var entityDefinition in entityDefinitions)
+        foreach(var entityDescriptor in entityDescriptors)
         {
-            Domain domain = new(entityDefinition);
+            Domain domain = new(entityDescriptor);
             string domainContent = domain.TransformText();
-            string domainFileName = Path.Combine(this.ViewModel.ProjectFolder.ServiceLayer.Domain.FullName, $"{entityDefinition.Name}Domain.cs");
+            string domainFileName = Path.Combine(this.ViewModel.ProjectFolder.ServiceLayer.Domain.FullName, $"{entityDescriptor.Name}Domain.cs");
             File.WriteAllText(domainFileName, domainContent, Encoding.UTF8);
         }
     }
-}
-
-public record EntityDefinitionDto(string Name)
-{
-    public List<EntityProperty> Properties { get; init; } = [];
-    public bool IParentSri { get; set; }
-    public bool ICheckout { get; set; }
-    public bool IInventory { get; set; }
-    public bool IFeature { get; set; }
-    public bool IPointFeature { get; set; }
-    public bool ILinearFeature { get; set; }
-    public string CamelCaseName => char.ToLowerInvariant(this.Name[0]) + this.Name[1..];
-
-    public string Interfaces
-    {
-        get
-        {
-            List<string> interfaces = [];
-            if(this.IParentSri) interfaces.Add("IParentSri");
-            if(this.ICheckout) interfaces.Add("ICheckout");
-            if(this.IInventory) interfaces.Add("IInventory");
-            if(this.IPointFeature) interfaces.Add("IPointFeature");
-            if(this.ILinearFeature) interfaces.Add("ILinearFeature");
-            return string.Join(", ", interfaces);
-        }
-    }
-}
-
-public record EntityProperty(string Modifier, string Type, string Name, bool Get, bool Set)
-{
-    public bool Required { get; set; }
 }

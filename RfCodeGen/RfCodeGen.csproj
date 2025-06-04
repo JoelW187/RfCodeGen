@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\RfCodeGen.Shared\RfCodeGen.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="TextTemplates\Domain.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>Domain.cs</LastGenOutput>

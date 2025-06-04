@@ -1,17 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using RfCodeGen.Shared.Dtos;
 
 namespace RfCodeGen.TextTemplates;
 
-public partial class Dto : DtoBase
+public partial class Dto(EntityDescriptorDto entityDescriptor) : DtoBase
 {
-    private EntityDefinitionDto EntityDefinition { get; }
-
-    public Dto(EntityDefinitionDto entityDefinition)
-    {
-        this.EntityDefinition = entityDefinition;
-    }
+    private EntityDescriptorDto EntityDescriptor { get; } = entityDescriptor;
 }
