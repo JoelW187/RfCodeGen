@@ -1,4 +1,5 @@
-﻿using RfCodeGen.ServiceLayer.TextTemplates;
+﻿using RfCodeGen.ServiceLayer;
+using RfCodeGen.ServiceLayer.TextTemplates;
 using RfCodeGen.ServiceLayer.Utils.Pluralizer;
 using RfCodeGen.Shared.Dtos;
 using System.IO;
@@ -55,75 +56,78 @@ public partial class MainWindow : Window
 
     private void Generate_Click(object sender, RoutedEventArgs e)
     {
-        //Model Partial
-        foreach(Entity entity in this.ViewModel.Entities.Where(v1 => v1.IsSelected))
-        {
-            ModelTextTemplate modelPartial = new(entity);
-            string modelPartialContent = modelPartial.TransformText();
-            string partialFileName = Path.Combine(this.ViewModel.ProjectFolder.DataAccess.Models.Partials.FullName, $"{entity.Name}Partial.cs");
-            File.WriteAllText(partialFileName, modelPartialContent, Encoding.UTF8);
-        }
+        RfCodeGenerator codeGenerator = new();
+        codeGenerator.Generate(this.ViewModel.Entities.Where(v1 => v1.IsSelected), this.ViewModel.ProjectFolder);
 
-        //Dto
-        List<EntityDescriptorDto> entityDescriptors = [];
-        foreach(Entity entity in this.ViewModel.Entities.Where(v1 => v1.IsSelected))
-        {
-            IEnumerable<string> lines = File.ReadAllLines(entity.FullName);
-            lines = lines.SkipWhile(v1 => !v1.StartsWith("public partial class"));
-            //string declaration = lines.First();
-            var propertyLines = lines.SkipWhile(v1 => v1 != "{").Skip(1).TakeWhile(v1 => v1 != "}").Where(v1 => !string.IsNullOrWhiteSpace(v1));
+        ////Model Partial
+        //foreach(Entity entity in this.ViewModel.Entities.Where(v1 => v1.IsSelected))
+        //{
+        //    ModelTextTemplate modelPartial = new(entity);
+        //    string modelPartialContent = modelPartial.TransformText();
+        //    string partialFileName = Path.Combine(this.ViewModel.ProjectFolder.DataAccess.Models.Partials.FullName, $"{entity.Name}Partial.cs");
+        //    File.WriteAllText(partialFileName, modelPartialContent, Encoding.UTF8);
+        //}
 
-            EntityDescriptorDto entityDescriptor = new(entity.Name);    //, declaration);
-            foreach(string propertyLine in propertyLines)
-            {
-                var pieces = propertyLine.Trim().Split(' ');
-                string modifier = pieces[0]; // e.g., public, private, protected, internal
-                string type = pieces[1]; // e.g., string, int, DateTime, etc.
-                string name = pieces[2]; // e.g., MyProperty
-                bool get = propertyLine.Contains(" get; ");
-                bool set = propertyLine.Contains(" set; ");
-                EntityProperty entityProperty = new(modifier, type, name, get, set)
-                {
-                    Required = name.Equals("Sri", StringComparison.OrdinalIgnoreCase) || name.Equals("MpStart", StringComparison.OrdinalIgnoreCase) || name.Equals("MpEnd", StringComparison.OrdinalIgnoreCase),
-                };
-                entityDescriptor.Properties.Add(entityProperty);
-            }
+        ////Dto
+        //List<EntityDescriptorDto> entityDescriptors = [];
+        //foreach(Entity entity in this.ViewModel.Entities.Where(v1 => v1.IsSelected))
+        //{
+        //    IEnumerable<string> lines = File.ReadAllLines(entity.FullName);
+        //    lines = lines.SkipWhile(v1 => !v1.StartsWith("public partial class"));
+        //    //string declaration = lines.First();
+        //    var propertyLines = lines.SkipWhile(v1 => v1 != "{").Skip(1).TakeWhile(v1 => v1 != "}").Where(v1 => !string.IsNullOrWhiteSpace(v1));
 
-            entityDescriptor.IIdColumn = entityDescriptor.Properties.Any(v1 => v1.Name.Equals("Id", StringComparison.OrdinalIgnoreCase));
-            entityDescriptor.IParentSri = entityDescriptor.Properties.Any(v1 => v1.Name.Equals("ParentSri", StringComparison.OrdinalIgnoreCase));
-            entityDescriptor.ICheckout = entityDescriptor.Properties.Any(v1 => v1.Name.Equals("WrkId", StringComparison.OrdinalIgnoreCase) || v1.Name.Equals("ChoutWrkId", StringComparison.OrdinalIgnoreCase));
-            entityDescriptor.IInventory = entityDescriptor.Properties.Any(v1 => v1.Name.Equals("InvDate", StringComparison.OrdinalIgnoreCase));
-            entityDescriptor.IFeature = entityDescriptor.Properties.Any(v1 => v1.Name.Equals("Sri", StringComparison.OrdinalIgnoreCase));
-            entityDescriptor.IPointFeature = entityDescriptor.Properties.Any(v1 => entityDescriptor.IFeature && v1.Name.Equals("MpStart", StringComparison.OrdinalIgnoreCase));
-            entityDescriptor.ILinearFeature = entityDescriptor.Properties.Any(v1 => entityDescriptor.IFeature && v1.Name.Equals("MpEnd", StringComparison.OrdinalIgnoreCase));
+        //    EntityDescriptorDto entityDescriptor = new(entity.Name);    //, declaration);
+        //    foreach(string propertyLine in propertyLines)
+        //    {
+        //        var pieces = propertyLine.Trim().Split(' ');
+        //        string modifier = pieces[0]; // e.g., public, private, protected, internal
+        //        string type = pieces[1]; // e.g., string, int, DateTime, etc.
+        //        string name = pieces[2]; // e.g., MyProperty
+        //        bool get = propertyLine.Contains(" get; ");
+        //        bool set = propertyLine.Contains(" set; ");
+        //        EntityProperty entityProperty = new(modifier, type, name, get, set)
+        //        {
+        //            Required = name.Equals("Sri", StringComparison.OrdinalIgnoreCase) || name.Equals("MpStart", StringComparison.OrdinalIgnoreCase) || name.Equals("MpEnd", StringComparison.OrdinalIgnoreCase),
+        //        };
+        //        entityDescriptor.Properties.Add(entityProperty);
+        //    }
 
-            entityDescriptors.Add(entityDescriptor);
-        }
+        //    entityDescriptor.IIdColumn = entityDescriptor.Properties.Any(v1 => v1.Name.Equals("Id", StringComparison.OrdinalIgnoreCase));
+        //    entityDescriptor.IParentSri = entityDescriptor.Properties.Any(v1 => v1.Name.Equals("ParentSri", StringComparison.OrdinalIgnoreCase));
+        //    entityDescriptor.ICheckout = entityDescriptor.Properties.Any(v1 => v1.Name.Equals("WrkId", StringComparison.OrdinalIgnoreCase) || v1.Name.Equals("ChoutWrkId", StringComparison.OrdinalIgnoreCase));
+        //    entityDescriptor.IInventory = entityDescriptor.Properties.Any(v1 => v1.Name.Equals("InvDate", StringComparison.OrdinalIgnoreCase));
+        //    entityDescriptor.IFeature = entityDescriptor.Properties.Any(v1 => v1.Name.Equals("Sri", StringComparison.OrdinalIgnoreCase));
+        //    entityDescriptor.IPointFeature = entityDescriptor.Properties.Any(v1 => entityDescriptor.IFeature && v1.Name.Equals("MpStart", StringComparison.OrdinalIgnoreCase));
+        //    entityDescriptor.ILinearFeature = entityDescriptor.Properties.Any(v1 => entityDescriptor.IFeature && v1.Name.Equals("MpEnd", StringComparison.OrdinalIgnoreCase));
 
-        foreach(var entityDescriptor in entityDescriptors)
-        {
-            DtoTextTemplate dto=new(entityDescriptor);
-            string dtoContent = dto.TransformText();
-            string dtoFileName = Path.Combine(this.ViewModel.ProjectFolder.Shared.Dtos.FullName, $"{entityDescriptor.Name}Dto.cs");
-            File.WriteAllText(dtoFileName, dtoContent, Encoding.UTF8);
-        }
+        //    entityDescriptors.Add(entityDescriptor);
+        //}
 
-        //ServiceLayer domain
-        foreach(var entityDescriptor in entityDescriptors)
-        {
-            DomainTextTemplate domain = new(entityDescriptor);
-            string domainContent = domain.TransformText();
-            string domainFileName = Path.Combine(this.ViewModel.ProjectFolder.ServiceLayer.Domains.FullName, $"{entityDescriptor.Name}Domain.cs");
-            File.WriteAllText(domainFileName, domainContent, Encoding.UTF8);
-        }
+        //foreach(var entityDescriptor in entityDescriptors)
+        //{
+        //    DtoTextTemplate dto=new(entityDescriptor);
+        //    string dtoContent = dto.TransformText();
+        //    string dtoFileName = Path.Combine(this.ViewModel.ProjectFolder.Shared.Dtos.FullName, $"{entityDescriptor.Name}Dto.cs");
+        //    File.WriteAllText(dtoFileName, dtoContent, Encoding.UTF8);
+        //}
 
-        //Controller
-        foreach(var entityDescriptor in entityDescriptors)
-        {
-            ControllerTextTemplate controller = new(entityDescriptor);
-            string controllerContent = controller.TransformText();
-            string controllerFileName = Path.Combine(this.ViewModel.ProjectFolder.WebApi.Controllers.FullName, $"{this.Pluralizer.Pluralize(entityDescriptor.Name)}Controller.cs");
-            File.WriteAllText(controllerFileName, controllerContent, Encoding.UTF8);
-        }
+        ////ServiceLayer domain
+        //foreach(var entityDescriptor in entityDescriptors)
+        //{
+        //    DomainTextTemplate domain = new(entityDescriptor);
+        //    string domainContent = domain.TransformText();
+        //    string domainFileName = Path.Combine(this.ViewModel.ProjectFolder.ServiceLayer.Domains.FullName, $"{entityDescriptor.Name}Domain.cs");
+        //    File.WriteAllText(domainFileName, domainContent, Encoding.UTF8);
+        //}
+
+        ////Controller
+        //foreach(var entityDescriptor in entityDescriptors)
+        //{
+        //    ControllerTextTemplate controller = new(entityDescriptor);
+        //    string controllerContent = controller.TransformText();
+        //    string controllerFileName = Path.Combine(this.ViewModel.ProjectFolder.WebApi.Controllers.FullName, $"{this.Pluralizer.Pluralize(entityDescriptor.Name)}Controller.cs");
+        //    File.WriteAllText(controllerFileName, controllerContent, Encoding.UTF8);
+        //}
     }
 }
