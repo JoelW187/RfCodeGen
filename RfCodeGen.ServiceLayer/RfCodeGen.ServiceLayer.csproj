@@ -7,7 +7,57 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.CodeDom" Version="9.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\RfCodeGen.Shared\RfCodeGen.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="TextTemplates\ControllerTextTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>ControllerTextTemplate.cs</LastGenOutput>
+    </None>
+    <None Update="TextTemplates\DomainTextTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>DomainTextTemplate.cs</LastGenOutput>
+    </None>
+    <None Update="TextTemplates\DtoTextTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>DtoTextTemplate.cs</LastGenOutput>
+    </None>
+    <None Update="TextTemplates\ModelTextTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>ModelTextTemplate.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="TextTemplates\ControllerTextTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ControllerTextTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="TextTemplates\DomainTextTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DomainTextTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="TextTemplates\DtoTextTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DtoTextTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="TextTemplates\ModelTextTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ModelTextTemplate.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
 
 </Project>

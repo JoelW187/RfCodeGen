@@ -1,6 +1,6 @@
-﻿using RfCodeGen.ServiceLayer.Utils.Pluralizer;
+﻿using RfCodeGen.ServiceLayer.TextTemplates;
+using RfCodeGen.ServiceLayer.Utils.Pluralizer;
 using RfCodeGen.Shared.Dtos;
-using RfCodeGen.TextTemplates;
 using System.IO;
 using System.Text;
 using System.Windows;
@@ -58,9 +58,9 @@ public partial class MainWindow : Window
         //Model Partial
         foreach(Entity entity in this.ViewModel.Entities.Where(v1 => v1.IsSelected))
         {
-            ModelPartial modelPartial = new(entity);
+            ModelTextTemplate modelPartial = new(entity);
             string modelPartialContent = modelPartial.TransformText();
-            string partialFileName = Path.Combine(this.ViewModel.ProjectFolder.DataAccess.Models.Partials.FullName, entity.FileName);
+            string partialFileName = Path.Combine(this.ViewModel.ProjectFolder.DataAccess.Models.Partials.FullName, $"{entity.Name}Partial.cs");
             File.WriteAllText(partialFileName, modelPartialContent, Encoding.UTF8);
         }
 
@@ -102,7 +102,7 @@ public partial class MainWindow : Window
 
         foreach(var entityDescriptor in entityDescriptors)
         {
-            Dto dto=new(entityDescriptor);
+            DtoTextTemplate dto=new(entityDescriptor);
             string dtoContent = dto.TransformText();
             string dtoFileName = Path.Combine(this.ViewModel.ProjectFolder.Shared.Dtos.FullName, $"{entityDescriptor.Name}Dto.cs");
             File.WriteAllText(dtoFileName, dtoContent, Encoding.UTF8);
@@ -111,7 +111,7 @@ public partial class MainWindow : Window
         //ServiceLayer domain
         foreach(var entityDescriptor in entityDescriptors)
         {
-            Domain domain = new(entityDescriptor);
+            DomainTextTemplate domain = new(entityDescriptor);
             string domainContent = domain.TransformText();
             string domainFileName = Path.Combine(this.ViewModel.ProjectFolder.ServiceLayer.Domains.FullName, $"{entityDescriptor.Name}Domain.cs");
             File.WriteAllText(domainFileName, domainContent, Encoding.UTF8);
@@ -120,7 +120,7 @@ public partial class MainWindow : Window
         //Controller
         foreach(var entityDescriptor in entityDescriptors)
         {
-            Controller controller = new(entityDescriptor);
+            ControllerTextTemplate controller = new(entityDescriptor);
             string controllerContent = controller.TransformText();
             string controllerFileName = Path.Combine(this.ViewModel.ProjectFolder.WebApi.Controllers.FullName, $"{this.Pluralizer.Pluralize(entityDescriptor.Name)}Controller.cs");
             File.WriteAllText(controllerFileName, controllerContent, Encoding.UTF8);

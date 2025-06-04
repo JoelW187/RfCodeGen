@@ -5,18 +5,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RfCodeGen.TextTemplates;
+namespace RfCodeGen.ServiceLayer.TextTemplates;
 
-public partial class Controller : ControllerBase
+public partial class ControllerTextTemplate : ControllerTextTemplateBase
 {
     private EntityDescriptorDto EntityDescriptor { get; set; }
-    private string PluralizedEntityName{ get; set; }
+    private string PluralizedEntityName { get; set; }
 
-    public Controller(EntityDescriptorDto entityDescriptor)
+    public ControllerTextTemplate(EntityDescriptorDto entityDescriptor)
     {
         this.EntityDescriptor = entityDescriptor;
 
-        var pluralizer = new RfCodeGen.ServiceLayer.Utils.Pluralizer.Pluralizer();
+        Utils.Pluralizer.Pluralizer pluralizer = new();
         this.PluralizedEntityName = pluralizer.Pluralize(entityDescriptor.Name);
     }
 }

@@ -7,7 +7,7 @@
 //     the code is regenerated.
 // </auto-generated>
 // ------------------------------------------------------------------------------
-namespace RfCodeGen.TextTemplates
+namespace RfCodeGen.ServiceLayer.TextTemplates
 {
     using System.Linq;
     using System.Text;
@@ -18,9 +18,9 @@ namespace RfCodeGen.TextTemplates
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "C:\Source\mbakerintlapps\NJDOT\NJDOT_HPMS\src\NJDOT_HPMS\RfCodeGen\TextTemplates\ModelPartial.tt"
+    #line 1 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ServiceLayer\TextTemplates\ControllerTextTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "17.0.0.0")]
-    public partial class ModelPartial : ModelPartialBase
+    public partial class ControllerTextTemplate : ControllerTextTemplateBase
     {
 #line hidden
         /// <summary>
@@ -28,15 +28,58 @@ namespace RfCodeGen.TextTemplates
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("using RepositoryFramework;\r\n\r\nnamespace HPMS.DataAccess.Models;\r\n\r\npublic partial" +
-                    " class ");
+            this.Write("using HPMS.ServiceLayer.Domains;\r\nusing HPMS.Shared.Dtos;\r\nusing Microsoft.AspNet" +
+                    "Core.Mvc;\r\nusing RepositoryFramework;\r\n\r\nnamespace HPMS.WebApi.Controllers;\r\n\r\n[" +
+                    "Route(\"api/v1/[controller]\")]\r\n[ApiController]\r\npublic class ");
             
-            #line 10 "C:\Source\mbakerintlapps\NJDOT\NJDOT_HPMS\src\NJDOT_HPMS\RfCodeGen\TextTemplates\ModelPartial.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.Entity.Name));
+            #line 15 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ServiceLayer\TextTemplates\ControllerTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.PluralizedEntityName));
             
             #line default
             #line hidden
-            this.Write(" : RfEntityBase\r\n{\r\n}\r\n");
+            this.Write("Controller(I");
+            
+            #line 15 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ServiceLayer\TextTemplates\ControllerTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Name));
+            
+            #line default
+            #line hidden
+            this.Write("Domain ");
+            
+            #line 15 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ServiceLayer\TextTemplates\ControllerTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.CamelCaseName));
+            
+            #line default
+            #line hidden
+            this.Write("Domain, ILogger<");
+            
+            #line 15 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ServiceLayer\TextTemplates\ControllerTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.PluralizedEntityName));
+            
+            #line default
+            #line hidden
+            this.Write("Controller> logger) : RfControllerNoIncludes<I");
+            
+            #line 15 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ServiceLayer\TextTemplates\ControllerTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Name));
+            
+            #line default
+            #line hidden
+            this.Write("Domain, ");
+            
+            #line 15 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ServiceLayer\TextTemplates\ControllerTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Name));
+            
+            #line default
+            #line hidden
+            this.Write("Dto>(");
+            
+            #line 15 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ServiceLayer\TextTemplates\ControllerTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.CamelCaseName));
+            
+            #line default
+            #line hidden
+            this.Write("Domain, logger)\r\n{\r\n}\r\n");
             return this.GenerationEnvironment.ToString();
         }
     }
@@ -48,7 +91,7 @@ namespace RfCodeGen.TextTemplates
     /// Base class for this transformation
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "17.0.0.0")]
-    public class ModelPartialBase
+    public class ControllerTextTemplateBase
     {
         #region Fields
         private global::System.Text.StringBuilder generationEnvironmentField;

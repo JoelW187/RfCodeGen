@@ -7,7 +7,7 @@
 //     the code is regenerated.
 // </auto-generated>
 // ------------------------------------------------------------------------------
-namespace RfCodeGen.TextTemplates
+namespace RfCodeGen.ServiceLayer.TextTemplates
 {
     using System.Linq;
     using System.Text;
@@ -18,9 +18,9 @@ namespace RfCodeGen.TextTemplates
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen\TextTemplates\Dto.tt"
+    #line 1 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ServiceLayer\TextTemplates\DomainTextTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "17.0.0.0")]
-    public partial class Dto : DtoBase
+    public partial class DomainTextTemplate : DomainTextTemplateBase
     {
 #line hidden
         /// <summary>
@@ -28,70 +28,107 @@ namespace RfCodeGen.TextTemplates
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("using HPMS.Shared.Interfaces;\r\nusing System.Diagnostics;\r\nusing System.ComponentM" +
-                    "odel.DataAnnotations;\r\n\r\nnamespace HPMS.Shared.Dtos;\r\n\r\npublic partial class ");
+            this.Write("using HPMS.DataAccess.Models;\r\nusing HPMS.DataAccess.Repositories;\r\nusing HPMS.Sh" +
+                    "ared.Dtos;\r\nusing RepositoryFramework;\r\n\r\nnamespace HPMS.ServiceLayer.Domains;\r\n" +
+                    "\r\npublic interface I");
             
-            #line 12 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen\TextTemplates\Dto.tt"
+            #line 13 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ServiceLayer\TextTemplates\DomainTextTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Name));
             
             #line default
             #line hidden
-            this.Write("Dto : DtoBase");
+            this.Write("Domain : IRfDomain<");
             
-            #line 12 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen\TextTemplates\Dto.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.DtoInterfaces==string.Empty ? "" : $", {this.EntityDescriptor.DtoInterfaces}"));
-            
-            #line default
-            #line hidden
-            this.Write("\r\n{\r\n");
-            
-            #line 14 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen\TextTemplates\Dto.tt"
- foreach(var property in this.EntityDescriptor.Properties){ 
+            #line 13 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ServiceLayer\TextTemplates\DomainTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Name));
             
             #line default
             #line hidden
-            this.Write("\t");
+            this.Write("Dto>\r\n{\r\n}\r\n\r\npublic class ");
             
-            #line 15 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen\TextTemplates\Dto.tt"
- if(property.Required) { 
-            
-            #line default
-            #line hidden
-            this.Write("[Required]\r\n\t");
-            
-            #line 17 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen\TextTemplates\Dto.tt"
- } 
+            #line 17 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ServiceLayer\TextTemplates\DomainTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Name));
             
             #line default
             #line hidden
+            this.Write("Domain(IHpmsRepository<");
             
-            #line 18 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen\TextTemplates\Dto.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Modifier));
-            
-            #line default
-            #line hidden
-            this.Write(" ");
-            
-            #line 18 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen\TextTemplates\Dto.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Type));
+            #line 17 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ServiceLayer\TextTemplates\DomainTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Name));
             
             #line default
             #line hidden
-            this.Write(" ");
+            this.Write("> ");
             
-            #line 18 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen\TextTemplates\Dto.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
-            
-            #line default
-            #line hidden
-            this.Write(" { get; set; }\r\n");
-            
-            #line 19 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen\TextTemplates\Dto.tt"
- } 
+            #line 17 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ServiceLayer\TextTemplates\DomainTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.CamelCaseName));
             
             #line default
             #line hidden
-            this.Write("}\r\n");
+            this.Write("Repository, IRfEntityDtoMapper<");
+            
+            #line 17 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ServiceLayer\TextTemplates\DomainTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Name));
+            
+            #line default
+            #line hidden
+            this.Write(", ");
+            
+            #line 17 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ServiceLayer\TextTemplates\DomainTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Name));
+            
+            #line default
+            #line hidden
+            this.Write("Dto> mapper, IRfMemoryCache<RfDomain<");
+            
+            #line 17 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ServiceLayer\TextTemplates\DomainTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Name));
+            
+            #line default
+            #line hidden
+            this.Write(", ");
+            
+            #line 17 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ServiceLayer\TextTemplates\DomainTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Name));
+            
+            #line default
+            #line hidden
+            this.Write("Dto>> domainCache)\r\n    : RfDomain<");
+            
+            #line 18 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ServiceLayer\TextTemplates\DomainTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Name));
+            
+            #line default
+            #line hidden
+            this.Write(", ");
+            
+            #line 18 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ServiceLayer\TextTemplates\DomainTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Name));
+            
+            #line default
+            #line hidden
+            this.Write("Dto>(");
+            
+            #line 18 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ServiceLayer\TextTemplates\DomainTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.CamelCaseName));
+            
+            #line default
+            #line hidden
+            this.Write("Repository, mapper, domainCache, ");
+            
+            #line 18 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ServiceLayer\TextTemplates\DomainTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.DomainOrderBy));
+            
+            #line default
+            #line hidden
+            this.Write("), I");
+            
+            #line 18 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ServiceLayer\TextTemplates\DomainTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Name));
+            
+            #line default
+            #line hidden
+            this.Write("Domain\r\n{\r\n}\r\n");
             return this.GenerationEnvironment.ToString();
         }
     }
@@ -103,7 +140,7 @@ namespace RfCodeGen.TextTemplates
     /// Base class for this transformation
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "17.0.0.0")]
-    public class DtoBase
+    public class DomainTextTemplateBase
     {
         #region Fields
         private global::System.Text.StringBuilder generationEnvironmentField;

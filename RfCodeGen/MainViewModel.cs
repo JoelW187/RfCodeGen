@@ -13,7 +13,7 @@ public class MainViewModel : INotifyPropertyChanged
         //string modelsPartialsPath = Path.Combine(modelsPath, @"Partials");
 
         var entityFileNames = Directory.EnumerateFiles(this.ProjectFolder.DataAccess.Models.FullName, "*.cs", SearchOption.TopDirectoryOnly).OrderBy(v1 => v1);
-        this._entities = new ObservableCollection<Entity>(entityFileNames.Select(fullName => new Entity(fullName, File.Exists(Path.Combine(this.ProjectFolder.DataAccess.Models.Partials.FullName, Path.GetFileName(fullName))))));
+        this._entities = new ObservableCollection<Entity>(entityFileNames.Select(fullName => new Entity(fullName, File.Exists(Path.Combine(this.ProjectFolder.DataAccess.Models.Partials.FullName, $"{Path.GetFileNameWithoutExtension(fullName)}Partial.cs")))));
     }
 
     private ProjectFolder _projectFolder = new(@"C:\Source\mbakerintlapps\NJDOT\NJDOT_HPMS\src\NJDOT_HPMS");
