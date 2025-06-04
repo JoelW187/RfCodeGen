@@ -14,8 +14,10 @@ public class RfCodeGenerator
 {
     private Pluralizer Pluralizer { get; } = new();
 
-    public async Task Generate(IEnumerable<EntityDto> entities, ProjectFolder projectFolder, IProgress<string> progress)
+    public async Task<int> Generate(IEnumerable<EntityDto> entities, ProjectFolder projectFolder, IProgress<string> progress)
     {
+        int count = 0;
+
         List<EntityDescriptorDto> entityDescriptors = [];
         foreach(EntityDto entity in entities)
         {
@@ -59,6 +61,8 @@ public class RfCodeGenerator
             string partialFileName = Path.Combine(projectFolder.DataAccess.Models.Partials.FullName, $"{entity.Name}Partial.cs");
             await File.WriteAllTextAsync(partialFileName, modelPartialContent, Encoding.UTF8);
             progress.Report($"Generated Model partial for {entity.Name}");
+
+            count++;
         }
 
         //Dto
@@ -69,6 +73,8 @@ public class RfCodeGenerator
             string dtoFileName = Path.Combine(projectFolder.Shared.Dtos.FullName, $"{entityDescriptor.Name}Dto.cs");
             await File.WriteAllTextAsync(dtoFileName, dtoContent, Encoding.UTF8);
             progress.Report($"Generated DTO for {entityDescriptor.Name}");
+
+            count++;
         }
 
         //ServiceLayer domain
@@ -79,6 +85,8 @@ public class RfCodeGenerator
             string domainFileName = Path.Combine(projectFolder.ServiceLayer.Domains.FullName, $"{entityDescriptor.Name}Domain.cs");
             await File.WriteAllTextAsync(domainFileName, domainContent, Encoding.UTF8);
             progress.Report($"Generated ServiceLayer domain for {entityDescriptor.Name}");
+
+            count++;
         }
 
         //Controller
@@ -89,6 +97,32 @@ public class RfCodeGenerator
             string controllerFileName = Path.Combine(projectFolder.WebApi.Controllers.FullName, $"{this.Pluralizer.Pluralize(entityDescriptor.Name)}Controller.cs");
             await File.WriteAllTextAsync(controllerFileName, controllerContent, Encoding.UTF8);
             progress.Report($"Generated Controller for {entityDescriptor.Name}");
+
+            count++;
         }
+
+        return count;
+    }
+
+    public string GetDomainServiceRegistrations(IEnumerable<EntityDto> entities)
+    {
+        StringBuilder sb = new();
+        foreach(EntityDto entity in entities)
+        {
+            sb.AppendLine($"builder.Services.AddScoped<I{entity.Name}Domain, {entity.Name}Domain>();");
+        }
+
+        return sb.ToString();
+    }
+
+    public string GetAutoMapperMappingProfiles(IEnumerable<EntityDto> entities)
+    {
+        StringBuilder sb = new();
+        foreach(EntityDto entity in entities)
+        {
+            sb.AppendLine($"CreateMap<{entity.Name}, {entity.Name}Dto>().ReverseMap();");
+        }
+
+        return sb.ToString();
     }
 }

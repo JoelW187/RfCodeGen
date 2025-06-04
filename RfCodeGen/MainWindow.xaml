@@ -81,11 +81,13 @@
                     </ListBox>
                 </Grid>
 
-                <Grid Grid.Column="0">
+                <Grid Grid.Column="1">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="1*"/>
                         <RowDefinition Height="1*"/>
                     </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Text="{Binding Path=AuxGenCode}"></TextBlock>
 
                     <ListBox Grid.Row="1"
                              ItemsSource="{Binding Path=Messages}"

@@ -61,7 +61,16 @@ public partial class MainWindow : Window
             this.ViewModel.Messages.Add(message);
         });
 
+        var selectedEntities = this.ViewModel.Entities.Where(v1 => v1.IsSelected).OrderBy(v1 => v1.Name).ToList();
+
         RfCodeGenerator codeGenerator = new();
-        await codeGenerator.Generate(this.ViewModel.Entities.Where(v1 => v1.IsSelected), this.ViewModel.ProjectFolder, progress);
+        var count = await codeGenerator.Generate(selectedEntities, this.ViewModel.ProjectFolder, progress);
+
+        this.ViewModel.Messages.Add($"Generated {count} files.");
+
+        var domainServiceRegistrations = codeGenerator.GetDomainServiceRegistrations(selectedEntities);
+        var autoMapperMappingProfiles = codeGenerator.GetAutoMapperMappingProfiles(selectedEntities);
+
+        this.ViewModel.AuxGenCode = string.Join("\n\n", domainServiceRegistrations) + "\n\n" + string.Join("\n\n", autoMapperMappingProfiles);
     }
 }

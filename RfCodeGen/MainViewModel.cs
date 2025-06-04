@@ -53,6 +53,19 @@ public class MainViewModel : INotifyPropertyChanged
         }
     }
 
+    private string _auxGenCode;
+    public string AuxGenCode
+    {
+        get { return _auxGenCode; }
+        set
+        {
+            if(_auxGenCode == value) return;
+
+            _auxGenCode = value;
+            OnPropertyChanged();
+        }
+    }
+
     public event PropertyChangedEventHandler? PropertyChanged;
     protected void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string? propertyName = null)
     {
