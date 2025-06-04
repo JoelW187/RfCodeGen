@@ -14,18 +14,8 @@ public class RfCodeGenerator
 {
     private Pluralizer Pluralizer { get; } = new();
 
-    public void Generate(IEnumerable<EntityDto> entities, ProjectFolder projectFolder)
+    public async Task Generate(IEnumerable<EntityDto> entities, ProjectFolder projectFolder, IProgress<string> progress)
     {
-        //Model Partial
-        foreach(EntityDto entity in entities)
-        {
-            ModelTextTemplate modelPartial = new(entity);
-            string modelPartialContent = modelPartial.TransformText();
-            string partialFileName = Path.Combine(projectFolder.DataAccess.Models.Partials.FullName, $"{entity.Name}Partial.cs");
-            File.WriteAllText(partialFileName, modelPartialContent, Encoding.UTF8);
-        }
-
-        //Dto
         List<EntityDescriptorDto> entityDescriptors = [];
         foreach(EntityDto entity in entities)
         {
@@ -61,12 +51,24 @@ public class RfCodeGenerator
             entityDescriptors.Add(entityDescriptor);
         }
 
+        //Model Partial
+        foreach(EntityDto entity in entities)
+        {
+            ModelTextTemplate modelPartial = new(entity);
+            string modelPartialContent = modelPartial.TransformText();
+            string partialFileName = Path.Combine(projectFolder.DataAccess.Models.Partials.FullName, $"{entity.Name}Partial.cs");
+            await File.WriteAllTextAsync(partialFileName, modelPartialContent, Encoding.UTF8);
+            progress.Report($"Generated Model partial for {entity.Name}");
+        }
+
+        //Dto
         foreach(var entityDescriptor in entityDescriptors)
         {
             DtoTextTemplate dto = new(entityDescriptor);
             string dtoContent = dto.TransformText();
             string dtoFileName = Path.Combine(projectFolder.Shared.Dtos.FullName, $"{entityDescriptor.Name}Dto.cs");
-            File.WriteAllText(dtoFileName, dtoContent, Encoding.UTF8);
+            await File.WriteAllTextAsync(dtoFileName, dtoContent, Encoding.UTF8);
+            progress.Report($"Generated DTO for {entityDescriptor.Name}");
         }
 
         //ServiceLayer domain
@@ -75,7 +77,8 @@ public class RfCodeGenerator
             DomainTextTemplate domain = new(entityDescriptor);
             string domainContent = domain.TransformText();
             string domainFileName = Path.Combine(projectFolder.ServiceLayer.Domains.FullName, $"{entityDescriptor.Name}Domain.cs");
-            File.WriteAllText(domainFileName, domainContent, Encoding.UTF8);
+            await File.WriteAllTextAsync(domainFileName, domainContent, Encoding.UTF8);
+            progress.Report($"Generated ServiceLayer domain for {entityDescriptor.Name}");
         }
 
         //Controller
@@ -84,7 +87,8 @@ public class RfCodeGenerator
             ControllerTextTemplate controller = new(entityDescriptor);
             string controllerContent = controller.TransformText();
             string controllerFileName = Path.Combine(projectFolder.WebApi.Controllers.FullName, $"{this.Pluralizer.Pluralize(entityDescriptor.Name)}Controller.cs");
-            File.WriteAllText(controllerFileName, controllerContent, Encoding.UTF8);
+            await File.WriteAllTextAsync(controllerFileName, controllerContent, Encoding.UTF8);
+            progress.Report($"Generated Controller for {entityDescriptor.Name}");
         }
     }
 }

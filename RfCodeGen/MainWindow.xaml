@@ -36,43 +36,62 @@
             </Grid>
 
             <Grid Grid.Row="1">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                
+                <Grid Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
 
-                <ToolBarPanel Grid.Row="0">
-                    <ToolBarTray IsLocked="True">
-                        <ToolBar>
-                            <Button Content="Select All" Click="SelectAll_Click" ></Button>
-                            <Button Content="Deselect All" Click="DeselectAll_Click"></Button>
-                            <Separator></Separator>
-                            <Button Content="Select New" Click="SelectNew_Click"></Button>
-                            <Button Content="Select Existing" Click="SelectExisting_Click"></Button>
-                            <Separator></Separator>
-                            <Button Content="Invert Selection" Click="SelectInvert_Click"></Button>
-                        </ToolBar>
-                    </ToolBarTray>
-                </ToolBarPanel>
+                    <ToolBarPanel Grid.Row="0">
+                        <ToolBarTray IsLocked="True">
+                            <ToolBar>
+                                <Button Content="Select All" Click="SelectAll_Click" ></Button>
+                                <Button Content="Deselect All" Click="DeselectAll_Click"></Button>
+                                <Separator></Separator>
+                                <Button Content="Select New" Click="SelectNew_Click"></Button>
+                                <Button Content="Select Existing" Click="SelectExisting_Click"></Button>
+                                <Separator></Separator>
+                                <Button Content="Invert Selection" Click="SelectInvert_Click"></Button>
+                            </ToolBar>
+                        </ToolBarTray>
+                    </ToolBarPanel>
 
-                <ListBox Grid.Row="1" ItemsSource="{Binding Path=Entities}" Margin="5" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <CheckBox IsChecked="{Binding Path=IsSelected}" Content="{Binding Path=Name}">
-                                <CheckBox.Style>
-                                    <Style TargetType="CheckBox">
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Path=HasPartial}" Value="True">
-                                                <Setter Property="FontWeight" Value="Bold"></Setter>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </CheckBox.Style>
-                            </CheckBox>
-                            <!--<TextBlock Text="{Binding}"/>-->
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
+                    <ListBox Grid.Row="1" ItemsSource="{Binding Path=Entities}" Margin="5" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding Path=IsSelected}" Content="{Binding Path=Name}">
+                                    <CheckBox.Style>
+                                        <Style TargetType="CheckBox">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Path=HasPartial}" Value="True">
+                                                    <Setter Property="FontWeight" Value="Bold"></Setter>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </CheckBox.Style>
+                                </CheckBox>
+                                <!--<TextBlock Text="{Binding}"/>-->
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Grid>
+
+                <Grid Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+
+                    <ListBox Grid.Row="1"
+                             ItemsSource="{Binding Path=Messages}"
+                             >
+                    </ListBox>
+                </Grid>
             </Grid>
         </Grid>
     </DockPanel>

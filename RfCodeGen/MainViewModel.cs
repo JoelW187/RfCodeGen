@@ -10,9 +10,6 @@ public class MainViewModel : INotifyPropertyChanged
 {
     public MainViewModel()
     {
-        //string modelsPath = Path.Combine(this.SourceCodeRoot, @"HPMS.DataAccess\Models");
-        //string modelsPartialsPath = Path.Combine(modelsPath, @"Partials");
-
         var entityFileNames = Directory.EnumerateFiles(this.ProjectFolder.DataAccess.Models.FullName, "*.cs", SearchOption.TopDirectoryOnly).OrderBy(v1 => v1);
         this._entities = new ObservableCollection<Entity>(entityFileNames.Select(fullName => new Entity(fullName, File.Exists(Path.Combine(this.ProjectFolder.DataAccess.Models.Partials.FullName, $"{Path.GetFileNameWithoutExtension(fullName)}Partial.cs")))));
     }
@@ -30,19 +27,6 @@ public class MainViewModel : INotifyPropertyChanged
         }
     }
 
-    //private string _sourceCodeRoot = @"C:\Source\mbakerintlapps\NJDOT\NJDOT_HPMS\src\NJDOT_HPMS";
-    //public string SourceCodeRoot
-    //{
-    //    get { return _sourceCodeRoot; }
-    //    set
-    //    {
-    //        if(_sourceCodeRoot == value) return;
-
-    //        _sourceCodeRoot = value;
-    //        OnPropertyChanged();
-    //    }
-    //}
-
     private ObservableCollection<Entity> _entities;
     public ObservableCollection<Entity> Entities
     {
@@ -56,12 +40,18 @@ public class MainViewModel : INotifyPropertyChanged
         }
     }
 
-    //public Task Initialized { get; private set; }
+    private ObservableCollection<string> _messages = [];
+    public ObservableCollection<string> Messages
+    {
+        get { return _messages; }
+        set
+        {
+            if(_messages == value) return;
 
-    //private async Task InitializeAsync()
-    //{
-    //    var entityNames = Directory.EnumerateFiles(Path.Combine(this.SourceCodeRoot, @"HPMS.DataAccess\Models"), "*.*", SearchOption.TopDirectoryOnly).tol
-    //}
+            _messages = value;
+            OnPropertyChanged();
+        }
+    }
 
     public event PropertyChangedEventHandler? PropertyChanged;
     protected void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string? propertyName = null)
@@ -98,15 +88,5 @@ public record Entity(string FullName, bool HasPartial = false, bool IsSelected =
         }
     }
 
-    //public string FileName => Path.GetFileName(this.FullName);
-
-    //public string Name => Path.GetFileNameWithoutExtension(this.FullName);
-
     public override string ToString() => this.FullName;
-
-    //public event PropertyChangedEventHandler? PropertyChanged;
-    //protected void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string? propertyName = null)
-    //{
-    //    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    //}
 }
