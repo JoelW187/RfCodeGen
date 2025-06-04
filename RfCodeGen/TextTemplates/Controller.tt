@@ -1,0 +1,17 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+using HPMS.ServiceLayer.Domains;
+using HPMS.Shared.Dtos;
+using Microsoft.AspNetCore.Mvc;
+using RepositoryFramework;
+
+namespace HPMS.WebApi.Controllers;
+
+[Route("api/v1/[controller]")]
+[ApiController]
+public class <#= this.PluralizedEntityName #>Controller(I<#= this.EntityDescriptor.Name #>Domain <#= this.EntityDescriptor.CamelCaseName #>Domain, ILogger<<#= this.PluralizedEntityName #>Controller> logger) : RfControllerNoIncludes<I<#= this.EntityDescriptor.Name #>Domain, <#= this.EntityDescriptor.Name #>Dto>(<#= this.EntityDescriptor.CamelCaseName #>Domain, logger)
+{
+}

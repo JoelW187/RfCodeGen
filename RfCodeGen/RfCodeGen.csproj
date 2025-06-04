@@ -9,10 +9,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\RfCodeGen.ServiceLayer\RfCodeGen.ServiceLayer.csproj" />
     <ProjectReference Include="..\RfCodeGen.Shared\RfCodeGen.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="TextTemplates\Controller.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>Controller.cs</LastGenOutput>
+    </None>
     <None Update="TextTemplates\Domain.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>Domain.cs</LastGenOutput>
@@ -32,6 +37,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="TextTemplates\Controller.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Controller.tt</DependentUpon>
+    </Compile>
     <Compile Update="TextTemplates\Domain.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

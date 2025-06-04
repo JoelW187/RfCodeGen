@@ -1,4 +1,5 @@
-﻿using RfCodeGen.Shared.Dtos;
+﻿using RfCodeGen.ServiceLayer.Utils.Pluralizer;
+using RfCodeGen.Shared.Dtos;
 using RfCodeGen.TextTemplates;
 using System.IO;
 using System.Text;
@@ -12,6 +13,7 @@ namespace RfCodeGen;
 public partial class MainWindow : Window
 {
     private MainViewModel ViewModel { get; set; } = null!;
+    private Pluralizer Pluralizer { get; } = new();
 
     public MainWindow()
     {
@@ -111,8 +113,17 @@ public partial class MainWindow : Window
         {
             Domain domain = new(entityDescriptor);
             string domainContent = domain.TransformText();
-            string domainFileName = Path.Combine(this.ViewModel.ProjectFolder.ServiceLayer.Domain.FullName, $"{entityDescriptor.Name}Domain.cs");
+            string domainFileName = Path.Combine(this.ViewModel.ProjectFolder.ServiceLayer.Domains.FullName, $"{entityDescriptor.Name}Domain.cs");
             File.WriteAllText(domainFileName, domainContent, Encoding.UTF8);
+        }
+
+        //Controller
+        foreach(var entityDescriptor in entityDescriptors)
+        {
+            Controller controller = new(entityDescriptor);
+            string controllerContent = controller.TransformText();
+            string controllerFileName = Path.Combine(this.ViewModel.ProjectFolder.WebApi.Controllers.FullName, $"{this.Pluralizer.Pluralize(entityDescriptor.Name)}Controller.cs");
+            File.WriteAllText(controllerFileName, controllerContent, Encoding.UTF8);
         }
     }
 }

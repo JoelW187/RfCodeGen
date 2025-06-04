@@ -127,6 +127,7 @@ public record ProjectFolder(string FullName) : SourceCodeFolderBase(FullName)
     public DataAccessFolder DataAccess { get; } = new(Path.Combine(FullName, "HPMS.DataAccess"));
     public SharedFolder Shared { get; } = new(Path.Combine(FullName, "HPMS.Shared"));
     public ServiceLayerFolder ServiceLayer { get; } = new(Path.Combine(FullName, "HPMS.ServiceLayer"));
+    public WebApiFolder WebApi { get; } = new(Path.Combine(FullName, "HPMS.WebApi"));
 }
 
 //DataAccess
@@ -153,7 +154,15 @@ public record SharedDtosFolder(string FullName) : SourceCodeFolderBase(FullName)
 //ServiceLayer
 public record ServiceLayerFolder(string FullName) : SourceCodeFolderBase(FullName)
 {
-    public ServiceLayerDomainFolder Domain { get; } = new(Path.Combine(FullName, "Domains"));
+    public ServiceLayerDomainFolder Domains { get; } = new(Path.Combine(FullName, "Domains"));
 }
 
 public record ServiceLayerDomainFolder(string FullName) : SourceCodeFolderBase(FullName) { }
+
+//Controller
+public record WebApiFolder(string FullName) : SourceCodeFolderBase(FullName)
+{
+    public WebApiControllerFolder Controllers { get; } = new(Path.Combine(FullName, "Controllers"));
+}
+
+public record WebApiControllerFolder(string FullName) : SourceCodeFolderBase(FullName) { }
