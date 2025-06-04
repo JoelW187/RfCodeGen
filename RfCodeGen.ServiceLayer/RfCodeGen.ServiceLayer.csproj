@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\RfCodeGen.Shared\RfCodeGen.Shared.csproj" />
+  </ItemGroup>
+
 </Project>

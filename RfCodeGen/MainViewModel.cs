@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using RfCodeGen.Shared.Dtos;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RfCodeGen;
 
@@ -18,7 +13,7 @@ public class MainViewModel : INotifyPropertyChanged
         //string modelsPartialsPath = Path.Combine(modelsPath, @"Partials");
 
         var entityFileNames = Directory.EnumerateFiles(this.ProjectFolder.DataAccess.Models.FullName, "*.cs", SearchOption.TopDirectoryOnly).OrderBy(v1 => v1);
-        this._entities = new ObservableCollection<EntityDto>(entityFileNames.Select(fullName => new EntityDto(fullName, File.Exists(Path.Combine(this.ProjectFolder.DataAccess.Models.Partials.FullName, Path.GetFileName(fullName))))));
+        this._entities = new ObservableCollection<Entity>(entityFileNames.Select(fullName => new Entity(fullName, File.Exists(Path.Combine(this.ProjectFolder.DataAccess.Models.Partials.FullName, Path.GetFileName(fullName))))));
     }
 
     private ProjectFolder _projectFolder = new(@"C:\Source\mbakerintlapps\NJDOT\NJDOT_HPMS\src\NJDOT_HPMS");
@@ -47,8 +42,8 @@ public class MainViewModel : INotifyPropertyChanged
     //    }
     //}
 
-    private ObservableCollection<EntityDto> _entities;
-    public ObservableCollection<EntityDto> Entities
+    private ObservableCollection<Entity> _entities;
+    public ObservableCollection<Entity> Entities
     {
         get { return _entities; }
         set
@@ -74,7 +69,7 @@ public class MainViewModel : INotifyPropertyChanged
     }
 }
 
-public record EntityDto(string FullName, bool HasPartial = false, bool IsSelected = false) : INotifyPropertyChanged
+public record Entity(string FullName, bool HasPartial = false, bool IsSelected = false) : EntityDto(FullName)
 {
     private bool _hasPartial = HasPartial;
     public bool HasPartial
@@ -102,17 +97,17 @@ public record EntityDto(string FullName, bool HasPartial = false, bool IsSelecte
         }
     }
 
-    public string FileName => Path.GetFileName(this.FullName);
+    //public string FileName => Path.GetFileName(this.FullName);
 
-    public string Name => Path.GetFileNameWithoutExtension(this.FullName);
+    //public string Name => Path.GetFileNameWithoutExtension(this.FullName);
 
     public override string ToString() => this.FullName;
 
-    public event PropertyChangedEventHandler? PropertyChanged;
-    protected void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string? propertyName = null)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
+    //public event PropertyChangedEventHandler? PropertyChanged;
+    //protected void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string? propertyName = null)
+    //{
+    //    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    //}
 }
 
 public abstract record SourceCodeFolderBase(string FullName)

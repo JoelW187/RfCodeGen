@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RfCodeGen.TextTemplates;
 
-public partial class ModelPartial(EntityDto entity) : ModelPartialBase
+public partial class ModelPartial(Entity entity) : ModelPartialBase
 {
-    private EntityDto Entity { get; } = entity;
+    private Entity Entity { get; } = entity;
 }

@@ -56,7 +56,7 @@ public partial class MainWindow : Window
     private void Generate_Click(object sender, RoutedEventArgs e)
     {
         //Model Partial
-        foreach(EntityDto entity in this.ViewModel.Entities.Where(v1 => v1.IsSelected))
+        foreach(Entity entity in this.ViewModel.Entities.Where(v1 => v1.IsSelected))
         {
             ModelPartial modelPartial = new(entity);
             string modelPartialContent = modelPartial.TransformText();
@@ -66,7 +66,7 @@ public partial class MainWindow : Window
 
         //Dto
         List<EntityDescriptorDto> entityDescriptors = [];
-        foreach(EntityDto entity in this.ViewModel.Entities.Where(v1 => v1.IsSelected))
+        foreach(Entity entity in this.ViewModel.Entities.Where(v1 => v1.IsSelected))
         {
             IEnumerable<string> lines = File.ReadAllLines(entity.FullName);
             lines = lines.SkipWhile(v1 => !v1.StartsWith("public partial class"));
