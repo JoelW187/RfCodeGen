@@ -9,7 +9,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace HPMS.Shared.Dtos;
 
-public partial class <#= this.EntityDescriptor.Name #>Dto : DtoBase<#= this.EntityDescriptor.Interfaces==string.Empty ? "" : $", {this.EntityDescriptor.Interfaces}" #>
+public partial class <#= this.EntityDescriptor.Name #>Dto : DtoBase<#= this.EntityDescriptor.DtoInterfaces==string.Empty ? "" : $", {this.EntityDescriptor.DtoInterfaces}" #>
 {
 <# foreach(var property in this.EntityDescriptor.Properties){ #>
 	<# if(property.Required) { #>

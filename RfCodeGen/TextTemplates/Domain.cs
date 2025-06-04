@@ -114,8 +114,14 @@ namespace RfCodeGen.TextTemplates
             
             #line default
             #line hidden
-            this.Write("Repository, mapper, domainCache, v1 => v1.OrderBy(e => e.Sri).ThenBy(e => e.MpSta" +
-                    "rt).ThenBy(e => e.MpEnd)), I");
+            this.Write("Repository, mapper, domainCache, ");
+            
+            #line 18 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen\TextTemplates\Domain.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.DomainOrderBy));
+            
+            #line default
+            #line hidden
+            this.Write("), I");
             
             #line 18 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen\TextTemplates\Domain.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Name));

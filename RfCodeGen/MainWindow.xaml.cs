@@ -87,6 +87,7 @@ public partial class MainWindow : Window
                 entityDescriptor.Properties.Add(entityProperty);
             }
 
+            entityDescriptor.IIdColumn = entityDescriptor.Properties.Any(v1 => v1.Name.Equals("Id", StringComparison.OrdinalIgnoreCase));
             entityDescriptor.IParentSri = entityDescriptor.Properties.Any(v1 => v1.Name.Equals("ParentSri", StringComparison.OrdinalIgnoreCase));
             entityDescriptor.ICheckout = entityDescriptor.Properties.Any(v1 => v1.Name.Equals("WrkId", StringComparison.OrdinalIgnoreCase) || v1.Name.Equals("ChoutWrkId", StringComparison.OrdinalIgnoreCase));
             entityDescriptor.IInventory = entityDescriptor.Properties.Any(v1 => v1.Name.Equals("InvDate", StringComparison.OrdinalIgnoreCase));

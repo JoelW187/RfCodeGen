@@ -39,7 +39,7 @@ namespace RfCodeGen.TextTemplates
             this.Write("Dto : DtoBase");
             
             #line 12 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen\TextTemplates\Dto.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Interfaces==string.Empty ? "" : $", {this.EntityDescriptor.Interfaces}"));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.DtoInterfaces==string.Empty ? "" : $", {this.EntityDescriptor.DtoInterfaces}"));
             
             #line default
             #line hidden

@@ -15,6 +15,6 @@ public interface I<#= this.EntityDescriptor.Name #>Domain : IRfDomain<<#= this.E
 }
 
 public class <#= this.EntityDescriptor.Name #>Domain(IHpmsRepository<<#= this.EntityDescriptor.Name #>> <#= this.EntityDescriptor.CamelCaseName #>Repository, IRfEntityDtoMapper<<#= this.EntityDescriptor.Name #>, <#= this.EntityDescriptor.Name #>Dto> mapper, IRfMemoryCache<RfDomain<<#= this.EntityDescriptor.Name #>, <#= this.EntityDescriptor.Name #>Dto>> domainCache)
-    : RfDomain<<#= this.EntityDescriptor.Name #>, <#= this.EntityDescriptor.Name #>Dto>(<#= this.EntityDescriptor.CamelCaseName #>Repository, mapper, domainCache, v1 => v1.OrderBy(e => e.Sri).ThenBy(e => e.MpStart).ThenBy(e => e.MpEnd)), I<#= this.EntityDescriptor.Name #>Domain
+    : RfDomain<<#= this.EntityDescriptor.Name #>, <#= this.EntityDescriptor.Name #>Dto>(<#= this.EntityDescriptor.CamelCaseName #>Repository, mapper, domainCache, <#= this.EntityDescriptor.DomainOrderBy #>), I<#= this.EntityDescriptor.Name #>Domain
 {
 }
