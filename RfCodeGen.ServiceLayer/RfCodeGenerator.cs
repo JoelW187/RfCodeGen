@@ -1,12 +1,7 @@
-﻿using RfCodeGen.ServiceLayer.TextTemplates;
-using RfCodeGen.ServiceLayer.Utils.Pluralizer;
+﻿using RfCodeGen.ServiceLayer.Utils.Pluralizer;
 using RfCodeGen.Shared;
 using RfCodeGen.Shared.Dtos;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace RfCodeGen.ServiceLayer;
 
@@ -86,8 +81,9 @@ public class RfCodeGenerator<TEntityDescriptor, TEntityPropertyDescriptor> : RfC
         //Model (partial)
         foreach(var entityDescriptor in entityDescriptors)
         {
-            ModelTextTemplate modelPartial = new(entityDescriptor);
-            string modelPartialContent = modelPartial.TransformText();
+            //TextTemplates.HPMS.ModelTextTemplate modelPartial = new(entityDescriptor);
+            var modelTemplate = entityDescriptor.ModelTemplate;
+            string modelPartialContent = modelTemplate.TransformText();
             string modelPartialFilePath = projectFolder.DataAccess.Models.Partials.GetFilePath($"{entityDescriptor.Entity.Name}.cs");   // Path.Combine(projectFolder.DataAccess.Models.Partials.FullPath, $"{entity.Name}Partial.cs");
             await File.WriteAllTextAsync(modelPartialFilePath, modelPartialContent, Encoding.UTF8);
             progress.Report($"Generated Model partial for {entityDescriptor.Entity.Name}");
@@ -98,8 +94,9 @@ public class RfCodeGenerator<TEntityDescriptor, TEntityPropertyDescriptor> : RfC
         //Dto
         foreach(var entityDescriptor in entityDescriptors)
         {
-            DtoTextTemplate dto = new(entityDescriptor);
-            string dtoContent = dto.TransformText();
+            //TextTemplates.HPMS.DtoTextTemplate dto = new(entityDescriptor);
+            var dtoTemplate = entityDescriptor.DtoTemplate;
+            string dtoContent = dtoTemplate.TransformText();
             string dtoFilePath = projectFolder.Shared.Dtos.GetFilePath($"{entityDescriptor.Name}Dto.cs");   // Path.Combine(projectFolder.Shared.Dtos.FullPath, $"{entityDescriptor.Name}Dto.cs");
             await File.WriteAllTextAsync(dtoFilePath, dtoContent, Encoding.UTF8);
             progress.Report($"Generated DTO for {entityDescriptor.Name}");
@@ -107,11 +104,12 @@ public class RfCodeGenerator<TEntityDescriptor, TEntityPropertyDescriptor> : RfC
             count++;
         }
 
-        //ServiceLayer domain
+        //Domain
         foreach(var entityDescriptor in entityDescriptors)
         {
-            DomainTextTemplate domain = new(entityDescriptor);
-            string domainContent = domain.TransformText();
+            //TextTemplates.HPMS.DomainTextTemplate domain = new(entityDescriptor);
+            var domainTemplate = entityDescriptor.DomainTemplate;
+            string domainContent = domainTemplate.TransformText();
             string domainFilePath = projectFolder.ServiceLayer.Domains.GetFilePath($"{entityDescriptor.Name}Domain.cs");
             await File.WriteAllTextAsync(domainFilePath, domainContent, Encoding.UTF8);
             progress.Report($"Generated ServiceLayer domain for {entityDescriptor.Name}");
@@ -122,8 +120,9 @@ public class RfCodeGenerator<TEntityDescriptor, TEntityPropertyDescriptor> : RfC
         //Controller
         foreach(var entityDescriptor in entityDescriptors)
         {
-            ControllerTextTemplate controller = new(entityDescriptor);
-            string controllerContent = controller.TransformText();
+            //TextTemplates.HPMS.ControllerTextTemplate controller = new(entityDescriptor);
+            var controllerTemplate = entityDescriptor.ControllerTemplate;
+            string controllerContent = controllerTemplate.TransformText();
             string controllerFilePath = projectFolder.WebApi.Controllers.GetFilePath($"{this.Pluralizer.Pluralize(entityDescriptor.Name)}Controller.cs"); // Path.Combine(projectFolder.WebApi.Controllers.FullPath, $"{this.Pluralizer.Pluralize(entityDescriptor.Name)}Controller.cs");
             await File.WriteAllTextAsync(controllerFilePath, controllerContent, Encoding.UTF8);
             progress.Report($"Generated Controller for {entityDescriptor.Name}");

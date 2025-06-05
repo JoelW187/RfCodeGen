@@ -1,4 +1,5 @@
 ﻿using RfCodeGen.ServiceLayer;
+using RfCodeGen.Shared;
 using RfCodeGen.Shared.Dtos;
 using System.Windows;
 
@@ -133,6 +134,46 @@ internal record HPMSEntityDescriptorDto : EntityDescriptorDto
                 return string.Join(".", orderBy);
             else
                 return "null";
+        }
+    }
+
+    private ITextTemplate? _modelTemplate;
+    public override ITextTemplate ModelTemplate
+    {
+        get
+        {
+            _modelTemplate ??= new RfCodeGen.TextTemplates.HPMS.ModelTextTemplate(this);
+            return _modelTemplate;
+        }
+    }
+
+    private ITextTemplate? _dtoTemplate;
+    public override ITextTemplate DtoTemplate
+    {
+        get
+        {
+            _dtoTemplate ??= new RfCodeGen.TextTemplates.HPMS.DtoTextTemplate(this);
+            return _dtoTemplate;
+        }
+    }
+
+    private ITextTemplate? _domainTemplate;
+    public override ITextTemplate DomainTemplate
+    {
+        get
+        {
+            _domainTemplate ??= new RfCodeGen.TextTemplates.HPMS.DomainTextTemplate(this);
+            return _domainTemplate;
+        }
+    }
+
+    private ITextTemplate? _controllerTemplate;
+    public override ITextTemplate ControllerTemplate
+    {
+        get
+        {
+            _controllerTemplate ??= new RfCodeGen.TextTemplates.HPMS.ControllerTextTemplate(this);
+            return _controllerTemplate;
         }
     }
 }

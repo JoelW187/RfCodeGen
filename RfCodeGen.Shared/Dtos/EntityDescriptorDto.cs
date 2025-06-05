@@ -8,6 +8,11 @@ public record EntityDescriptorDto()
     public string PluralizedName { get; set; } = string.Empty;
     public EntityDto Entity { get; set; } = null!;
 
+    public virtual ITextTemplate ModelTemplate { get; set; } = null!;
+    public virtual ITextTemplate DtoTemplate { get; set; } = null!;
+    public virtual ITextTemplate DomainTemplate { get; set; } = null!;
+    public virtual ITextTemplate ControllerTemplate { get; set; } = null!;
+
     public virtual string DtoInterfaces { get; } = string.Empty;
     public virtual string DefaultCollectionOrderBy { get; } = string.Empty;
     public virtual string Includes { get; } = string.Empty;

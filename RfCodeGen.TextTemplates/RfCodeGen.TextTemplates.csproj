@@ -11,12 +11,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\RfCodeGen.Shared\RfCodeGen.Shared.csproj" />
-    <ProjectReference Include="..\RfCodeGen.TextTemplates\RfCodeGen.TextTemplates.csproj" />
+    <Folder Include="HPMS\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+    <ProjectReference Include="..\RfCodeGen.Shared\RfCodeGen.Shared.csproj" />
   </ItemGroup>
 
 </Project>

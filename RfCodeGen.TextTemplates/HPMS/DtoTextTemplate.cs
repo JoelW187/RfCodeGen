@@ -7,7 +7,7 @@
 //     the code is regenerated.
 // </auto-generated>
 // ------------------------------------------------------------------------------
-namespace RfCodeGen.ServiceLayer.TextTemplates
+namespace RfCodeGen.TextTemplates.HPMS
 {
     using System.Linq;
     using System.Text;

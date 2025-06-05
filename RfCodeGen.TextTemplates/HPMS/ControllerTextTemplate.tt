@@ -14,4 +14,10 @@ namespace HPMS.WebApi.Controllers;
 [ApiController]
 public class <#= this.EntityDescriptor.PluralizedName #>Controller(I<#= this.EntityDescriptor.Name #>Domain <#= this.EntityDescriptor.CamelCaseName #>Domain, ILogger<<#= this.EntityDescriptor.PluralizedName #>Controller> logger) : RfControllerNoIncludes<I<#= this.EntityDescriptor.Name #>Domain, <#= this.EntityDescriptor.Name #>Dto>(<#= this.EntityDescriptor.CamelCaseName #>Domain, logger)
 {
+	/// <summary>
+	/// Initializes a new instance of the <see cref="<#= this.EntityDescriptor.PluralizedName #>Controller"/> class.
+	/// </summary>
+	/// <param name="<#= this.EntityDescriptor.CamelCaseName #>Domain">The domain.</param>
+	/// <param name="logger">The logger.</param>
 }
+
