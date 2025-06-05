@@ -96,6 +96,11 @@ internal record HPMSEntityDescriptorDto : EntityDescriptorDto
     private bool IPointFeature => IFeature && this.Properties.Any(v1 => v1.Name.Equals("MpStart", StringComparison.OrdinalIgnoreCase));
     private bool ILinearFeature => IFeature && this.Properties.Any(v1 => v1.Name.Equals("MpEnd", StringComparison.OrdinalIgnoreCase));
 
+    public override ITextTemplate GetModelTemplate() => new RfCodeGen.TextTemplates.HPMS.ModelTextTemplate(this);
+    public override ITextTemplate GetDtoTemplate() => new RfCodeGen.TextTemplates.HPMS.DtoTextTemplate(this);
+    public override ITextTemplate GetDomainTemplate() => new RfCodeGen.TextTemplates.HPMS.DomainTextTemplate(this);
+    public override ITextTemplate GetControllerTemplate() => new RfCodeGen.TextTemplates.HPMS.ControllerTextTemplate(this);
+
     public override string DtoInterfaces
     {
         get
@@ -112,7 +117,6 @@ internal record HPMSEntityDescriptorDto : EntityDescriptorDto
             return string.Join(", ", interfaces);
         }
     }
-
     public override string DefaultCollectionOrderBy
     {
         get
@@ -134,46 +138,6 @@ internal record HPMSEntityDescriptorDto : EntityDescriptorDto
                 return string.Join(".", orderBy);
             else
                 return "null";
-        }
-    }
-
-    private ITextTemplate? _modelTemplate;
-    public override ITextTemplate ModelTemplate
-    {
-        get
-        {
-            _modelTemplate ??= new RfCodeGen.TextTemplates.HPMS.ModelTextTemplate(this);
-            return _modelTemplate;
-        }
-    }
-
-    private ITextTemplate? _dtoTemplate;
-    public override ITextTemplate DtoTemplate
-    {
-        get
-        {
-            _dtoTemplate ??= new RfCodeGen.TextTemplates.HPMS.DtoTextTemplate(this);
-            return _dtoTemplate;
-        }
-    }
-
-    private ITextTemplate? _domainTemplate;
-    public override ITextTemplate DomainTemplate
-    {
-        get
-        {
-            _domainTemplate ??= new RfCodeGen.TextTemplates.HPMS.DomainTextTemplate(this);
-            return _domainTemplate;
-        }
-    }
-
-    private ITextTemplate? _controllerTemplate;
-    public override ITextTemplate ControllerTemplate
-    {
-        get
-        {
-            _controllerTemplate ??= new RfCodeGen.TextTemplates.HPMS.ControllerTextTemplate(this);
-            return _controllerTemplate;
         }
     }
 }
