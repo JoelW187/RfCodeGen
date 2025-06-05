@@ -21,7 +21,7 @@ public class RfCodeGenerator
         List<EntityDescriptorDto> entityDescriptors = [];
         foreach(EntityDto entity in entities)
         {
-            IEnumerable<string> lines = File.ReadAllLines(entity.FullName);
+            IEnumerable<string> lines = File.ReadAllLines(entity.FilePath);
             lines = lines.SkipWhile(v1 => !v1.StartsWith("public partial class"));
             //string declaration = lines.First();
             var propertyLines = lines.SkipWhile(v1 => v1 != "{").Skip(1).TakeWhile(v1 => v1 != "}").Where(v1 => !string.IsNullOrWhiteSpace(v1));

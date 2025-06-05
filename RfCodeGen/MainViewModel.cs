@@ -73,7 +73,7 @@ public class MainViewModel : INotifyPropertyChanged
     }
 }
 
-public record Entity(string FullName, bool HasPartial = false, bool IsSelected = false) : EntityDto(FullName)
+public record Entity(string FilePath, bool HasPartial = false, bool IsSelected = false) : EntityDto(FilePath), INotifyPropertyChanged
 {
     private bool _hasPartial = HasPartial;
     public bool HasPartial
@@ -101,5 +101,11 @@ public record Entity(string FullName, bool HasPartial = false, bool IsSelected =
         }
     }
 
-    public override string ToString() => this.FullName;
+    public override string ToString() => this.FilePath;
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+    protected void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string? propertyName = null)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
 }
