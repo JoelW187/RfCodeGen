@@ -33,7 +33,7 @@ namespace RfCodeGen.ServiceLayer.TextTemplates
                     "Route(\"api/v1/[controller]\")]\r\n[ApiController]\r\npublic class ");
             
             #line 15 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ServiceLayer\TextTemplates\ControllerTextTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.PluralizedEntityName));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.PluralizedName));
             
             #line default
             #line hidden
@@ -54,7 +54,7 @@ namespace RfCodeGen.ServiceLayer.TextTemplates
             this.Write("Domain, ILogger<");
             
             #line 15 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ServiceLayer\TextTemplates\ControllerTextTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.PluralizedEntityName));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.PluralizedName));
             
             #line default
             #line hidden

@@ -7,6 +7,6 @@ using RepositoryFramework;
 
 namespace HPMS.DataAccess.Models;
 
-public partial class <#= this.Entity.Name #> : RfEntityBase
+public partial class <#= this.EntityDescriptor.Name #> : RfEntityBase
 {
 }

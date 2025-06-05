@@ -1,20 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RfCodeGen.Shared.Dtos;
+﻿namespace RfCodeGen.Shared.Dtos;
 
 public record EntityDescriptorDto()
 {
-    public string Name { get; set; } = string.Empty;
-    public List<EntityPropertyDescriptorDto> Properties { get; init; } = [];
+    public string Name => this.Entity?.Name ?? "";
+    public List<EntityPropertyDescriptorDto> Properties { get; } = [];
     public string CamelCaseName => char.ToLowerInvariant(this.Name[0]) + this.Name[1..];
-    
-    public virtual string DtoInterfaces { get; } = string.Empty;
+    public string PluralizedName { get; set; } = string.Empty;
+    public EntityDto Entity { get; set; } = null!;
 
+    public virtual string DtoInterfaces { get; } = string.Empty;
     public virtual string DefaultCollectionOrderBy { get; } = string.Empty;
+    public virtual string Includes { get; } = string.Empty;
+    public virtual bool IsLookupTable { get; }
 }
 
 public record EntityPropertyDescriptorDto()

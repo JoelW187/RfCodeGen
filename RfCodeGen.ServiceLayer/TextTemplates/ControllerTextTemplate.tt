@@ -12,6 +12,6 @@ namespace HPMS.WebApi.Controllers;
 
 [Route("api/v1/[controller]")]
 [ApiController]
-public class <#= this.PluralizedEntityName #>Controller(I<#= this.EntityDescriptor.Name #>Domain <#= this.EntityDescriptor.CamelCaseName #>Domain, ILogger<<#= this.PluralizedEntityName #>Controller> logger) : RfControllerNoIncludes<I<#= this.EntityDescriptor.Name #>Domain, <#= this.EntityDescriptor.Name #>Dto>(<#= this.EntityDescriptor.CamelCaseName #>Domain, logger)
+public class <#= this.EntityDescriptor.PluralizedName #>Controller(I<#= this.EntityDescriptor.Name #>Domain <#= this.EntityDescriptor.CamelCaseName #>Domain, ILogger<<#= this.EntityDescriptor.PluralizedName #>Controller> logger) : RfControllerNoIncludes<I<#= this.EntityDescriptor.Name #>Domain, <#= this.EntityDescriptor.Name #>Dto>(<#= this.EntityDescriptor.CamelCaseName #>Domain, logger)
 {
 }

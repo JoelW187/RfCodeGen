@@ -60,7 +60,7 @@ public class RfCodeGenerator<TEntityDescriptor, TEntityPropertyDescriptor> : RfC
             //string declaration = lines.First();
             var propertyLines = lines.SkipWhile(v1 => v1 != "{").Skip(1).TakeWhile(v1 => v1 != "}").Where(v1 => !string.IsNullOrWhiteSpace(v1));
 
-            TEntityDescriptor entityDescriptor = new() { Name = entity.Name };    //, declaration);
+            TEntityDescriptor entityDescriptor = new() { Entity = entity, PluralizedName = Pluralizer.Pluralize(entity.Name) };    //, declaration);
             foreach(string propertyLine in propertyLines)
             {
                 var pieces = propertyLine.Trim().Split(' ');
@@ -84,13 +84,13 @@ public class RfCodeGenerator<TEntityDescriptor, TEntityPropertyDescriptor> : RfC
         }
 
         //Model (partial)
-        foreach(EntityDto entity in entities)
+        foreach(var entityDescriptor in entityDescriptors)
         {
-            ModelTextTemplate modelPartial = new(entity);
+            ModelTextTemplate modelPartial = new(entityDescriptor);
             string modelPartialContent = modelPartial.TransformText();
-            string modelPartialFilePath = projectFolder.DataAccess.Models.Partials.GetFilePath($"{entity.Name}Partial.cs");   // Path.Combine(projectFolder.DataAccess.Models.Partials.FullPath, $"{entity.Name}Partial.cs");
+            string modelPartialFilePath = projectFolder.DataAccess.Models.Partials.GetFilePath($"{entityDescriptor.Entity.Name}.cs");   // Path.Combine(projectFolder.DataAccess.Models.Partials.FullPath, $"{entity.Name}Partial.cs");
             await File.WriteAllTextAsync(modelPartialFilePath, modelPartialContent, Encoding.UTF8);
-            progress.Report($"Generated Model partial for {entity.Name}");
+            progress.Report($"Generated Model partial for {entityDescriptor.Entity.Name}");
 
             count++;
         }

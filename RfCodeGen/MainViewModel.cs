@@ -2,6 +2,7 @@
 using RfCodeGen.Shared.Dtos;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 
 namespace RfCodeGen;
@@ -29,7 +30,7 @@ public class MainViewModel : INotifyPropertyChanged
 
             this.ProjectFolder = new ProjectFolder(this.SelectedProjectDescriptor);
             var entityFileNames = Directory.EnumerateFiles(this.ProjectFolder.DataAccess.Models.FullPath, "*.cs", SearchOption.TopDirectoryOnly).OrderBy(v1 => v1);
-            var entities = entityFileNames.Select(fullName => new Entity(fullName, File.Exists(Path.Combine(this.ProjectFolder.DataAccess.Models.Partials.FullPath, $"{Path.GetFileNameWithoutExtension(fullName)}Partial.cs")))).ToList();
+            var entities = entityFileNames.Select(fullName => new Entity(fullName, File.Exists(this.ProjectFolder.DataAccess.Models.Partials.GetFilePath($"{Path.GetFileNameWithoutExtension(fullName)}.cs")))).ToList();
             entities.ForEach(entity =>
             {
                 this.Entities.Add(entity);
@@ -101,6 +102,7 @@ public class MainViewModel : INotifyPropertyChanged
     }
 }
 
+[DebuggerDisplay("Name={Name},HasPartial={HasPartial},IsSelected={IsSelected},FilePath={FilePath}")]
 public record Entity(string FilePath, bool HasPartial = false, bool IsSelected = false) : EntityDto(FilePath), INotifyPropertyChanged
 {
     private bool _hasPartial = HasPartial;

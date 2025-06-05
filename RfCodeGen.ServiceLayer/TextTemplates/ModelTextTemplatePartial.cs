@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace RfCodeGen.ServiceLayer.TextTemplates;
 
-public partial class ModelTextTemplate(EntityDto entity) : ModelTextTemplateBase
+public partial class ModelTextTemplate(EntityDescriptorDto entityDescriptor) : ModelTextTemplateBase
 {
-    private EntityDto Entity { get; } = entity;
+    private EntityDescriptorDto EntityDescriptor { get; } = entityDescriptor;
 }

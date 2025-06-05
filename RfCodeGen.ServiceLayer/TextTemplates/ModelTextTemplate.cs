@@ -32,7 +32,7 @@ namespace RfCodeGen.ServiceLayer.TextTemplates
                     " class ");
             
             #line 10 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ServiceLayer\TextTemplates\ModelTextTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.Entity.Name));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Name));
             
             #line default
             #line hidden
