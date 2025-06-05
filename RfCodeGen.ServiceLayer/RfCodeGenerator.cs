@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace RfCodeGen.ServiceLayer;
 
-public class RfCodeGenerator
+public class RfCodeGenerator<TEntityDescriptor, TEntityPropertyDescriptor> where TEntityDescriptor : EntityDescriptorDto, new() where TEntityPropertyDescriptor : EntityPropertyDescriptorDto, new()
 {
     private Pluralizer Pluralizer { get; } = new();
 
@@ -18,7 +18,7 @@ public class RfCodeGenerator
     {
         int count = 0;
 
-        List<EntityDescriptorDto> entityDescriptors = [];
+        List<TEntityDescriptor> entityDescriptors = [];
         foreach(EntityDto entity in entities)
         {
             IEnumerable<string> lines = File.ReadAllLines(entity.FilePath);
@@ -26,7 +26,7 @@ public class RfCodeGenerator
             //string declaration = lines.First();
             var propertyLines = lines.SkipWhile(v1 => v1 != "{").Skip(1).TakeWhile(v1 => v1 != "}").Where(v1 => !string.IsNullOrWhiteSpace(v1));
 
-            EntityDescriptorDto entityDescriptor = new(entity.Name);    //, declaration);
+            TEntityDescriptor entityDescriptor = new() { Name = entity.Name };    //, declaration);
             foreach(string propertyLine in propertyLines)
             {
                 var pieces = propertyLine.Trim().Split(' ');
@@ -35,20 +35,16 @@ public class RfCodeGenerator
                 string name = pieces[2]; // e.g., MyProperty
                 bool get = propertyLine.Contains(" get; ");
                 bool set = propertyLine.Contains(" set; ");
-                EntityProperty entityProperty = new(modifier, type, name, get, set)
+                TEntityPropertyDescriptor entityProperty = new()
                 {
-                    Required = name.Equals("Sri", StringComparison.OrdinalIgnoreCase) || name.Equals("MpStart", StringComparison.OrdinalIgnoreCase) || name.Equals("MpEnd", StringComparison.OrdinalIgnoreCase),
+                    Modifier = modifier,
+                    Type = type,
+                    Name = name,
+                    Get = get,
+                    Set = set
                 };
                 entityDescriptor.Properties.Add(entityProperty);
             }
-
-            entityDescriptor.IIdColumn = entityDescriptor.Properties.Any(v1 => v1.Name.Equals("Id", StringComparison.OrdinalIgnoreCase));
-            entityDescriptor.IParentSri = entityDescriptor.Properties.Any(v1 => v1.Name.Equals("ParentSri", StringComparison.OrdinalIgnoreCase));
-            entityDescriptor.ICheckout = entityDescriptor.Properties.Any(v1 => v1.Name.Equals("WrkId", StringComparison.OrdinalIgnoreCase) || v1.Name.Equals("ChoutWrkId", StringComparison.OrdinalIgnoreCase));
-            entityDescriptor.IInventory = entityDescriptor.Properties.Any(v1 => v1.Name.Equals("InvDate", StringComparison.OrdinalIgnoreCase));
-            entityDescriptor.IFeature = entityDescriptor.Properties.Any(v1 => v1.Name.Equals("Sri", StringComparison.OrdinalIgnoreCase));
-            entityDescriptor.IPointFeature = entityDescriptor.Properties.Any(v1 => entityDescriptor.IFeature && v1.Name.Equals("MpStart", StringComparison.OrdinalIgnoreCase));
-            entityDescriptor.ILinearFeature = entityDescriptor.Properties.Any(v1 => entityDescriptor.IFeature && v1.Name.Equals("MpEnd", StringComparison.OrdinalIgnoreCase));
 
             entityDescriptors.Add(entityDescriptor);
         }
@@ -104,7 +100,7 @@ public class RfCodeGenerator
         return count;
     }
 
-    public static string GetDomainServiceRegistrations(IEnumerable<EntityDto> entities)
+    public string GetDomainServiceRegistrations(IEnumerable<EntityDto> entities)
     {
         StringBuilder sb = new();
         foreach(EntityDto entity in entities)
@@ -115,7 +111,7 @@ public class RfCodeGenerator
         return sb.ToString();
     }
 
-    public static string GetAutoMapperMappingProfiles(IEnumerable<EntityDto> entities)
+    public string GetAutoMapperMappingProfiles(IEnumerable<EntityDto> entities)
     {
         StringBuilder sb = new();
         foreach(EntityDto entity in entities)

@@ -117,7 +117,7 @@ namespace RfCodeGen.ServiceLayer.TextTemplates
             this.Write("Repository, mapper, domainCache, ");
             
             #line 18 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ServiceLayer\TextTemplates\DomainTextTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.DomainOrderBy));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.DefaultCollectionOrderBy));
             
             #line default
             #line hidden
