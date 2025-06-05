@@ -1,9 +1,4 @@
 ﻿using RfCodeGen.ServiceLayer;
-using RfCodeGen.ServiceLayer.TextTemplates;
-using RfCodeGen.ServiceLayer.Utils.Pluralizer;
-using RfCodeGen.Shared.Dtos;
-using System.IO;
-using System.Text;
 using System.Windows;
 
 namespace RfCodeGen;
@@ -14,7 +9,6 @@ namespace RfCodeGen;
 public partial class MainWindow : Window
 {
     private MainViewModel ViewModel { get; set; } = null!;
-    private Pluralizer Pluralizer { get; } = new();
 
     public MainWindow()
     {
@@ -68,8 +62,8 @@ public partial class MainWindow : Window
 
         this.ViewModel.Messages.Add($"Generated {count} files.");
 
-        var domainServiceRegistrations = codeGenerator.GetDomainServiceRegistrations(selectedEntities);
-        var autoMapperMappingProfiles = codeGenerator.GetAutoMapperMappingProfiles(selectedEntities);
+        var domainServiceRegistrations = RfCodeGenerator.GetDomainServiceRegistrations(selectedEntities);
+        var autoMapperMappingProfiles = RfCodeGenerator.GetAutoMapperMappingProfiles(selectedEntities);
 
         this.ViewModel.AuxGenCode = string.Join("\n\n", domainServiceRegistrations) + "\n\n" + string.Join("\n\n", autoMapperMappingProfiles);
     }

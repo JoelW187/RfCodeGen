@@ -1,60 +1,55 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace RfCodeGen.Shared;
 
-namespace RfCodeGen.Shared;
-
-
-public abstract record SourceCodeFolderBase(string FullName)
+public abstract record SourceCodeFolderBase(string FullPath)
 {
-    public string FileName => Path.GetFileName(FullName);
-    public string Name => Path.GetFileNameWithoutExtension(FullName);
-    public override string ToString() => FullName;
+    public string FileName => Path.GetFileName(FullPath);
+    public string Name => Path.GetFileNameWithoutExtension(FullPath);
+
+    public string GetFilePath(string filename) => Path.Combine(FullPath, filename);
+    public override string ToString() => FullPath;
 }
 
-public record ProjectFolder(string FullName) : SourceCodeFolderBase(FullName)
+public record ProjectFolder(string FullPath, string Prefix) : SourceCodeFolderBase(FullPath)
 {
-    public DataAccessFolder DataAccess { get; } = new(Path.Combine(FullName, "HPMS.DataAccess"));
-    public SharedFolder Shared { get; } = new(Path.Combine(FullName, "HPMS.Shared"));
-    public ServiceLayerFolder ServiceLayer { get; } = new(Path.Combine(FullName, "HPMS.ServiceLayer"));
-    public WebApiFolder WebApi { get; } = new(Path.Combine(FullName, "HPMS.WebApi"));
+    public DataAccessFolder DataAccess { get; } = new(Path.Combine(FullPath, $"{Prefix}DataAccess"));
+    public SharedFolder Shared { get; } = new(Path.Combine(FullPath, $"{Prefix}Shared"));
+    public ServiceLayerFolder ServiceLayer { get; } = new(Path.Combine(FullPath, $"{Prefix}ServiceLayer"));
+    public WebApiFolder WebApi { get; } = new(Path.Combine(FullPath, $"{Prefix}WebApi"));
 }
 
 //DataAccess
-public record DataAccessFolder(string FullName) : SourceCodeFolderBase(FullName)
+public record DataAccessFolder(string FullPath) : SourceCodeFolderBase(FullPath)
 {
-    public DataAccessModelsFolder Models { get; } = new(Path.Combine(FullName, "Models"));
+    public DataAccessModelsFolder Models { get; } = new(Path.Combine(FullPath, "Models"));
 }
 
-public record DataAccessModelsFolder(string FullName) : SourceCodeFolderBase(FullName)
+public record DataAccessModelsFolder(string FullPath) : SourceCodeFolderBase(FullPath)
 {
-    public DataAccessModelsPartialsFolder Partials { get; } = new(Path.Combine(FullName, "Partials"));
+    public DataAccessModelsPartialsFolder Partials { get; } = new(Path.Combine(FullPath, "Partials"));
 }
 
-public record DataAccessModelsPartialsFolder(string FullName) : SourceCodeFolderBase(FullName) { }
+public record DataAccessModelsPartialsFolder(string FullPath) : SourceCodeFolderBase(FullPath) { }
 
 //Shared
-public record SharedFolder(string FullName) : SourceCodeFolderBase(FullName)
+public record SharedFolder(string FullPath) : SourceCodeFolderBase(FullPath)
 {
-    public SharedDtosFolder Dtos { get; } = new(Path.Combine(FullName, "Dtos"));
+    public SharedDtosFolder Dtos { get; } = new(Path.Combine(FullPath, "Dtos"));
 }
 
-public record SharedDtosFolder(string FullName) : SourceCodeFolderBase(FullName) { }
+public record SharedDtosFolder(string FullPath) : SourceCodeFolderBase(FullPath) { }
 
 //ServiceLayer
-public record ServiceLayerFolder(string FullName) : SourceCodeFolderBase(FullName)
+public record ServiceLayerFolder(string FullPath) : SourceCodeFolderBase(FullPath)
 {
-    public ServiceLayerDomainsFolder Domains { get; } = new(Path.Combine(FullName, "Domains"));
+    public ServiceLayerDomainsFolder Domains { get; } = new(Path.Combine(FullPath, "Domains"));
 }
 
-public record ServiceLayerDomainsFolder(string FullName) : SourceCodeFolderBase(FullName) { }
+public record ServiceLayerDomainsFolder(string FullPath) : SourceCodeFolderBase(FullPath) { }
 
 //Controller
-public record WebApiFolder(string FullName) : SourceCodeFolderBase(FullName)
+public record WebApiFolder(string FullPath) : SourceCodeFolderBase(FullPath)
 {
-    public WebApiControllersFolder Controllers { get; } = new(Path.Combine(FullName, "Controllers"));
+    public WebApiControllersFolder Controllers { get; } = new(Path.Combine(FullPath, "Controllers"));
 }
 
-public record WebApiControllersFolder(string FullName) : SourceCodeFolderBase(FullName) { }
+public record WebApiControllersFolder(string FullPath) : SourceCodeFolderBase(FullPath) { }

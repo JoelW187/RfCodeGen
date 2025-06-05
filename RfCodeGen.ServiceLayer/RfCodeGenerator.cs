@@ -53,13 +53,13 @@ public class RfCodeGenerator
             entityDescriptors.Add(entityDescriptor);
         }
 
-        //Model Partial
+        //Model (partial)
         foreach(EntityDto entity in entities)
         {
             ModelTextTemplate modelPartial = new(entity);
             string modelPartialContent = modelPartial.TransformText();
-            string partialFileName = Path.Combine(projectFolder.DataAccess.Models.Partials.FullName, $"{entity.Name}Partial.cs");
-            await File.WriteAllTextAsync(partialFileName, modelPartialContent, Encoding.UTF8);
+            string modelPartialFilePath = projectFolder.DataAccess.Models.Partials.GetFilePath($"{entity.Name}Partial.cs");   // Path.Combine(projectFolder.DataAccess.Models.Partials.FullPath, $"{entity.Name}Partial.cs");
+            await File.WriteAllTextAsync(modelPartialFilePath, modelPartialContent, Encoding.UTF8);
             progress.Report($"Generated Model partial for {entity.Name}");
 
             count++;
@@ -70,8 +70,8 @@ public class RfCodeGenerator
         {
             DtoTextTemplate dto = new(entityDescriptor);
             string dtoContent = dto.TransformText();
-            string dtoFileName = Path.Combine(projectFolder.Shared.Dtos.FullName, $"{entityDescriptor.Name}Dto.cs");
-            await File.WriteAllTextAsync(dtoFileName, dtoContent, Encoding.UTF8);
+            string dtoFilePath = projectFolder.Shared.Dtos.GetFilePath($"{entityDescriptor.Name}Dto.cs");   // Path.Combine(projectFolder.Shared.Dtos.FullPath, $"{entityDescriptor.Name}Dto.cs");
+            await File.WriteAllTextAsync(dtoFilePath, dtoContent, Encoding.UTF8);
             progress.Report($"Generated DTO for {entityDescriptor.Name}");
 
             count++;
@@ -82,8 +82,8 @@ public class RfCodeGenerator
         {
             DomainTextTemplate domain = new(entityDescriptor);
             string domainContent = domain.TransformText();
-            string domainFileName = Path.Combine(projectFolder.ServiceLayer.Domains.FullName, $"{entityDescriptor.Name}Domain.cs");
-            await File.WriteAllTextAsync(domainFileName, domainContent, Encoding.UTF8);
+            string domainFilePath = projectFolder.ServiceLayer.Domains.GetFilePath($"{entityDescriptor.Name}Domain.cs");
+            await File.WriteAllTextAsync(domainFilePath, domainContent, Encoding.UTF8);
             progress.Report($"Generated ServiceLayer domain for {entityDescriptor.Name}");
 
             count++;
@@ -94,8 +94,8 @@ public class RfCodeGenerator
         {
             ControllerTextTemplate controller = new(entityDescriptor);
             string controllerContent = controller.TransformText();
-            string controllerFileName = Path.Combine(projectFolder.WebApi.Controllers.FullName, $"{this.Pluralizer.Pluralize(entityDescriptor.Name)}Controller.cs");
-            await File.WriteAllTextAsync(controllerFileName, controllerContent, Encoding.UTF8);
+            string controllerFilePath = projectFolder.WebApi.Controllers.GetFilePath($"{this.Pluralizer.Pluralize(entityDescriptor.Name)}Controller.cs"); // Path.Combine(projectFolder.WebApi.Controllers.FullPath, $"{this.Pluralizer.Pluralize(entityDescriptor.Name)}Controller.cs");
+            await File.WriteAllTextAsync(controllerFilePath, controllerContent, Encoding.UTF8);
             progress.Report($"Generated Controller for {entityDescriptor.Name}");
 
             count++;
@@ -104,7 +104,7 @@ public class RfCodeGenerator
         return count;
     }
 
-    public string GetDomainServiceRegistrations(IEnumerable<EntityDto> entities)
+    public static string GetDomainServiceRegistrations(IEnumerable<EntityDto> entities)
     {
         StringBuilder sb = new();
         foreach(EntityDto entity in entities)
@@ -115,7 +115,7 @@ public class RfCodeGenerator
         return sb.ToString();
     }
 
-    public string GetAutoMapperMappingProfiles(IEnumerable<EntityDto> entities)
+    public static string GetAutoMapperMappingProfiles(IEnumerable<EntityDto> entities)
     {
         StringBuilder sb = new();
         foreach(EntityDto entity in entities)

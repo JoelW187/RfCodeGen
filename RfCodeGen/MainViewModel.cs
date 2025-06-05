@@ -10,11 +10,11 @@ public class MainViewModel : INotifyPropertyChanged
 {
     public MainViewModel()
     {
-        var entityFileNames = Directory.EnumerateFiles(this.ProjectFolder.DataAccess.Models.FullName, "*.cs", SearchOption.TopDirectoryOnly).OrderBy(v1 => v1);
-        this._entities = new ObservableCollection<Entity>(entityFileNames.Select(fullName => new Entity(fullName, File.Exists(Path.Combine(this.ProjectFolder.DataAccess.Models.Partials.FullName, $"{Path.GetFileNameWithoutExtension(fullName)}Partial.cs")))));
+        var entityFileNames = Directory.EnumerateFiles(this.ProjectFolder.DataAccess.Models.FullPath, "*.cs", SearchOption.TopDirectoryOnly).OrderBy(v1 => v1);
+        this._entities = new ObservableCollection<Entity>(entityFileNames.Select(fullName => new Entity(fullName, File.Exists(Path.Combine(this.ProjectFolder.DataAccess.Models.Partials.FullPath, $"{Path.GetFileNameWithoutExtension(fullName)}Partial.cs")))));
     }
 
-    private ProjectFolder _projectFolder = new(@"C:\Source\mbakerintlapps\NJDOT\NJDOT_HPMS\src\NJDOT_HPMS");
+    private ProjectFolder _projectFolder = new(@"C:\Source\mbakerintlapps\NJDOT\NJDOT_HPMS\src\NJDOT_HPMS", "HPMS.");
     public ProjectFolder ProjectFolder
     {
         get { return _projectFolder; }
@@ -53,7 +53,7 @@ public class MainViewModel : INotifyPropertyChanged
         }
     }
 
-    private string _auxGenCode;
+    private string _auxGenCode = "";
     public string AuxGenCode
     {
         get { return _auxGenCode; }
