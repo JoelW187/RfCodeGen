@@ -10,7 +10,41 @@ using System.Threading.Tasks;
 
 namespace RfCodeGen.ServiceLayer;
 
-public class RfCodeGenerator<TEntityDescriptor, TEntityPropertyDescriptor> where TEntityDescriptor : EntityDescriptorDto, new() where TEntityPropertyDescriptor : EntityPropertyDescriptorDto, new()
+public abstract class RfCodeGeneratorBase
+{
+    public static string GetDomainServiceRegistrations(IEnumerable<EntityDto> entities)
+    {
+        StringBuilder sb = new();
+        foreach(EntityDto entity in entities)
+        {
+            sb.AppendLine($"builder.Services.AddScoped<I{entity.Name}Domain, {entity.Name}Domain>();");
+        }
+
+        return sb.ToString();
+    }
+
+    public static string GetAutoMapperMappingProfiles(IEnumerable<EntityDto> entities)
+    {
+        StringBuilder sb = new();
+        foreach(EntityDto entity in entities)
+        {
+            sb.AppendLine($"CreateMap<{entity.Name}, {entity.Name}Dto>().ReverseMap();");
+        }
+
+        return sb.ToString();
+    }
+}
+
+public interface IRfCodeGenerator<out TEntityDescriptor, out TEntityPropertyDescriptor>
+    where TEntityDescriptor : EntityDescriptorDto, new()
+    where TEntityPropertyDescriptor : EntityPropertyDescriptorDto, new()
+{
+    Task<int> Generate(IEnumerable<EntityDto> entities, ProjectFolder projectFolder, IProgress<string> progress);
+}
+
+public class RfCodeGenerator<TEntityDescriptor, TEntityPropertyDescriptor> : RfCodeGeneratorBase, IRfCodeGenerator<TEntityDescriptor, TEntityPropertyDescriptor>
+    where TEntityDescriptor : EntityDescriptorDto, new()
+    where TEntityPropertyDescriptor : EntityPropertyDescriptorDto, new()
 {
     private Pluralizer Pluralizer { get; } = new();
 
@@ -98,27 +132,5 @@ public class RfCodeGenerator<TEntityDescriptor, TEntityPropertyDescriptor> where
         }
 
         return count;
-    }
-
-    public string GetDomainServiceRegistrations(IEnumerable<EntityDto> entities)
-    {
-        StringBuilder sb = new();
-        foreach(EntityDto entity in entities)
-        {
-            sb.AppendLine($"builder.Services.AddScoped<I{entity.Name}Domain, {entity.Name}Domain>();");
-        }
-
-        return sb.ToString();
-    }
-
-    public string GetAutoMapperMappingProfiles(IEnumerable<EntityDto> entities)
-    {
-        StringBuilder sb = new();
-        foreach(EntityDto entity in entities)
-        {
-            sb.AppendLine($"CreateMap<{entity.Name}, {entity.Name}Dto>().ReverseMap();");
-        }
-
-        return sb.ToString();
     }
 }

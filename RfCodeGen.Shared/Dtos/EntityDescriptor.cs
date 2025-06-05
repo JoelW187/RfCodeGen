@@ -6,18 +6,18 @@ using System.Threading.Tasks;
 
 namespace RfCodeGen.Shared.Dtos;
 
-public abstract record EntityDescriptorDto()
+public record EntityDescriptorDto()
 {
     public string Name { get; set; } = string.Empty;
     public List<EntityPropertyDescriptorDto> Properties { get; init; } = [];
     public string CamelCaseName => char.ToLowerInvariant(this.Name[0]) + this.Name[1..];
     
-    public abstract string DtoInterfaces { get; }
+    public virtual string DtoInterfaces { get; } = string.Empty;
 
-    public abstract string DefaultCollectionOrderBy { get; }
+    public virtual string DefaultCollectionOrderBy { get; } = string.Empty;
 }
 
-public abstract record EntityPropertyDescriptorDto()
+public record EntityPropertyDescriptorDto()
 {
     public string Modifier { get; set; } = string.Empty;
     public string Type { get; set; } = string.Empty;
@@ -25,5 +25,5 @@ public abstract record EntityPropertyDescriptorDto()
     public bool Get { get; set; }
     public bool Set { get; set; }
 
-    public abstract bool Required { get; }
+    public virtual bool Required { get; }
 }
