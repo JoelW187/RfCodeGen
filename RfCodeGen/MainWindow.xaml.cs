@@ -22,6 +22,9 @@ public partial class MainWindow : Window
         if(this.DataContext is not MainViewModel vm) return;
 
         this.ViewModel = vm;
+
+        this.ViewModel.ProjectDescriptors.Add(new("HPMS", "NJDOT HPMS", @"C:\Source\mbakerintlapps\NJDOT\NJDOT_HPMS\src\NJDOT_HPMS", "HPMS."));
+        this.ViewModel.SelectedProjectDescriptor = this.ViewModel.ProjectDescriptors.FirstOrDefault();
     }
 
     private void SelectAll_Click(object sender, RoutedEventArgs e)
@@ -59,7 +62,7 @@ public partial class MainWindow : Window
         var selectedEntities = this.ViewModel.Entities.Where(v1 => v1.IsSelected).OrderBy(v1 => v1.Name).ToList();
 
         var codeGenerator = RfCodeGeneratorFactory.Create("HPMS");
-        var count = await codeGenerator.Generate(selectedEntities, this.ViewModel.ProjectFolder, progress);
+        var count = await codeGenerator.Generate(selectedEntities, this.ViewModel.ProjectFolder!, progress);
 
         this.ViewModel.Messages.Add($"Generated {count} files.");
 

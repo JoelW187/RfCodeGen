@@ -10,12 +10,51 @@ public class MainViewModel : INotifyPropertyChanged
 {
     public MainViewModel()
     {
-        var entityFileNames = Directory.EnumerateFiles(this.ProjectFolder.DataAccess.Models.FullPath, "*.cs", SearchOption.TopDirectoryOnly).OrderBy(v1 => v1);
-        this._entities = new ObservableCollection<Entity>(entityFileNames.Select(fullName => new Entity(fullName, File.Exists(Path.Combine(this.ProjectFolder.DataAccess.Models.Partials.FullPath, $"{Path.GetFileNameWithoutExtension(fullName)}Partial.cs")))));
+        this.PropertyChanged += MainViewModel_PropertyChanged;
     }
 
-    private ProjectFolder _projectFolder = new(@"C:\Source\mbakerintlapps\NJDOT\NJDOT_HPMS\src\NJDOT_HPMS", "HPMS.");
-    public ProjectFolder ProjectFolder
+    private void MainViewModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        switch(e.PropertyName)
+        {
+        case nameof(SelectedProjectDescriptor):
+            if(this.SelectedProjectDescriptor == null)
+            {
+                this.ProjectFolder = null;
+                this.Entities.Clear();
+                this.Messages.Clear();
+                this.AuxGenCode = "";
+                return;
+            }
+
+            this.ProjectFolder = new ProjectFolder(this.SelectedProjectDescriptor);
+            var entityFileNames = Directory.EnumerateFiles(this.ProjectFolder.DataAccess.Models.FullPath, "*.cs", SearchOption.TopDirectoryOnly).OrderBy(v1 => v1);
+            var entities = entityFileNames.Select(fullName => new Entity(fullName, File.Exists(Path.Combine(this.ProjectFolder.DataAccess.Models.Partials.FullPath, $"{Path.GetFileNameWithoutExtension(fullName)}Partial.cs")))).ToList();
+            entities.ForEach(entity =>
+            {
+                this.Entities.Add(entity);
+            });
+            break;
+        }
+    }
+
+    public ObservableCollection<ProjectDescriptorDto> ProjectDescriptors { get; } = [];
+
+    private ProjectDescriptorDto? _selectedProjectDescriptor;
+    public ProjectDescriptorDto? SelectedProjectDescriptor
+    {
+        get { return _selectedProjectDescriptor; }
+        set
+        {
+            if(_selectedProjectDescriptor == value) return;
+
+            _selectedProjectDescriptor = value;
+            OnPropertyChanged();
+        }
+    }
+
+    private ProjectFolder? _projectFolder;
+    public ProjectFolder? ProjectFolder
     {
         get { return _projectFolder; }
         set
@@ -27,18 +66,7 @@ public class MainViewModel : INotifyPropertyChanged
         }
     }
 
-    private ObservableCollection<Entity> _entities;
-    public ObservableCollection<Entity> Entities
-    {
-        get { return _entities; }
-        set
-        {
-            if(_entities == value) return;
-
-            _entities = value;
-            OnPropertyChanged();
-        }
-    }
+    public ObservableCollection<Entity> Entities { get; } = [];
 
     private ObservableCollection<string> _messages = [];
     public ObservableCollection<string> Messages

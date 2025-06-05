@@ -1,4 +1,6 @@
-﻿namespace RfCodeGen.Shared;
+﻿using RfCodeGen.Shared.Dtos;
+
+namespace RfCodeGen.Shared;
 
 public abstract record SourceCodeFolderBase(string FullPath)
 {
@@ -11,6 +13,8 @@ public abstract record SourceCodeFolderBase(string FullPath)
 
 public record ProjectFolder(string FullPath, string Prefix) : SourceCodeFolderBase(FullPath)
 {
+    public ProjectFolder(ProjectDescriptorDto projectDescriptor) : this(projectDescriptor.ProjectFolder, projectDescriptor.ProjectPrefix) { }
+
     public DataAccessFolder DataAccess { get; } = new(Path.Combine(FullPath, $"{Prefix}DataAccess"));
     public SharedFolder Shared { get; } = new(Path.Combine(FullPath, $"{Prefix}Shared"));
     public ServiceLayerFolder ServiceLayer { get; } = new(Path.Combine(FullPath, $"{Prefix}ServiceLayer"));
