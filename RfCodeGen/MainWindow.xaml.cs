@@ -99,37 +99,37 @@ internal record CdmsProjectDescriptorDto(string ProjectId, string ProjectName, s
 
 internal record CdmsEntityDescriptorDto : EntityDescriptorDto
 {
-    private static readonly IEnumerable<string> LookupTableNames =
-    [
-        "AddressType",
-        "AffiliateSubType",
-        "AffiliateType",
-        "Borough",
-        "BqProjectGroup",
-        "CdmsUserRole",
-        "City",
-        "ContactRole",
-        "CountryCode",
-        "CrittsBillingMode",
-        "CrittsSparProgram",
-        "CrittsSparProjectGroup",
-        "DataSource",
-        "Department",
-        "EmailAddressType",
-        "FeeCode",
-        "InvoiceCode",
-        "OperatingStatus",
-        "OrganizationSubType",
-        "OrganizationType",
-        "PhoneNumberType",
-        "PrefixType",
-        "Program",
-        "ResponsiblePartyType",
-        "RfaRequestStatus",
-        "SparSection",
-        "State",
-        "SuspendedBillingReason",
-    ];
+    //private static readonly IEnumerable<string> LookupTableNames =
+    //[
+    //    "AddressType",
+    //    "AffiliateSubType",
+    //    "AffiliateType",
+    //    "Borough",
+    //    "BqProjectGroup",
+    //    "CdmsUserRole",
+    //    "City",
+    //    "ContactRole",
+    //    "CountryCode",
+    //    "CrittsBillingMode",
+    //    "CrittsSparProgram",
+    //    "CrittsSparProjectGroup",
+    //    "DataSource",
+    //    "Department",
+    //    "EmailAddressType",
+    //    "FeeCode",
+    //    "InvoiceCode",
+    //    "OperatingStatus",
+    //    "OrganizationSubType",
+    //    "OrganizationType",
+    //    "PhoneNumberType",
+    //    "PrefixType",
+    //    "Program",
+    //    "ResponsiblePartyType",
+    //    "RfaRequestStatus",
+    //    "SparSection",
+    //    "State",
+    //    "SuspendedBillingReason",
+    //];
 
     public override List<EntityPropertyDescriptorDto> DtoProperties
     {
@@ -162,7 +162,11 @@ internal record CdmsEntityDescriptorDto : EntityDescriptorDto
     {
         get
         {
-            return LookupTableNames.Contains(this.Name, StringComparer.OrdinalIgnoreCase);
+            return this.Properties.Any(v1 => v1.Name.Equals($"{this.Name}Id", StringComparison.OrdinalIgnoreCase))
+                && this.Properties.Any(v1 => v1.Name.Equals($"{this.Name}Ak", StringComparison.OrdinalIgnoreCase)) 
+                && this.Properties.Any(v1 => v1.Name.Equals("Description", StringComparison.OrdinalIgnoreCase))
+                && this.Properties.Any(v1 => v1.Name.Equals("SortOrder", StringComparison.OrdinalIgnoreCase))
+                && this.Properties.Any(v1 => v1.Name.Equals("ActiveInd", StringComparison.OrdinalIgnoreCase));
         }
     }
     public override bool IsManyToManyTable
