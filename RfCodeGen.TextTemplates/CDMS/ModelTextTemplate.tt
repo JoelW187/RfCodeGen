@@ -8,6 +8,7 @@ using System.Diagnostics;
 
 namespace CDMS.CostRecovery.DataAccess.Models;
 
+<#= this.EntityDescriptor.DebuggerDisplay #>
 public partial class <#= this.EntityDescriptor.Name #> : RfEntityBase, IRfAuditableEntity
 {
 	public override int GetId() => this.<#= this.EntityDescriptor.PkColumnName #>;

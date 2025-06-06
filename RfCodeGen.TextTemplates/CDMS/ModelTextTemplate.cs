@@ -29,23 +29,30 @@ namespace RfCodeGen.TextTemplates.CDMS
         public virtual string TransformText()
         {
             this.Write("using Mbi.RepositoryFramework;\r\nusing System.Diagnostics;\r\n\r\nnamespace CDMS.CostR" +
-                    "ecovery.DataAccess.Models;\r\n\r\npublic partial class ");
+                    "ecovery.DataAccess.Models;\r\n\r\n");
             
             #line 11 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\CDMS\ModelTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.DebuggerDisplay));
+            
+            #line default
+            #line hidden
+            this.Write("\r\npublic partial class ");
+            
+            #line 12 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\CDMS\ModelTextTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Name));
             
             #line default
             #line hidden
             this.Write(" : RfEntityBase, IRfAuditableEntity\r\n{\r\n\tpublic override int GetId() => this.");
             
-            #line 13 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\CDMS\ModelTextTemplate.tt"
+            #line 14 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\CDMS\ModelTextTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.PkColumnName));
             
             #line default
             #line hidden
             this.Write(";\r\n\tpublic override void SetId(int id) => ");
             
-            #line 14 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\CDMS\ModelTextTemplate.tt"
+            #line 15 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\CDMS\ModelTextTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.PkColumnName));
             
             #line default
