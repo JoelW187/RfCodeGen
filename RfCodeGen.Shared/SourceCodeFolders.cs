@@ -13,7 +13,7 @@ public abstract record SourceCodeFolderBase(string FullPath)
 
 public record ProjectFolder(string FullPath, string Prefix) : SourceCodeFolderBase(FullPath)
 {
-    public ProjectFolder(ProjectDescriptorDto projectDescriptor) : this(projectDescriptor.ProjectFolder, projectDescriptor.ProjectPrefix) { }
+    //public ProjectFolder(ProjectDescriptorDto projectDescriptor) : this(projectDescriptor.ProjectPath, projectDescriptor.ProjectPrefix) { }
 
     public DataAccessFolder DataAccess { get; } = new(Path.Combine(FullPath, $"{Prefix}DataAccess"));
     public SharedFolder Shared { get; } = new(Path.Combine(FullPath, $"{Prefix}Shared"));

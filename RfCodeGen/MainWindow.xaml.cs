@@ -63,7 +63,7 @@ public partial class MainWindow : Window
         var selectedEntities = this.ViewModel.Entities.Where(v1 => v1.IsSelected).OrderBy(v1 => v1.Name).ToList();
 
         var codeGenerator = RfCodeGeneratorFactory.Create("HPMS");
-        var count = await codeGenerator.Generate(selectedEntities, this.ViewModel.ProjectFolder!, progress);
+        var count = await codeGenerator.Generate(selectedEntities, this.ViewModel.SelectedProjectDescriptor!, progress);
 
         this.ViewModel.Messages.Add($"Generated {count} files.");
 
@@ -171,8 +171,7 @@ internal record HPMSEntityDescriptorDto : EntityDescriptorDto
                 values.Add($"MpEnd={{MpEnd}}");
 
             string? desc = this.Properties.FirstOrDefault(v1 => v1.Name.StartsWith(this.Name, StringComparison.OrdinalIgnoreCase))?.Name;
-            if(desc is null)
-                desc = this.Properties.FirstOrDefault(v1 => v1.Type.Equals("string", StringComparison.OrdinalIgnoreCase) || v1.Type.Equals("string?", StringComparison.OrdinalIgnoreCase))?.Name;
+            desc ??= this.Properties.FirstOrDefault(v1 => v1.Type.Equals("string", StringComparison.OrdinalIgnoreCase) || v1.Type.Equals("string?", StringComparison.OrdinalIgnoreCase))?.Name;
 
             if(desc != null)
                 values.Add($"{desc}={{{desc}}}");

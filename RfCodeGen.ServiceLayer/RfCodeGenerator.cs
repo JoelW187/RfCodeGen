@@ -34,7 +34,7 @@ public interface IRfCodeGenerator<out TEntityDescriptor, out TEntityPropertyDesc
     where TEntityDescriptor : EntityDescriptorDto, new()
     where TEntityPropertyDescriptor : EntityPropertyDescriptorDto, new()
 {
-    Task<int> Generate(IEnumerable<EntityDto> entities, ProjectFolder projectFolder, IProgress<string> progress);
+    Task<int> Generate(IEnumerable<EntityDto> entities, ProjectDescriptorDto projectDescriptor, IProgress<string> progress);
 }
 
 public class RfCodeGenerator<TEntityDescriptor, TEntityPropertyDescriptor> : RfCodeGeneratorBase, IRfCodeGenerator<TEntityDescriptor, TEntityPropertyDescriptor>
@@ -43,7 +43,7 @@ public class RfCodeGenerator<TEntityDescriptor, TEntityPropertyDescriptor> : RfC
 {
     private Pluralizer Pluralizer { get; } = new();
 
-    public async Task<int> Generate(IEnumerable<EntityDto> entities, ProjectFolder projectFolder, IProgress<string> progress)
+    public async Task<int> Generate(IEnumerable<EntityDto> entities, ProjectDescriptorDto projectDescriptor, IProgress<string> progress)
     {
         int count = 0;
 
@@ -77,6 +77,8 @@ public class RfCodeGenerator<TEntityDescriptor, TEntityPropertyDescriptor> : RfC
 
             entityDescriptors.Add(entityDescriptor);
         }
+
+        var projectFolder = projectDescriptor.ProjectFolder;
 
         //Model (partial)
         foreach(var entityDescriptor in entityDescriptors)
