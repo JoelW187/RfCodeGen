@@ -3,7 +3,8 @@ using RfCodeGen.Shared.Dtos;
 
 namespace RfCodeGen.TextTemplates.CDMS;
 
-public partial class ModelTextTemplate(EntityDescriptorDto entityDescriptor) : ITextTemplate
+public partial class ModelTextTemplate(ProjectDescriptorDto projectDescriptor, EntityDescriptorDto entityDescriptor) : ITextTemplate
 {
+    public ProjectDescriptorDto ProjectDescriptor { get; } = projectDescriptor;
     public EntityDescriptorDto EntityDescriptor { get; } = entityDescriptor;
 }

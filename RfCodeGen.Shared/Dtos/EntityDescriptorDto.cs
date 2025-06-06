@@ -42,12 +42,6 @@ public record EntityDescriptorDto()
     public virtual string DefaultCollectionOrderBy { get; } = string.Empty;
     public virtual string Includes { get; } = string.Empty;
     public virtual bool IsLookupTable { get; }
-
-    //these must be implemented in derived classes to provide specific templates
-    public virtual ITextTemplate GetModelTemplate() { throw new NotImplementedException(); }
-    public virtual ITextTemplate GetDtoTemplate() { throw new NotImplementedException(); }
-    public virtual ITextTemplate GetDomainTemplate() { throw new NotImplementedException(); }
-    public virtual ITextTemplate GetControllerTemplate() { throw new NotImplementedException(); }
 }
 
 public record EntityPropertyDescriptorDto()

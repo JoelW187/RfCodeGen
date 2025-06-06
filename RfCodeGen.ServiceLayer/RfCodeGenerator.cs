@@ -84,7 +84,7 @@ public class RfCodeGenerator<TEntityDescriptor, TEntityPropertyDescriptor> : RfC
         foreach(var entityDescriptor in entityDescriptors)
         {
             //TextTemplates.HPMS.ModelTextTemplate modelPartial = new(entityDescriptor);
-            var modelTemplate = entityDescriptor.GetModelTemplate();
+            var modelTemplate = projectDescriptor.GetModelTemplate(entityDescriptor);
             string modelPartialContent = modelTemplate.TransformText();
             string modelPartialFilePath = projectFolder.DataAccess.Models.Partials.GetFilePath($"{entityDescriptor.Entity.Name}.cs");   // Path.Combine(projectFolder.DataAccess.Models.Partials.FullPath, $"{entity.Name}Partial.cs");
             await File.WriteAllTextAsync(modelPartialFilePath, modelPartialContent, Encoding.UTF8);
@@ -97,7 +97,7 @@ public class RfCodeGenerator<TEntityDescriptor, TEntityPropertyDescriptor> : RfC
         foreach(var entityDescriptor in entityDescriptors)
         {
             //TextTemplates.HPMS.DtoTextTemplate dto = new(entityDescriptor);
-            var dtoTemplate = entityDescriptor.GetDtoTemplate();
+            var dtoTemplate = projectDescriptor.GetDtoTemplate(entityDescriptor);
             string dtoContent = dtoTemplate.TransformText();
             string dtoFilePath = projectFolder.Shared.Dtos.GetFilePath($"{entityDescriptor.Name}Dto.cs");   // Path.Combine(projectFolder.Shared.Dtos.FullPath, $"{entityDescriptor.Name}Dto.cs");
             await File.WriteAllTextAsync(dtoFilePath, dtoContent, Encoding.UTF8);
@@ -110,7 +110,7 @@ public class RfCodeGenerator<TEntityDescriptor, TEntityPropertyDescriptor> : RfC
         foreach(var entityDescriptor in entityDescriptors)
         {
             //TextTemplates.HPMS.DomainTextTemplate domain = new(entityDescriptor);
-            var domainTemplate = entityDescriptor.GetDomainTemplate();
+            var domainTemplate = projectDescriptor.GetDomainTemplate(entityDescriptor);
             string domainContent = domainTemplate.TransformText();
             string domainFilePath = projectFolder.ServiceLayer.Domains.GetFilePath($"{entityDescriptor.Name}Domain.cs");
             await File.WriteAllTextAsync(domainFilePath, domainContent, Encoding.UTF8);
@@ -123,7 +123,7 @@ public class RfCodeGenerator<TEntityDescriptor, TEntityPropertyDescriptor> : RfC
         foreach(var entityDescriptor in entityDescriptors)
         {
             //TextTemplates.HPMS.ControllerTextTemplate controller = new(entityDescriptor);
-            var controllerTemplate = entityDescriptor.GetControllerTemplate();
+            var controllerTemplate = projectDescriptor.GetControllerTemplate(entityDescriptor);
             string controllerContent = controllerTemplate.TransformText();
             string controllerFilePath = projectFolder.WebApi.Controllers.GetFilePath($"{this.Pluralizer.Pluralize(entityDescriptor.Name)}Controller.cs"); // Path.Combine(projectFolder.WebApi.Controllers.FullPath, $"{this.Pluralizer.Pluralize(entityDescriptor.Name)}Controller.cs");
             await File.WriteAllTextAsync(controllerFilePath, controllerContent, Encoding.UTF8);

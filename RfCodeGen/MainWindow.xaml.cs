@@ -24,7 +24,8 @@ public partial class MainWindow : Window
 
         this.ViewModel = vm;
 
-        this.ViewModel.ProjectDescriptors.Add(new("HPMS", "NJDOT HPMS", @"C:\Source\mbakerintlapps\NJDOT\NJDOT_HPMS\src\NJDOT_HPMS", "HPMS."));
+        this.ViewModel.ProjectDescriptors.Add(new HpmsProjectDescriptorDto("HPMS", "NJDOT HPMS", @"C:\Source\mbakerintlapps\NJDOT\NJDOT_HPMS\src\NJDOT_HPMS", "HPMS."));
+        //this.ViewModel.ProjectDescriptors.Add(new HpmsProjectDescriptorDto("CDMS", "CDMS Cost Recovery", @"C:\Source\mbakerintlapps\Alaska\CDMS\CostRecovery\WebApi\", "CostRecovery."));
         this.ViewModel.SelectedProjectDescriptor = this.ViewModel.ProjectDescriptors.FirstOrDefault();
     }
 
@@ -80,21 +81,26 @@ public static class RfCodeGeneratorFactory
     {
         return projectId switch
         {
-            "HPMS" => new RfCodeGenerator<HPMSEntityDescriptorDto, HPMSEntityPropertyDescriptorDto>(),
+            "HPMS" => new RfCodeGenerator<HpmsEntityDescriptorDto, HpmsEntityPropertyDescriptorDto>(),
+            "CDMS" => new RfCodeGenerator<CdmsEntityDescriptorDto, CdmsEntityPropertyDescriptorDto>(),
             _ => throw new NotSupportedException($"Project ID '{projectId}' is not supported."),
         };
     }
 }
 
-internal record CDMSEntityDescriptorDto : EntityDescriptorDto
+internal record CdmsProjectDescriptorDto(string ProjectId, string ProjectName, string ProjectPath, string ProjectPrefix) : ProjectDescriptorDto(ProjectId, ProjectName, ProjectPath, ProjectPrefix)
 {
-    public override ITextTemplate GetModelTemplate() => new RfCodeGen.TextTemplates.CDMS.ModelTextTemplate(this);
-    public override ITextTemplate GetDtoTemplate() => new RfCodeGen.TextTemplates.CDMS.DtoTextTemplate(this);
-    public override ITextTemplate GetDomainTemplate() => new RfCodeGen.TextTemplates.CDMS.DomainTextTemplate(this);
-    public override ITextTemplate GetControllerTemplate() => new RfCodeGen.TextTemplates.CDMS.ControllerTextTemplate(this);
+    public override ITextTemplate GetModelTemplate(EntityDescriptorDto entityDescriptor) => new RfCodeGen.TextTemplates.CDMS.ModelTextTemplate(this, entityDescriptor);
+    public override ITextTemplate GetDtoTemplate(EntityDescriptorDto entityDescriptor) => new RfCodeGen.TextTemplates.CDMS.DtoTextTemplate(this, entityDescriptor);
+    public override ITextTemplate GetDomainTemplate(EntityDescriptorDto entityDescriptor) => new RfCodeGen.TextTemplates.CDMS.DomainTextTemplate(this, entityDescriptor);
+    public override ITextTemplate GetControllerTemplate(EntityDescriptorDto entityDescriptor) => new RfCodeGen.TextTemplates.CDMS.ControllerTextTemplate(this, entityDescriptor);
 }
 
-internal record CDMSEntityPropertyDescriptorDto : EntityPropertyDescriptorDto
+internal record CdmsEntityDescriptorDto : EntityDescriptorDto
+{
+}
+
+internal record CdmsEntityPropertyDescriptorDto : EntityPropertyDescriptorDto
 {
     public override bool IsPrimaryKey
     {
@@ -105,7 +111,15 @@ internal record CDMSEntityPropertyDescriptorDto : EntityPropertyDescriptorDto
     }
 }
 
-internal record HPMSEntityDescriptorDto : EntityDescriptorDto
+internal record HpmsProjectDescriptorDto(string ProjectId, string ProjectName, string ProjectPath, string ProjectPrefix) : ProjectDescriptorDto(ProjectId, ProjectName, ProjectPath, ProjectPrefix)
+{
+    public override ITextTemplate GetModelTemplate(EntityDescriptorDto entityDescriptor) => new RfCodeGen.TextTemplates.HPMS.ModelTextTemplate(this, entityDescriptor);
+    public override ITextTemplate GetDtoTemplate(EntityDescriptorDto entityDescriptor) => new RfCodeGen.TextTemplates.HPMS.DtoTextTemplate(this, entityDescriptor);
+    public override ITextTemplate GetDomainTemplate(EntityDescriptorDto entityDescriptor) => new RfCodeGen.TextTemplates.HPMS.DomainTextTemplate(this, entityDescriptor);
+    public override ITextTemplate GetControllerTemplate(EntityDescriptorDto entityDescriptor) => new RfCodeGen.TextTemplates.HPMS.ControllerTextTemplate(this, entityDescriptor);
+}
+
+internal record HpmsEntityDescriptorDto : EntityDescriptorDto
 {
     private bool IIdColumn => this.Properties.Any(v1 => v1.Name.Equals("Id", StringComparison.OrdinalIgnoreCase));
     private bool IParentSri => this.Properties.Any(v1 => v1.Name.Equals("ParentSri", StringComparison.OrdinalIgnoreCase));
@@ -184,14 +198,9 @@ internal record HPMSEntityDescriptorDto : EntityDescriptorDto
             return desc;
         }
     }
-
-    public override ITextTemplate GetModelTemplate() => new RfCodeGen.TextTemplates.HPMS.ModelTextTemplate(this);
-    public override ITextTemplate GetDtoTemplate() => new RfCodeGen.TextTemplates.HPMS.DtoTextTemplate(this);
-    public override ITextTemplate GetDomainTemplate() => new RfCodeGen.TextTemplates.HPMS.DomainTextTemplate(this);
-    public override ITextTemplate GetControllerTemplate() => new RfCodeGen.TextTemplates.HPMS.ControllerTextTemplate(this);
 }
 
-internal record HPMSEntityPropertyDescriptorDto : EntityPropertyDescriptorDto
+internal record HpmsEntityPropertyDescriptorDto : EntityPropertyDescriptorDto
 {
     public override bool Required => this.Name.Equals("Sri", StringComparison.OrdinalIgnoreCase) || this.Name.Equals("MpStart", StringComparison.OrdinalIgnoreCase) || this.Name.Equals("MpEnd", StringComparison.OrdinalIgnoreCase);
     public override bool IsPrimaryKey   

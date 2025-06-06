@@ -9,6 +9,7 @@ namespace RfCodeGen.Shared;
 
 public interface ITextTemplate
 {
+    ProjectDescriptorDto ProjectDescriptor { get; }
     EntityDescriptorDto EntityDescriptor { get; }
     string TransformText();
 }

@@ -3,7 +3,8 @@ using RfCodeGen.Shared.Dtos;
 
 namespace RfCodeGen.TextTemplates.HPMS;
 
-public partial class ControllerTextTemplate(EntityDescriptorDto entityDescriptor) : ITextTemplate
+public partial class ControllerTextTemplate(ProjectDescriptorDto projectDescriptor, EntityDescriptorDto entityDescriptor) : ITextTemplate
 {
+    public ProjectDescriptorDto ProjectDescriptor { get; } = projectDescriptor;
     public EntityDescriptorDto EntityDescriptor { get; } = entityDescriptor;
 }
