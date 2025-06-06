@@ -43,7 +43,7 @@ public class RfCodeGenerator<TEntityDescriptor, TEntityPropertyDescriptor> : RfC
 {
     private Pluralizer Pluralizer { get; } = new();
 
-    private static void ParsePropertyLine(string line, out string modifiers, out string type, out string name, out bool get, out bool set, out string assignment, out bool include)
+    private static void ParsePropertyLine(string line, out string modifiers, out string type, out string name, out bool get, out bool set, out string assignment)
     {
         line = line.Trim();
 
@@ -63,18 +63,12 @@ public class RfCodeGenerator<TEntityDescriptor, TEntityPropertyDescriptor> : RfC
         name = pieces.Last();
         type = pieces[^2];
         modifiers = string.Join(' ', pieces.Take(pieces.Length - 2)); // take all but the last two pieces
-        //modifiers = pieces[0]; // e.g., public, private, protected, internal
-        //type = pieces[1]; // e.g., string, int, DateTime, etc.
-        //name = pieces[2]; // e.g., MyProperty
 
         get = getset.Contains("get;");
         set = getset.Contains("set;");
 
-        include = false;
         if(type.StartsWith("ICollection<"))
         {
-            include = true;
-
             var collectionType = type[12..^1]; // e.g., ICollection<MyEntity>
             type = type.Replace($"<{collectionType}>", $"<{collectionType}Dto>");
 
@@ -92,13 +86,12 @@ public class RfCodeGenerator<TEntityDescriptor, TEntityPropertyDescriptor> : RfC
         {
             IEnumerable<string> lines = File.ReadAllLines(entity.FilePath);
             lines = lines.SkipWhile(v1 => !v1.StartsWith("public partial class"));
-            //string declaration = lines.First();
-            var propertyLines = lines.SkipWhile(v1 => v1 != "{").Skip(1).TakeWhile(v1 => v1 != "}").Where(v1 => !string.IsNullOrWhiteSpace(v1));
 
             TEntityDescriptor entityDescriptor = new() { Entity = entity, PluralizedName = Pluralizer.Pluralize(entity.Name) };
+            var propertyLines = lines.SkipWhile(v1 => v1 != "{").Skip(1).TakeWhile(v1 => v1 != "}").Where(v1 => !string.IsNullOrWhiteSpace(v1));
             foreach(string propertyLine in propertyLines)
             {
-                RfCodeGenerator<TEntityDescriptor, TEntityPropertyDescriptor>.ParsePropertyLine(propertyLine, out string modifiers, out string type, out string name, out bool get, out bool set, out string assignment, out bool include);
+                RfCodeGenerator<TEntityDescriptor, TEntityPropertyDescriptor>.ParsePropertyLine(propertyLine, out string modifiers, out string type, out string name, out bool get, out bool set, out string assignment);
 
                 TEntityPropertyDescriptor entityProperty = new()
                 {
@@ -113,9 +106,6 @@ public class RfCodeGenerator<TEntityDescriptor, TEntityPropertyDescriptor> : RfC
                 };
                 
                 entityDescriptor.Properties.Add(entityProperty);
-
-                if(include)
-                    entityDescriptor.Includes.Add(name);
             }
 
             entityDescriptors.Add(entityDescriptor);

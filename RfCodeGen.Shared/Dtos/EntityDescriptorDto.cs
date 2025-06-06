@@ -39,7 +39,7 @@ public record EntityDescriptorDto()
     public virtual List<EntityPropertyDescriptorDto> DtoProperties => this.Properties;
     public virtual string DtoInterfaces { get; } = string.Empty;
     public virtual string DefaultCollectionOrderBy { get; } = string.Empty;
-    public List<string> Includes { get; set; } = [];
+    public virtual List<string> Includes { get; } = [];
     public virtual bool IsLookupTable { get; }
     public virtual bool IsManyToManyTable { get; }
 }

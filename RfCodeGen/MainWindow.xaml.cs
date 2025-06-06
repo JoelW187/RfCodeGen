@@ -1,4 +1,5 @@
 ﻿using RfCodeGen.ServiceLayer;
+using RfCodeGen.ServiceLayer.Utils.Pluralizer;
 using RfCodeGen.Shared;
 using RfCodeGen.Shared.Dtos;
 using System.Net.WebSockets;
@@ -137,7 +138,7 @@ internal record CdmsEntityDescriptorDto : EntityDescriptorDto
         {
             if(!this.IsLookupTable)
             {
-                return [.. this.Properties.Where(v1 => (!v1.Modifiers.Contains("virtual") || v1.Type.StartsWith("ICollection<"))
+                return [.. this.Properties.Where(v1 => (!v1.Modifiers.Contains("virtual") || (v1.Type.StartsWith("ICollection<") && !v1.Name.EndsWith("Navigation") && !v1.Name.EndsWith("Navigations")))
                     && !v1.Name.Equals("CreatedDate", StringComparison.CurrentCultureIgnoreCase)
                     && !v1.Name.Equals("CreatedBy", StringComparison.CurrentCultureIgnoreCase)
                     && !v1.Name.Equals("ModifiedDate", StringComparison.CurrentCultureIgnoreCase)
@@ -156,6 +157,25 @@ internal record CdmsEntityDescriptorDto : EntityDescriptorDto
                     && !v1.Name.Equals("ActiveInd", StringComparison.CurrentCultureIgnoreCase)
                 )];
             }
+        }
+    }
+    public override List<string> Includes
+    {
+        get
+        {
+            Pluralizer pluralizer = new();
+            List<string> list = [];
+
+            var names = this.Properties.Where(v1 => (v1.Modifiers.Contains("virtual") && (v1.Type.StartsWith("ICollection<") && !v1.Name.EndsWith("Navigation") && !v1.Name.EndsWith("Navigations")))).Select(v1 => v1.Name);
+            foreach(var name in names)
+            {
+                if(name.EndsWith(this.PluralizedName))
+                    list.Add(pluralizer.Pluralize(name[..^this.PluralizedName.Length])); //remove the pluralized name from the end
+                else
+                    list.Add(name); //keep the name as is
+            }
+
+            return list;
         }
     }
     public override bool IsLookupTable
