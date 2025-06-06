@@ -1,0 +1,18 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+using System.Diagnostics;
+
+namespace <#= this.ProjectDescriptor.ProjectNamespacePrefix #>Shared.Dtos;
+
+<#= this.EntityDescriptor.DebuggerDisplay #>
+public partial class <#= this.EntityDescriptor.Name #>Dto : DtoBase
+{
+<# foreach(var property in this.EntityDescriptor.DtoProperties){ #>
+	<#= property.Modifiers #> <#= property.Type #> <#= property.Name #> { get; set; }<#= property.Assignment #>
+<# } #>
+	public override int GetId() => this.<#= this.EntityDescriptor.PkColumnName #>;
+	public override void SetId(int id) => <#= this.EntityDescriptor.PkColumnName #> = id;
+}

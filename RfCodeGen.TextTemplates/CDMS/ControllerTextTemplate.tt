@@ -1,0 +1,24 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+using <#= this.ProjectDescriptor.ProjectNamespacePrefix #>ServiceLayer.Domains;
+using <#= this.ProjectDescriptor.ProjectNamespacePrefix #>Shared.Dtos;
+using Mbi.RepositoryFramework;
+using Microsoft.AspNetCore.Mvc;
+
+namespace <#= this.ProjectDescriptor.ProjectNamespacePrefix #>WebApi.Controllers;
+
+[ApiController]
+[Route("api/v1/[controller]")]<#= this.EntityDescriptor.IsManyToManyTable ? "\r\n[ApiExplorerSettings(IgnoreApi = true)]\r\n[NonController]" : "" #>
+public class <#= this.EntityDescriptor.PluralizedName #>Controller : RfController<#= this.EntityDescriptor.Includes.Any() ? "" : "NoIncludes" #><I<#= this.EntityDescriptor.Name #>Domain, <#= this.EntityDescriptor.Name #>Dto<#= this.EntityDescriptor.Includes.Any() ? $", {this.EntityDescriptor.Name}Include" : "" #>>
+{
+	public <#= this.EntityDescriptor.PluralizedName #>Controller(I<#= this.EntityDescriptor.Name #>Domain domainService, ILogger<<#= this.EntityDescriptor.PluralizedName #>Controller> logger) : base(domainService, logger) { }
+}<# if(this.EntityDescriptor.Includes.Any()) {#>
+
+
+public enum <#= this.EntityDescriptor.Name #>Include
+{
+	<#= string.Join(",\r\n\t", this.EntityDescriptor.Includes) #>,
+}<# } #>

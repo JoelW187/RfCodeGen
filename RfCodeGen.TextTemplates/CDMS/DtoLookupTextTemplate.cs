@@ -7,7 +7,7 @@
 //     the code is regenerated.
 // </auto-generated>
 // ------------------------------------------------------------------------------
-namespace RfCodeGen.TextTemplates.HPMS
+namespace RfCodeGen.TextTemplates.CDMS
 {
     using System.Linq;
     using System.Text;
@@ -18,9 +18,9 @@ namespace RfCodeGen.TextTemplates.HPMS
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\HPMS\ControllerTextTemplate.tt"
+    #line 1 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\CDMS\DtoLookupTextTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "17.0.0.0")]
-    public partial class ControllerTextTemplate : ControllerTextTemplateBase
+    public partial class DtoLookupTextTemplate : DtoLookupTextTemplateBase
     {
 #line hidden
         /// <summary>
@@ -28,58 +28,112 @@ namespace RfCodeGen.TextTemplates.HPMS
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("using HPMS.ServiceLayer.Domains;\r\nusing HPMS.Shared.Dtos;\r\nusing Microsoft.AspNet" +
-                    "Core.Mvc;\r\nusing RepositoryFramework;\r\n\r\nnamespace HPMS.WebApi.Controllers;\r\n\r\n[" +
-                    "Route(\"api/v1/[controller]\")]\r\n[ApiController]\r\npublic class ");
+            this.Write("using System.Diagnostics;\r\n\r\nnamespace ");
             
-            #line 15 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\HPMS\ControllerTextTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.PluralizedName));
+            #line 8 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\CDMS\DtoLookupTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.ProjectDescriptor.ProjectNamespacePrefix));
             
             #line default
             #line hidden
-            this.Write("Controller(I");
+            this.Write("Shared.Dtos.Lookups;\r\n\r\n[DebuggerDisplay(\"");
             
-            #line 15 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\HPMS\ControllerTextTemplate.tt"
+            #line 10 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\CDMS\DtoLookupTextTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Name));
             
             #line default
             #line hidden
-            this.Write("Domain ");
+            this.Write("Id={");
             
-            #line 15 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\HPMS\ControllerTextTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.CamelCaseName));
-            
-            #line default
-            #line hidden
-            this.Write("Domain, ILogger<");
-            
-            #line 15 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\HPMS\ControllerTextTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.PluralizedName));
-            
-            #line default
-            #line hidden
-            this.Write("Controller> logger) : RfControllerNoIncludes<I");
-            
-            #line 15 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\HPMS\ControllerTextTemplate.tt"
+            #line 10 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\CDMS\DtoLookupTextTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Name));
             
             #line default
             #line hidden
-            this.Write("Domain, ");
+            this.Write("Id},");
             
-            #line 15 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\HPMS\ControllerTextTemplate.tt"
+            #line 10 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\CDMS\DtoLookupTextTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Name));
             
             #line default
             #line hidden
-            this.Write("Dto>(");
+            this.Write("Ak={");
             
-            #line 15 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\HPMS\ControllerTextTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.CamelCaseName));
+            #line 10 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\CDMS\DtoLookupTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Name));
             
             #line default
             #line hidden
-            this.Write("Domain, logger)\r\n{\r\n}\r\n");
+            this.Write("Ak},Description={Description}\")]\r\npublic partial class ");
+            
+            #line 11 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\CDMS\DtoLookupTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Name));
+            
+            #line default
+            #line hidden
+            this.Write("Dto : DtoLookupBase\r\n{\r\n");
+            
+            #line 13 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\CDMS\DtoLookupTextTemplate.tt"
+ foreach(var property in this.EntityDescriptor.DtoProperties){ 
+            
+            #line default
+            #line hidden
+            this.Write("\t");
+            
+            #line 14 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\CDMS\DtoLookupTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(property.Modifiers));
+            
+            #line default
+            #line hidden
+            this.Write(" ");
+            
+            #line 14 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\CDMS\DtoLookupTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(property.Type));
+            
+            #line default
+            #line hidden
+            this.Write(" ");
+            
+            #line 14 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\CDMS\DtoLookupTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
+            
+            #line default
+            #line hidden
+            this.Write(" { get; set; }");
+            
+            #line 14 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\CDMS\DtoLookupTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(property.Assignment));
+            
+            #line default
+            #line hidden
+            this.Write("\r\n");
+            
+            #line 15 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\CDMS\DtoLookupTextTemplate.tt"
+ } 
+            
+            #line default
+            #line hidden
+            this.Write("\tpublic override int GetId() => this.");
+            
+            #line 16 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\CDMS\DtoLookupTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.PkColumnName));
+            
+            #line default
+            #line hidden
+            this.Write(";\r\n\tpublic override void SetId(int id) => ");
+            
+            #line 17 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\CDMS\DtoLookupTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.PkColumnName));
+            
+            #line default
+            #line hidden
+            this.Write(" = id;\r\n\tpublic override string GetAk() => this.");
+            
+            #line 18 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\CDMS\DtoLookupTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Name));
+            
+            #line default
+            #line hidden
+            this.Write("Ak;\r\n}");
             return this.GenerationEnvironment.ToString();
         }
     }
@@ -91,7 +145,7 @@ namespace RfCodeGen.TextTemplates.HPMS
     /// Base class for this transformation
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "17.0.0.0")]
-    public class ControllerTextTemplateBase
+    public class DtoLookupTextTemplateBase
     {
         #region Fields
         private global::System.Text.StringBuilder generationEnvironmentField;

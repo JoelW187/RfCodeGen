@@ -3,18 +3,19 @@
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
-using HPMS.Shared.Interfaces;
-using System.Diagnostics;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
+using HPMS.Shared.Interfaces;
 
 namespace HPMS.Shared.Dtos;
 
+<#= this.EntityDescriptor.DebuggerDisplay #>
 public partial class <#= this.EntityDescriptor.Name #>Dto : DtoBase<#= this.EntityDescriptor.DtoInterfaces==string.Empty ? "" : $", {this.EntityDescriptor.DtoInterfaces}" #>
 {
-<# foreach(var property in this.EntityDescriptor.Properties){ #>
+<# foreach(var property in this.EntityDescriptor.DtoProperties){ #>
 	<# if(property.Required) { #>
 [Required]
 	<# } #>
-<#= property.Modifier #> <#= property.Type #> <#= property.Name #> { get; set; }
+<#= property.Modifiers #> <#= property.Type #> <#= property.Name #> { get; set; }<#= property.Assignment #>
 <# } #>
 }

@@ -18,7 +18,7 @@ namespace RfCodeGen.TextTemplates.HPMS
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ServiceLayer\TextTemplates\DtoTextTemplate.tt"
+    #line 1 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\HPMS\DtoTextTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "17.0.0.0")]
     public partial class DtoTextTemplate : DtoTextTemplateBase
     {
@@ -28,65 +28,79 @@ namespace RfCodeGen.TextTemplates.HPMS
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("using HPMS.Shared.Interfaces;\r\nusing System.Diagnostics;\r\nusing System.ComponentM" +
-                    "odel.DataAnnotations;\r\n\r\nnamespace HPMS.Shared.Dtos;\r\n\r\npublic partial class ");
+            this.Write("using System.ComponentModel.DataAnnotations;\r\nusing System.Diagnostics;\r\nusing HP" +
+                    "MS.Shared.Interfaces;\r\n\r\nnamespace HPMS.Shared.Dtos;\r\n\r\n");
             
-            #line 12 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ServiceLayer\TextTemplates\DtoTextTemplate.tt"
+            #line 12 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\HPMS\DtoTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.DebuggerDisplay));
+            
+            #line default
+            #line hidden
+            this.Write("\r\npublic partial class ");
+            
+            #line 13 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\HPMS\DtoTextTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Name));
             
             #line default
             #line hidden
             this.Write("Dto : DtoBase");
             
-            #line 12 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ServiceLayer\TextTemplates\DtoTextTemplate.tt"
+            #line 13 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\HPMS\DtoTextTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.DtoInterfaces==string.Empty ? "" : $", {this.EntityDescriptor.DtoInterfaces}"));
             
             #line default
             #line hidden
             this.Write("\r\n{\r\n");
             
-            #line 14 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ServiceLayer\TextTemplates\DtoTextTemplate.tt"
- foreach(var property in this.EntityDescriptor.Properties){ 
+            #line 15 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\HPMS\DtoTextTemplate.tt"
+ foreach(var property in this.EntityDescriptor.DtoProperties){ 
             
             #line default
             #line hidden
             this.Write("\t");
             
-            #line 15 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ServiceLayer\TextTemplates\DtoTextTemplate.tt"
+            #line 16 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\HPMS\DtoTextTemplate.tt"
  if(property.Required) { 
             
             #line default
             #line hidden
             this.Write("[Required]\r\n\t");
             
-            #line 17 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ServiceLayer\TextTemplates\DtoTextTemplate.tt"
+            #line 18 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\HPMS\DtoTextTemplate.tt"
  } 
             
             #line default
             #line hidden
             
-            #line 18 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ServiceLayer\TextTemplates\DtoTextTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Modifier));
+            #line 19 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\HPMS\DtoTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(property.Modifiers));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 18 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ServiceLayer\TextTemplates\DtoTextTemplate.tt"
+            #line 19 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\HPMS\DtoTextTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Type));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 18 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ServiceLayer\TextTemplates\DtoTextTemplate.tt"
+            #line 19 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\HPMS\DtoTextTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
             
             #line default
             #line hidden
-            this.Write(" { get; set; }\r\n");
+            this.Write(" { get; set; }");
             
-            #line 19 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ServiceLayer\TextTemplates\DtoTextTemplate.tt"
+            #line 19 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\HPMS\DtoTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(property.Assignment));
+            
+            #line default
+            #line hidden
+            this.Write("\r\n");
+            
+            #line 20 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\HPMS\DtoTextTemplate.tt"
  } 
             
             #line default

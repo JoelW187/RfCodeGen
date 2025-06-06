@@ -1,6 +1,8 @@
 ﻿using RfCodeGen.ServiceLayer;
+using RfCodeGen.ServiceLayer.Utils.Pluralizer;
 using RfCodeGen.Shared;
 using RfCodeGen.Shared.Dtos;
+using System.Net.WebSockets;
 using System.Windows;
 
 namespace RfCodeGen;
@@ -24,7 +26,8 @@ public partial class MainWindow : Window
 
         this.ViewModel = vm;
 
-        this.ViewModel.ProjectDescriptors.Add(new("HPMS", "NJDOT HPMS", @"C:\Source\mbakerintlapps\NJDOT\NJDOT_HPMS\src\NJDOT_HPMS", "HPMS."));
+        //this.ViewModel.ProjectDescriptors.Add(new HpmsProjectDescriptorDto("HPMS", "NJDOT HPMS", @"C:\Source\mbakerintlapps\NJDOT\NJDOT_HPMS\src\NJDOT_HPMS", "HPMS.", "HPMS."));
+        this.ViewModel.ProjectDescriptors.Add(new CdmsProjectDescriptorDto("CDMS", "CDMS Cost Recovery", @"C:\Source\mbakerintlapps\Alaska\CDMS\CostRecovery\WebApi\", "CostRecovery.", "CDMS.CostRecovery."));
         this.ViewModel.SelectedProjectDescriptor = this.ViewModel.ProjectDescriptors.FirstOrDefault();
     }
 
@@ -62,8 +65,8 @@ public partial class MainWindow : Window
 
         var selectedEntities = this.ViewModel.Entities.Where(v1 => v1.IsSelected).OrderBy(v1 => v1.Name).ToList();
 
-        var codeGenerator = RfCodeGeneratorFactory.Create("HPMS");
-        var count = await codeGenerator.Generate(selectedEntities, this.ViewModel.ProjectFolder!, progress);
+        var codeGenerator = RfCodeGeneratorFactory.Create(this.ViewModel.SelectedProjectDescriptor!.ProjectId);
+        var count = await codeGenerator.Generate(selectedEntities, this.ViewModel.SelectedProjectDescriptor!, progress);
 
         this.ViewModel.Messages.Add($"Generated {count} files.");
 
@@ -80,13 +83,157 @@ public static class RfCodeGeneratorFactory
     {
         return projectId switch
         {
-            "HPMS" => new RfCodeGenerator<HPMSEntityDescriptorDto, HPMSEntityPropertyDescriptorDto>(),
+            "HPMS" => new RfCodeGenerator<HpmsEntityDescriptorDto, HpmsEntityPropertyDescriptorDto>(),
+            "CDMS" => new RfCodeGenerator<CdmsEntityDescriptorDto, CdmsEntityPropertyDescriptorDto>(),
             _ => throw new NotSupportedException($"Project ID '{projectId}' is not supported."),
         };
     }
 }
 
-internal record HPMSEntityDescriptorDto : EntityDescriptorDto
+internal record CdmsProjectDescriptorDto(string ProjectId, string ProjectName, string ProjectPath, string ProjectPathPrefix, string ProjectNamespacePrefix) : ProjectDescriptorDto(ProjectId, ProjectName, ProjectPath, ProjectPathPrefix, ProjectNamespacePrefix)
+{
+    public override ITextTemplate GetModelTemplate(EntityDescriptorDto entityDescriptor) => entityDescriptor.IsLookupTable ? new RfCodeGen.TextTemplates.CDMS.ModelLookupTextTemplate(this, entityDescriptor) : new RfCodeGen.TextTemplates.CDMS.ModelTextTemplate(this, entityDescriptor);
+    public override ITextTemplate GetDtoTemplate(EntityDescriptorDto entityDescriptor) => entityDescriptor.IsLookupTable ? new RfCodeGen.TextTemplates.CDMS.DtoLookupTextTemplate(this, entityDescriptor) : new RfCodeGen.TextTemplates.CDMS.DtoTextTemplate(this, entityDescriptor);
+    public override ITextTemplate GetDomainTemplate(EntityDescriptorDto entityDescriptor) => new RfCodeGen.TextTemplates.CDMS.DomainTextTemplate(this, entityDescriptor);
+    public override ITextTemplate GetControllerTemplate(EntityDescriptorDto entityDescriptor) => new RfCodeGen.TextTemplates.CDMS.ControllerTextTemplate(this, entityDescriptor);
+}
+
+internal record CdmsEntityDescriptorDto : EntityDescriptorDto
+{
+    //private static readonly IEnumerable<string> LookupTableNames =
+    //[
+    //    "AddressType",
+    //    "AffiliateSubType",
+    //    "AffiliateType",
+    //    "Borough",
+    //    "BqProjectGroup",
+    //    "CdmsUserRole",
+    //    "City",
+    //    "ContactRole",
+    //    "CountryCode",
+    //    "CrittsBillingMode",
+    //    "CrittsSparProgram",
+    //    "CrittsSparProjectGroup",
+    //    "DataSource",
+    //    "Department",
+    //    "EmailAddressType",
+    //    "FeeCode",
+    //    "InvoiceCode",
+    //    "OperatingStatus",
+    //    "OrganizationSubType",
+    //    "OrganizationType",
+    //    "PhoneNumberType",
+    //    "PrefixType",
+    //    "Program",
+    //    "ResponsiblePartyType",
+    //    "RfaRequestStatus",
+    //    "SparSection",
+    //    "State",
+    //    "SuspendedBillingReason",
+    //];
+
+    public override List<EntityPropertyDescriptorDto> DtoProperties
+    {
+        get
+        {
+            if(!this.IsLookupTable)
+            {
+                return [.. this.Properties.Where(v1 => (!v1.Modifiers.Contains("virtual") || (v1.Type.StartsWith("ICollection<") && !v1.Name.EndsWith("Navigation") && !v1.Name.EndsWith("Navigations")))
+                    && !v1.Name.Equals("CreatedDate", StringComparison.CurrentCultureIgnoreCase)
+                    && !v1.Name.Equals("CreatedBy", StringComparison.CurrentCultureIgnoreCase)
+                    && !v1.Name.Equals("ModifiedDate", StringComparison.CurrentCultureIgnoreCase)
+                    && !v1.Name.Equals("ModifiedBy", StringComparison.CurrentCultureIgnoreCase)
+                )];
+            }
+            else
+            {
+                return [.. this.Properties.Where(v1 => !v1.Modifiers.Contains("virtual")
+                    && !v1.Name.Equals("CreatedDate", StringComparison.CurrentCultureIgnoreCase)
+                    && !v1.Name.Equals("CreatedBy", StringComparison.CurrentCultureIgnoreCase)
+                    && !v1.Name.Equals("ModifiedDate", StringComparison.CurrentCultureIgnoreCase)
+                    && !v1.Name.Equals("ModifiedBy", StringComparison.CurrentCultureIgnoreCase)
+                    && !v1.Name.Equals("Description", StringComparison.CurrentCultureIgnoreCase)
+                    && !v1.Name.Equals("SortOrder", StringComparison.CurrentCultureIgnoreCase)
+                    && !v1.Name.Equals("ActiveInd", StringComparison.CurrentCultureIgnoreCase)
+                )];
+            }
+        }
+    }
+    public override List<string> Includes
+    {
+        get
+        {
+            Pluralizer pluralizer = new();
+            List<string> list = [];
+
+            var names = this.Properties.Where(v1 => (v1.Modifiers.Contains("virtual") && (v1.Type.StartsWith("ICollection<") && !v1.Name.EndsWith("Navigation") && !v1.Name.EndsWith("Navigations")))).Select(v1 => v1.Name);
+            foreach(var name in names)
+            {
+                if(name.EndsWith(this.PluralizedName))
+                    list.Add(pluralizer.Pluralize(name[..^this.PluralizedName.Length])); //remove the pluralized name from the end
+                else
+                    list.Add(name); //keep the name as is
+            }
+
+            return list;
+        }
+    }
+    public override bool IsLookupTable
+    {
+        get
+        {
+            return this.Properties.Any(v1 => v1.Name.Equals($"{this.Name}Id", StringComparison.OrdinalIgnoreCase))
+                && this.Properties.Any(v1 => v1.Name.Equals($"{this.Name}Ak", StringComparison.OrdinalIgnoreCase)) 
+                && this.Properties.Any(v1 => v1.Name.Equals("Description", StringComparison.OrdinalIgnoreCase))
+                && this.Properties.Any(v1 => v1.Name.Equals("SortOrder", StringComparison.OrdinalIgnoreCase))
+                && this.Properties.Any(v1 => v1.Name.Equals("ActiveInd", StringComparison.OrdinalIgnoreCase));
+        }
+    }
+    public override bool IsManyToManyTable
+    {
+        get
+        {
+            int i = this.Name.IndexOf("And");
+            if(i < 1) return false; //the table name can't start with "And", so we check for index < 1
+            if(this.Name.EndsWith("And") && this.Name.LastIndexOf("And") == i) return false; //the table name can't end with "And" if it's the only one
+
+            return true;
+        }
+    }
+    public override string DebuggerDisplay
+    {
+        get
+        {
+            if(!this.IsLookupTable)
+                return base.DebuggerDisplay;
+
+            string dd = $"[DebuggerDisplay(\"{this.Name}Id={{{this.Name}Id}},{this.Name}Ak={{{this.Name}Ak}},Description={{Description}}\")]\r\n";
+
+            return dd;
+        }
+    }
+}
+
+internal record CdmsEntityPropertyDescriptorDto : EntityPropertyDescriptorDto
+{
+    public override bool IsPrimaryKey
+    {
+        get
+        {
+            return this.Name.Equals($"{this.EntityDescriptor.Name}Id", StringComparison.OrdinalIgnoreCase);
+        }
+    }
+}
+
+internal record HpmsProjectDescriptorDto(string ProjectId, string ProjectName, string ProjectPath, string ProjectPathPrefix, string ProjectNamespacePrefix) : ProjectDescriptorDto(ProjectId, ProjectName, ProjectPath, ProjectPathPrefix, ProjectNamespacePrefix)
+{
+    public override ITextTemplate GetModelTemplate(EntityDescriptorDto entityDescriptor) => new RfCodeGen.TextTemplates.HPMS.ModelTextTemplate(this, entityDescriptor);
+    public override ITextTemplate GetDtoTemplate(EntityDescriptorDto entityDescriptor) => new RfCodeGen.TextTemplates.HPMS.DtoTextTemplate(this, entityDescriptor);
+    public override ITextTemplate GetDomainTemplate(EntityDescriptorDto entityDescriptor) => new RfCodeGen.TextTemplates.HPMS.DomainTextTemplate(this, entityDescriptor);
+    public override ITextTemplate GetControllerTemplate(EntityDescriptorDto entityDescriptor) => new RfCodeGen.TextTemplates.HPMS.ControllerTextTemplate(this, entityDescriptor);
+}
+
+internal record HpmsEntityDescriptorDto : EntityDescriptorDto
 {
     private bool IIdColumn => this.Properties.Any(v1 => v1.Name.Equals("Id", StringComparison.OrdinalIgnoreCase));
     private bool IParentSri => this.Properties.Any(v1 => v1.Name.Equals("ParentSri", StringComparison.OrdinalIgnoreCase));
@@ -95,11 +242,6 @@ internal record HPMSEntityDescriptorDto : EntityDescriptorDto
     private bool IFeature => this.Properties.Any(v1 => v1.Name.Equals("Sri", StringComparison.OrdinalIgnoreCase));
     private bool IPointFeature => IFeature && this.Properties.Any(v1 => v1.Name.Equals("MpStart", StringComparison.OrdinalIgnoreCase));
     private bool ILinearFeature => IFeature && this.Properties.Any(v1 => v1.Name.Equals("MpEnd", StringComparison.OrdinalIgnoreCase));
-
-    public override ITextTemplate GetModelTemplate() => new RfCodeGen.TextTemplates.HPMS.ModelTextTemplate(this);
-    public override ITextTemplate GetDtoTemplate() => new RfCodeGen.TextTemplates.HPMS.DtoTextTemplate(this);
-    public override ITextTemplate GetDomainTemplate() => new RfCodeGen.TextTemplates.HPMS.DomainTextTemplate(this);
-    public override ITextTemplate GetControllerTemplate() => new RfCodeGen.TextTemplates.HPMS.ControllerTextTemplate(this);
 
     public override string DtoInterfaces
     {
@@ -140,9 +282,46 @@ internal record HPMSEntityDescriptorDto : EntityDescriptorDto
                 return "null";
         }
     }
+    public override string DebuggerDisplay
+    {
+        get
+        {
+            List<string> values = [];
+
+            if(this.PkColumnName != string.Empty)
+                values.Add($"{this.PkColumnName}={{{this.PkColumnName}}}");
+
+            if(this.Properties.Any(v1 => v1.Name.Equals("Sri", StringComparison.CurrentCultureIgnoreCase)))
+                values.Add($"Sri={{Sri}}");
+            if(this.Properties.Any(v1 => v1.Name.Equals("MpStart", StringComparison.CurrentCultureIgnoreCase)))
+                values.Add($"MpStart={{MpStart}}");
+            if(this.Properties.Any(v1 => v1.Name.Equals("MpEnd", StringComparison.CurrentCultureIgnoreCase)))
+                values.Add($"MpEnd={{MpEnd}}");
+
+            string? desc = this.Properties.FirstOrDefault(v1 => v1.Name.StartsWith(this.Name, StringComparison.OrdinalIgnoreCase))?.Name;
+            desc ??= this.Properties.FirstOrDefault(v1 => v1.Type.Equals("string", StringComparison.OrdinalIgnoreCase) || v1.Type.Equals("string?", StringComparison.OrdinalIgnoreCase))?.Name;
+
+            if(desc != null)
+                values.Add($"{desc}={{{desc}}}");
+
+            desc = string.Join(",", values);
+
+            if(desc != string.Empty)
+                desc = $"[DebuggerDisplay(\"{desc}\")]";
+
+            return desc;
+        }
+    }
 }
 
-internal record HPMSEntityPropertyDescriptorDto : EntityPropertyDescriptorDto
+internal record HpmsEntityPropertyDescriptorDto : EntityPropertyDescriptorDto
 {
     public override bool Required => this.Name.Equals("Sri", StringComparison.OrdinalIgnoreCase) || this.Name.Equals("MpStart", StringComparison.OrdinalIgnoreCase) || this.Name.Equals("MpEnd", StringComparison.OrdinalIgnoreCase);
+    public override bool IsPrimaryKey   
+    {
+        get
+        {
+            return this.Name.Equals("Id", StringComparison.OrdinalIgnoreCase);
+        }
+    }
 }

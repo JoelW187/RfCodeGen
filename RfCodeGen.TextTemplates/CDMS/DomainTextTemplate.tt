@@ -1,0 +1,19 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+using <#= this.ProjectDescriptor.ProjectNamespacePrefix #>DataAccess.Models;
+using <#= this.ProjectDescriptor.ProjectNamespacePrefix #>DataAccess.Repositories;
+using <#= this.ProjectDescriptor.ProjectNamespacePrefix #>Shared.Dtos;
+using Mbi.RepositoryFramework;
+
+namespace <#= this.ProjectDescriptor.ProjectNamespacePrefix #>ServiceLayer.Domains;
+
+public interface I<#= this.EntityDescriptor.Name #>Domain : IRfDomain<<#= this.EntityDescriptor.Name #>Dto>
+{
+}
+public class <#= this.EntityDescriptor.Name #>Domain : RfDomain<<#= this.EntityDescriptor.Name #>, <#= this.EntityDescriptor.Name #>Dto>, I<#= this.EntityDescriptor.Name #>Domain
+{
+	public <#= this.EntityDescriptor.Name #>Domain(ICdmsRepository<<#= this.EntityDescriptor.Name #>> repository, IRfEntityDtoMapper<<#= this.EntityDescriptor.Name #>, <#= this.EntityDescriptor.Name #>Dto> mapper) : base(repository, mapper) { }
+}

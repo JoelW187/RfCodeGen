@@ -7,7 +7,7 @@
 //     the code is regenerated.
 // </auto-generated>
 // ------------------------------------------------------------------------------
-namespace RfCodeGen.TextTemplates.HPMS
+namespace RfCodeGen.TextTemplates.CDMS
 {
     using System.Linq;
     using System.Text;
@@ -18,7 +18,7 @@ namespace RfCodeGen.TextTemplates.HPMS
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\HPMS\ControllerTextTemplate.tt"
+    #line 1 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\CDMS\ControllerTextTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "17.0.0.0")]
     public partial class ControllerTextTemplate : ControllerTextTemplateBase
     {
@@ -28,58 +28,119 @@ namespace RfCodeGen.TextTemplates.HPMS
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("using HPMS.ServiceLayer.Domains;\r\nusing HPMS.Shared.Dtos;\r\nusing Microsoft.AspNet" +
-                    "Core.Mvc;\r\nusing RepositoryFramework;\r\n\r\nnamespace HPMS.WebApi.Controllers;\r\n\r\n[" +
-                    "Route(\"api/v1/[controller]\")]\r\n[ApiController]\r\npublic class ");
+            this.Write("using ");
             
-            #line 15 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\HPMS\ControllerTextTemplate.tt"
+            #line 6 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\CDMS\ControllerTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.ProjectDescriptor.ProjectNamespacePrefix));
+            
+            #line default
+            #line hidden
+            this.Write("ServiceLayer.Domains;\r\nusing ");
+            
+            #line 7 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\CDMS\ControllerTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.ProjectDescriptor.ProjectNamespacePrefix));
+            
+            #line default
+            #line hidden
+            this.Write("Shared.Dtos;\r\nusing Mbi.RepositoryFramework;\r\nusing Microsoft.AspNetCore.Mvc;\r\n\r\n" +
+                    "namespace ");
+            
+            #line 11 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\CDMS\ControllerTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.ProjectDescriptor.ProjectNamespacePrefix));
+            
+            #line default
+            #line hidden
+            this.Write("WebApi.Controllers;\r\n\r\n[ApiController]\r\n[Route(\"api/v1/[controller]\")]");
+            
+            #line 14 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\CDMS\ControllerTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.IsManyToManyTable ? "\r\n[ApiExplorerSettings(IgnoreApi = true)]\r\n[NonController]" : ""));
+            
+            #line default
+            #line hidden
+            this.Write("\r\npublic class ");
+            
+            #line 15 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\CDMS\ControllerTextTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.PluralizedName));
             
             #line default
             #line hidden
-            this.Write("Controller(I");
+            this.Write("Controller : RfController");
             
-            #line 15 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\HPMS\ControllerTextTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Name));
-            
-            #line default
-            #line hidden
-            this.Write("Domain ");
-            
-            #line 15 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\HPMS\ControllerTextTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.CamelCaseName));
+            #line 15 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\CDMS\ControllerTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Includes.Any() ? "" : "NoIncludes"));
             
             #line default
             #line hidden
-            this.Write("Domain, ILogger<");
+            this.Write("<I");
             
-            #line 15 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\HPMS\ControllerTextTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.PluralizedName));
-            
-            #line default
-            #line hidden
-            this.Write("Controller> logger) : RfControllerNoIncludes<I");
-            
-            #line 15 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\HPMS\ControllerTextTemplate.tt"
+            #line 15 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\CDMS\ControllerTextTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Name));
             
             #line default
             #line hidden
             this.Write("Domain, ");
             
-            #line 15 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\HPMS\ControllerTextTemplate.tt"
+            #line 15 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\CDMS\ControllerTextTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Name));
             
             #line default
             #line hidden
-            this.Write("Dto>(");
+            this.Write("Dto");
             
-            #line 15 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\HPMS\ControllerTextTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.CamelCaseName));
+            #line 15 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\CDMS\ControllerTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Includes.Any() ? $", {this.EntityDescriptor.Name}Include" : ""));
             
             #line default
             #line hidden
-            this.Write("Domain, logger)\r\n{\r\n}\r\n");
+            this.Write(">\r\n{\r\n\tpublic ");
+            
+            #line 17 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\CDMS\ControllerTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.PluralizedName));
+            
+            #line default
+            #line hidden
+            this.Write("Controller(I");
+            
+            #line 17 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\CDMS\ControllerTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Name));
+            
+            #line default
+            #line hidden
+            this.Write("Domain domainService, ILogger<");
+            
+            #line 17 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\CDMS\ControllerTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.PluralizedName));
+            
+            #line default
+            #line hidden
+            this.Write("Controller> logger) : base(domainService, logger) { }\r\n}");
+            
+            #line 18 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\CDMS\ControllerTextTemplate.tt"
+ if(this.EntityDescriptor.Includes.Any()) {
+            
+            #line default
+            #line hidden
+            this.Write("\r\n\r\npublic enum ");
+            
+            #line 21 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\CDMS\ControllerTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Name));
+            
+            #line default
+            #line hidden
+            this.Write("Include\r\n{\r\n\t");
+            
+            #line 23 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\CDMS\ControllerTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(string.Join(",\r\n\t", this.EntityDescriptor.Includes)));
+            
+            #line default
+            #line hidden
+            this.Write(",\r\n}");
+            
+            #line 24 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\CDMS\ControllerTextTemplate.tt"
+ } 
+            
+            #line default
+            #line hidden
             return this.GenerationEnvironment.ToString();
         }
     }

@@ -13,7 +13,7 @@ public abstract record SourceCodeFolderBase(string FullPath)
 
 public record ProjectFolder(string FullPath, string Prefix) : SourceCodeFolderBase(FullPath)
 {
-    public ProjectFolder(ProjectDescriptorDto projectDescriptor) : this(projectDescriptor.ProjectFolder, projectDescriptor.ProjectPrefix) { }
+    //public ProjectFolder(ProjectDescriptorDto projectDescriptor) : this(projectDescriptor.ProjectPath, projectDescriptor.ProjectPrefix) { }
 
     public DataAccessFolder DataAccess { get; } = new(Path.Combine(FullPath, $"{Prefix}DataAccess"));
     public SharedFolder Shared { get; } = new(Path.Combine(FullPath, $"{Prefix}Shared"));
@@ -40,7 +40,12 @@ public record SharedFolder(string FullPath) : SourceCodeFolderBase(FullPath)
     public SharedDtosFolder Dtos { get; } = new(Path.Combine(FullPath, "Dtos"));
 }
 
-public record SharedDtosFolder(string FullPath) : SourceCodeFolderBase(FullPath) { }
+public record SharedDtosFolder(string FullPath) : SourceCodeFolderBase(FullPath)
+{
+    public SharedDtosLookupsFolder Lookups { get; } = new(Path.Combine(FullPath, "Lookups"));
+}
+
+public record SharedDtosLookupsFolder(string FullPath) : SourceCodeFolderBase(FullPath) { }
 
 //ServiceLayer
 public record ServiceLayerFolder(string FullPath) : SourceCodeFolderBase(FullPath)
