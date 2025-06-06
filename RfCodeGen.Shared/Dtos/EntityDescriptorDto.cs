@@ -8,7 +8,6 @@ public record EntityDescriptorDto()
     public string PluralizedName { get; set; } = string.Empty;
     public EntityDto Entity { get; set; } = null!;
 
-    //these can be overridden in derived classes to provide specific behavior
     public virtual string PkColumnName
     {
         get
@@ -37,28 +36,23 @@ public record EntityDescriptorDto()
             return desc;
         }
     }
-
     public virtual List<EntityPropertyDescriptorDto> DtoProperties => this.Properties;
-    //{
-    //    get
-    //    {
-    //        return this.Properties.Where(v1 => !v1.Modifiers.Contains("virtual"));
-    //    }
-    //}
     public virtual string DtoInterfaces { get; } = string.Empty;
     public virtual string DefaultCollectionOrderBy { get; } = string.Empty;
-    public virtual string Includes { get; } = string.Empty;
+    public List<string> Includes { get; set; } = [];
     public virtual bool IsLookupTable { get; }
 }
 
 public record EntityPropertyDescriptorDto()
 {
     public EntityDescriptorDto EntityDescriptor { get; set; } = null!;
+    public string Text { get; set; } = string.Empty;
     public string Modifiers { get; set; } = string.Empty;
     public string Type { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;
     public bool Get { get; set; }
     public bool Set { get; set; }
+    public string Assignment { get; set; } = string.Empty;
 
     public virtual bool Required { get; }
     public virtual bool IsPrimaryKey { get; }

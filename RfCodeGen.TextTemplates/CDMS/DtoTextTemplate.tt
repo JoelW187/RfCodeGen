@@ -11,7 +11,7 @@ namespace <#= this.ProjectDescriptor.ProjectNamespacePrefix #>Shared.Dtos;
 public partial class <#= this.EntityDescriptor.Name #>Dto : DtoBase
 {
 <# foreach(var property in this.EntityDescriptor.DtoProperties){ #>
-	<#= property.Modifiers #> <#= property.Type #> <#= property.Name #> { get; set; }
+	<#= property.Modifiers #> <#= property.Type #> <#= property.Name #> { get; set; }<#= property.Assignment #>
 <# } #>
 	public override int GetId() => this.<#= this.EntityDescriptor.PkColumnName #>;
 	public override void SetId(int id) => <#= this.EntityDescriptor.PkColumnName #> = id;

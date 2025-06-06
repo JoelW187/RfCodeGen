@@ -91,7 +91,14 @@ namespace RfCodeGen.TextTemplates.HPMS
             
             #line default
             #line hidden
-            this.Write(" { get; set; }\r\n");
+            this.Write(" { get; set; }");
+            
+            #line 19 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\HPMS\DtoTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(property.Assignment));
+            
+            #line default
+            #line hidden
+            this.Write("\r\n");
             
             #line 20 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\HPMS\DtoTextTemplate.tt"
  } 

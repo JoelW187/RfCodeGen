@@ -103,7 +103,7 @@ internal record CdmsEntityDescriptorDto : EntityDescriptorDto
     {
         get
         {
-            return [.. this.Properties.Where(v1 => !v1.Modifiers.Contains("virtual")
+            return [.. this.Properties.Where(v1 => (!v1.Modifiers.Contains("virtual") || v1.Type.StartsWith("ICollection<"))
             && !v1.Name.Equals("CreatedDate", StringComparison.CurrentCultureIgnoreCase)
             && !v1.Name.Equals("CreatedBy", StringComparison.CurrentCultureIgnoreCase)
             && !v1.Name.Equals("ModifiedDate", StringComparison.CurrentCultureIgnoreCase)

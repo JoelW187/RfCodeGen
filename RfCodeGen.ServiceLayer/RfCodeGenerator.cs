@@ -43,15 +43,23 @@ public class RfCodeGenerator<TEntityDescriptor, TEntityPropertyDescriptor> : RfC
 {
     private Pluralizer Pluralizer { get; } = new();
 
-    private void ParsePropertyLine(string line, out string modifiers, out string type, out string name, out bool get, out bool set)
+    private void ParsePropertyLine(string line, out string modifiers, out string type, out string name, out bool get, out bool set, out string assignment, out bool include)
     {
         line = line.Trim();
+
+        var pieces = line.Split('=');
+        assignment = string.Empty;
+        if(pieces.Length == 2)
+        {
+            assignment = $" = {pieces[1].Trim()}";
+            line = pieces[0].Trim(); // take the first part before the '='
+        }
 
         var i = line.IndexOf('{');
         string definition = line[..i].Trim();
         string getset = line[i..].Trim();
 
-        var pieces = definition.Trim().Split(' ');
+        pieces = definition.Trim().Split(' ');
         name = pieces.Last();
         type = pieces[^2];
         modifiers = string.Join(' ', pieces.Take(pieces.Length - 2)); // take all but the last two pieces
@@ -62,6 +70,17 @@ public class RfCodeGenerator<TEntityDescriptor, TEntityPropertyDescriptor> : RfC
         get = getset.Contains("get;");
         set = getset.Contains("set;");
 
+        include = false;
+        if(type.StartsWith("ICollection<"))
+        {
+            include = true;
+
+            var collectionType = type[12..^1]; // e.g., ICollection<MyEntity>
+            type = type.Replace($"<{collectionType}>", $"<{collectionType}Dto>");
+
+            if(assignment != string.Empty)
+                assignment = " = [];";
+        }
     }
 
     public async Task<int> Generate(IEnumerable<EntityDto> entities, ProjectDescriptorDto projectDescriptor, IProgress<string> progress)
@@ -79,24 +98,24 @@ public class RfCodeGenerator<TEntityDescriptor, TEntityPropertyDescriptor> : RfC
             TEntityDescriptor entityDescriptor = new() { Entity = entity, PluralizedName = Pluralizer.Pluralize(entity.Name) };    //, declaration);
             foreach(string propertyLine in propertyLines)
             {
-                ParsePropertyLine(propertyLine, out string modifiers, out string type, out string name, out bool get, out bool set);
+                ParsePropertyLine(propertyLine, out string modifiers, out string type, out string name, out bool get, out bool set, out string assignment, out bool include);
 
-                //var pieces = propertyLine.Trim().Split(' ');
-                //string modifier = pieces[0]; // e.g., public, private, protected, internal
-                //string type = pieces[1]; // e.g., string, int, DateTime, etc.
-                //string name = pieces[2]; // e.g., MyProperty
-                //bool get = propertyLine.Contains(" get; ");
-                //bool set = propertyLine.Contains(" set; ");
                 TEntityPropertyDescriptor entityProperty = new()
                 {
+                    Text = propertyLine.Trim(),
                     EntityDescriptor = entityDescriptor,
                     Modifiers = modifiers,
                     Type = type,
                     Name = name,
                     Get = get,
-                    Set = set
+                    Set = set,
+                    Assignment = assignment
                 };
+                
                 entityDescriptor.Properties.Add(entityProperty);
+
+                if(include)
+                    entityDescriptor.Includes.Add(name);
             }
 
             entityDescriptors.Add(entityDescriptor);

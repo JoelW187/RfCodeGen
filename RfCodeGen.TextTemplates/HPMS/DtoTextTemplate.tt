@@ -16,6 +16,6 @@ public partial class <#= this.EntityDescriptor.Name #>Dto : DtoBase<#= this.Enti
 	<# if(property.Required) { #>
 [Required]
 	<# } #>
-<#= property.Modifiers #> <#= property.Type #> <#= property.Name #> { get; set; }
+<#= property.Modifiers #> <#= property.Type #> <#= property.Name #> { get; set; }<#= property.Assignment #>
 <# } #>
 }
