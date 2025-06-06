@@ -41,6 +41,7 @@ public record EntityDescriptorDto()
     public virtual string DefaultCollectionOrderBy { get; } = string.Empty;
     public List<string> Includes { get; set; } = [];
     public virtual bool IsLookupTable { get; }
+    public virtual bool IsManyToManyTable { get; }
 }
 
 public record EntityPropertyDescriptorDto()

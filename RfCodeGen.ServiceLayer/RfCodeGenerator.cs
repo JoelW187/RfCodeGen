@@ -43,7 +43,7 @@ public class RfCodeGenerator<TEntityDescriptor, TEntityPropertyDescriptor> : RfC
 {
     private Pluralizer Pluralizer { get; } = new();
 
-    private void ParsePropertyLine(string line, out string modifiers, out string type, out string name, out bool get, out bool set, out string assignment, out bool include)
+    private static void ParsePropertyLine(string line, out string modifiers, out string type, out string name, out bool get, out bool set, out string assignment, out bool include)
     {
         line = line.Trim();
 
@@ -95,10 +95,10 @@ public class RfCodeGenerator<TEntityDescriptor, TEntityPropertyDescriptor> : RfC
             //string declaration = lines.First();
             var propertyLines = lines.SkipWhile(v1 => v1 != "{").Skip(1).TakeWhile(v1 => v1 != "}").Where(v1 => !string.IsNullOrWhiteSpace(v1));
 
-            TEntityDescriptor entityDescriptor = new() { Entity = entity, PluralizedName = Pluralizer.Pluralize(entity.Name) };    //, declaration);
+            TEntityDescriptor entityDescriptor = new() { Entity = entity, PluralizedName = Pluralizer.Pluralize(entity.Name) };
             foreach(string propertyLine in propertyLines)
             {
-                ParsePropertyLine(propertyLine, out string modifiers, out string type, out string name, out bool get, out bool set, out string assignment, out bool include);
+                RfCodeGenerator<TEntityDescriptor, TEntityPropertyDescriptor>.ParsePropertyLine(propertyLine, out string modifiers, out string type, out string name, out bool get, out bool set, out string assignment, out bool include);
 
                 TEntityPropertyDescriptor entityProperty = new()
                 {
@@ -126,10 +126,9 @@ public class RfCodeGenerator<TEntityDescriptor, TEntityPropertyDescriptor> : RfC
         //Model (partial)
         foreach(var entityDescriptor in entityDescriptors)
         {
-            //TextTemplates.HPMS.ModelTextTemplate modelPartial = new(entityDescriptor);
             var modelTemplate = projectDescriptor.GetModelTemplate(entityDescriptor);
             string modelPartialContent = modelTemplate.TransformText();
-            string modelPartialFilePath = projectFolder.DataAccess.Models.Partials.GetFilePath($"{entityDescriptor.Entity.Name}.cs");   // Path.Combine(projectFolder.DataAccess.Models.Partials.FullPath, $"{entity.Name}Partial.cs");
+            string modelPartialFilePath = projectFolder.DataAccess.Models.Partials.GetFilePath($"{entityDescriptor.Entity.Name}.cs");
             await File.WriteAllTextAsync(modelPartialFilePath, modelPartialContent, projectDescriptor.Encoding);
             progress.Report($"Generated Model partial for {entityDescriptor.Entity.Name}");
 
@@ -139,10 +138,11 @@ public class RfCodeGenerator<TEntityDescriptor, TEntityPropertyDescriptor> : RfC
         //Dto
         foreach(var entityDescriptor in entityDescriptors)
         {
-            //TextTemplates.HPMS.DtoTextTemplate dto = new(entityDescriptor);
             var dtoTemplate = projectDescriptor.GetDtoTemplate(entityDescriptor);
             string dtoContent = dtoTemplate.TransformText();
-            string dtoFilePath = projectFolder.Shared.Dtos.GetFilePath($"{entityDescriptor.Name}Dto.cs");   // Path.Combine(projectFolder.Shared.Dtos.FullPath, $"{entityDescriptor.Name}Dto.cs");
+            string dtoFilePath = projectFolder.Shared.Dtos.GetFilePath($"{entityDescriptor.Name}Dto.cs");
+            if(entityDescriptor.IsLookupTable)
+                dtoFilePath = projectFolder.Shared.Dtos.Lookups.GetFilePath($"{entityDescriptor.Name}Dto.cs");
             await File.WriteAllTextAsync(dtoFilePath, dtoContent, projectDescriptor.Encoding);
             progress.Report($"Generated DTO for {entityDescriptor.Name}");
 
@@ -150,9 +150,8 @@ public class RfCodeGenerator<TEntityDescriptor, TEntityPropertyDescriptor> : RfC
         }
 
         //Domain
-        foreach(var entityDescriptor in entityDescriptors)
+        foreach(var entityDescriptor in entityDescriptors.Where(v1 => !v1.IsLookupTable))
         {
-            //TextTemplates.HPMS.DomainTextTemplate domain = new(entityDescriptor);
             var domainTemplate = projectDescriptor.GetDomainTemplate(entityDescriptor);
             string domainContent = domainTemplate.TransformText();
             string domainFilePath = projectFolder.ServiceLayer.Domains.GetFilePath($"{entityDescriptor.Name}Domain.cs");
@@ -163,12 +162,11 @@ public class RfCodeGenerator<TEntityDescriptor, TEntityPropertyDescriptor> : RfC
         }
 
         //Controller
-        foreach(var entityDescriptor in entityDescriptors)
+        foreach(var entityDescriptor in entityDescriptors.Where(v1 => !v1.IsLookupTable))
         {
-            //TextTemplates.HPMS.ControllerTextTemplate controller = new(entityDescriptor);
             var controllerTemplate = projectDescriptor.GetControllerTemplate(entityDescriptor);
             string controllerContent = controllerTemplate.TransformText();
-            string controllerFilePath = projectFolder.WebApi.Controllers.GetFilePath($"{this.Pluralizer.Pluralize(entityDescriptor.Name)}Controller.cs"); // Path.Combine(projectFolder.WebApi.Controllers.FullPath, $"{this.Pluralizer.Pluralize(entityDescriptor.Name)}Controller.cs");
+            string controllerFilePath = projectFolder.WebApi.Controllers.GetFilePath($"{this.Pluralizer.Pluralize(entityDescriptor.Name)}Controller.cs");
             await File.WriteAllTextAsync(controllerFilePath, controllerContent, projectDescriptor.Encoding);
             progress.Report($"Generated Controller for {entityDescriptor.Name}");
 

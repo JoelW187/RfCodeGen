@@ -40,7 +40,12 @@ public record SharedFolder(string FullPath) : SourceCodeFolderBase(FullPath)
     public SharedDtosFolder Dtos { get; } = new(Path.Combine(FullPath, "Dtos"));
 }
 
-public record SharedDtosFolder(string FullPath) : SourceCodeFolderBase(FullPath) { }
+public record SharedDtosFolder(string FullPath) : SourceCodeFolderBase(FullPath)
+{
+    public SharedDtosLookupsFolder Lookups { get; } = new(Path.Combine(FullPath, "Lookups"));
+}
+
+public record SharedDtosLookupsFolder(string FullPath) : SourceCodeFolderBase(FullPath) { }
 
 //ServiceLayer
 public record ServiceLayerFolder(string FullPath) : SourceCodeFolderBase(FullPath)

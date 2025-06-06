@@ -91,24 +91,101 @@ public static class RfCodeGeneratorFactory
 
 internal record CdmsProjectDescriptorDto(string ProjectId, string ProjectName, string ProjectPath, string ProjectPathPrefix, string ProjectNamespacePrefix) : ProjectDescriptorDto(ProjectId, ProjectName, ProjectPath, ProjectPathPrefix, ProjectNamespacePrefix)
 {
-    public override ITextTemplate GetModelTemplate(EntityDescriptorDto entityDescriptor) => new RfCodeGen.TextTemplates.CDMS.ModelTextTemplate(this, entityDescriptor);
-    public override ITextTemplate GetDtoTemplate(EntityDescriptorDto entityDescriptor) => new RfCodeGen.TextTemplates.CDMS.DtoTextTemplate(this, entityDescriptor);
+    public override ITextTemplate GetModelTemplate(EntityDescriptorDto entityDescriptor) => entityDescriptor.IsLookupTable ? new RfCodeGen.TextTemplates.CDMS.ModelLookupTextTemplate(this, entityDescriptor) : new RfCodeGen.TextTemplates.CDMS.ModelTextTemplate(this, entityDescriptor);
+    public override ITextTemplate GetDtoTemplate(EntityDescriptorDto entityDescriptor) => entityDescriptor.IsLookupTable ? new RfCodeGen.TextTemplates.CDMS.DtoLookupTextTemplate(this, entityDescriptor) : new RfCodeGen.TextTemplates.CDMS.DtoTextTemplate(this, entityDescriptor);
     public override ITextTemplate GetDomainTemplate(EntityDescriptorDto entityDescriptor) => new RfCodeGen.TextTemplates.CDMS.DomainTextTemplate(this, entityDescriptor);
     public override ITextTemplate GetControllerTemplate(EntityDescriptorDto entityDescriptor) => new RfCodeGen.TextTemplates.CDMS.ControllerTextTemplate(this, entityDescriptor);
 }
 
 internal record CdmsEntityDescriptorDto : EntityDescriptorDto
 {
+    private static readonly IEnumerable<string> LookupTableNames =
+    [
+        "AddressType",
+        "AffiliateSubType",
+        "AffiliateType",
+        "Borough",
+        "BqProjectGroup",
+        "CdmsUserRole",
+        "City",
+        "ContactRole",
+        "CountryCode",
+        "CrittsBillingMode",
+        "CrittsSparProgram",
+        "CrittsSparProjectGroup",
+        "DataSource",
+        "Department",
+        "EmailAddressType",
+        "FeeCode",
+        "InvoiceCode",
+        "OperatingStatus",
+        "OrganizationSubType",
+        "OrganizationType",
+        "PhoneNumberType",
+        "PrefixType",
+        "Program",
+        "ResponsiblePartyType",
+        "RfaRequestStatus",
+        "SparSection",
+        "State",
+        "SuspendedBillingReason",
+    ];
+
     public override List<EntityPropertyDescriptorDto> DtoProperties
     {
         get
         {
-            return [.. this.Properties.Where(v1 => (!v1.Modifiers.Contains("virtual") || v1.Type.StartsWith("ICollection<"))
-            && !v1.Name.Equals("CreatedDate", StringComparison.CurrentCultureIgnoreCase)
-            && !v1.Name.Equals("CreatedBy", StringComparison.CurrentCultureIgnoreCase)
-            && !v1.Name.Equals("ModifiedDate", StringComparison.CurrentCultureIgnoreCase)
-            && !v1.Name.Equals("ModifiedBy", StringComparison.CurrentCultureIgnoreCase)
-            )];
+            if(!this.IsLookupTable)
+            {
+                return [.. this.Properties.Where(v1 => (!v1.Modifiers.Contains("virtual") || v1.Type.StartsWith("ICollection<"))
+                    && !v1.Name.Equals("CreatedDate", StringComparison.CurrentCultureIgnoreCase)
+                    && !v1.Name.Equals("CreatedBy", StringComparison.CurrentCultureIgnoreCase)
+                    && !v1.Name.Equals("ModifiedDate", StringComparison.CurrentCultureIgnoreCase)
+                    && !v1.Name.Equals("ModifiedBy", StringComparison.CurrentCultureIgnoreCase)
+                )];
+            }
+            else
+            {
+                return [.. this.Properties.Where(v1 => !v1.Modifiers.Contains("virtual")
+                    && !v1.Name.Equals("CreatedDate", StringComparison.CurrentCultureIgnoreCase)
+                    && !v1.Name.Equals("CreatedBy", StringComparison.CurrentCultureIgnoreCase)
+                    && !v1.Name.Equals("ModifiedDate", StringComparison.CurrentCultureIgnoreCase)
+                    && !v1.Name.Equals("ModifiedBy", StringComparison.CurrentCultureIgnoreCase)
+                    && !v1.Name.Equals("Description", StringComparison.CurrentCultureIgnoreCase)
+                    && !v1.Name.Equals("SortOrder", StringComparison.CurrentCultureIgnoreCase)
+                    && !v1.Name.Equals("ActiveInd", StringComparison.CurrentCultureIgnoreCase)
+                )];
+            }
+        }
+    }
+    public override bool IsLookupTable
+    {
+        get
+        {
+            return LookupTableNames.Contains(this.Name, StringComparer.OrdinalIgnoreCase);
+        }
+    }
+    public override bool IsManyToManyTable
+    {
+        get
+        {
+            int i = this.Name.IndexOf("And");
+            if(i < 1) return false; //the table name can't start with "And", so we check for index < 1
+            if(this.Name.EndsWith("And") && this.Name.LastIndexOf("And") == i) return false; //the table name can't end with "And" if it's the only one
+
+            return true;
+        }
+    }
+    public override string DebuggerDisplay
+    {
+        get
+        {
+            if(!this.IsLookupTable)
+                return base.DebuggerDisplay;
+
+            string dd = $"[DebuggerDisplay(\"{this.Name}Id={{{this.Name}Id}},{this.Name}Ak={{{this.Name}Ak}},Description={{Description}}\")]\r\n";
+
+            return dd;
         }
     }
 }
