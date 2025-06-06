@@ -1,6 +1,7 @@
 ﻿using RfCodeGen.ServiceLayer;
 using RfCodeGen.Shared;
 using RfCodeGen.Shared.Dtos;
+using System.Net.WebSockets;
 using System.Windows;
 
 namespace RfCodeGen;
@@ -24,8 +25,8 @@ public partial class MainWindow : Window
 
         this.ViewModel = vm;
 
-        this.ViewModel.ProjectDescriptors.Add(new HpmsProjectDescriptorDto("HPMS", "NJDOT HPMS", @"C:\Source\mbakerintlapps\NJDOT\NJDOT_HPMS\src\NJDOT_HPMS", "HPMS."));
-        //this.ViewModel.ProjectDescriptors.Add(new HpmsProjectDescriptorDto("CDMS", "CDMS Cost Recovery", @"C:\Source\mbakerintlapps\Alaska\CDMS\CostRecovery\WebApi\", "CostRecovery."));
+        //this.ViewModel.ProjectDescriptors.Add(new HpmsProjectDescriptorDto("HPMS", "NJDOT HPMS", @"C:\Source\mbakerintlapps\NJDOT\NJDOT_HPMS\src\NJDOT_HPMS", "HPMS.", "HPMS."));
+        this.ViewModel.ProjectDescriptors.Add(new CdmsProjectDescriptorDto("CDMS", "CDMS Cost Recovery", @"C:\Source\mbakerintlapps\Alaska\CDMS\CostRecovery\WebApi\", "CostRecovery.", "CDMS.CostRecovery."));
         this.ViewModel.SelectedProjectDescriptor = this.ViewModel.ProjectDescriptors.FirstOrDefault();
     }
 
@@ -63,7 +64,7 @@ public partial class MainWindow : Window
 
         var selectedEntities = this.ViewModel.Entities.Where(v1 => v1.IsSelected).OrderBy(v1 => v1.Name).ToList();
 
-        var codeGenerator = RfCodeGeneratorFactory.Create("HPMS");
+        var codeGenerator = RfCodeGeneratorFactory.Create(this.ViewModel.SelectedProjectDescriptor!.ProjectId);
         var count = await codeGenerator.Generate(selectedEntities, this.ViewModel.SelectedProjectDescriptor!, progress);
 
         this.ViewModel.Messages.Add($"Generated {count} files.");
@@ -88,7 +89,7 @@ public static class RfCodeGeneratorFactory
     }
 }
 
-internal record CdmsProjectDescriptorDto(string ProjectId, string ProjectName, string ProjectPath, string ProjectPrefix) : ProjectDescriptorDto(ProjectId, ProjectName, ProjectPath, ProjectPrefix)
+internal record CdmsProjectDescriptorDto(string ProjectId, string ProjectName, string ProjectPath, string ProjectPathPrefix, string ProjectNamespacePrefix) : ProjectDescriptorDto(ProjectId, ProjectName, ProjectPath, ProjectPathPrefix, ProjectNamespacePrefix)
 {
     public override ITextTemplate GetModelTemplate(EntityDescriptorDto entityDescriptor) => new RfCodeGen.TextTemplates.CDMS.ModelTextTemplate(this, entityDescriptor);
     public override ITextTemplate GetDtoTemplate(EntityDescriptorDto entityDescriptor) => new RfCodeGen.TextTemplates.CDMS.DtoTextTemplate(this, entityDescriptor);
@@ -98,6 +99,18 @@ internal record CdmsProjectDescriptorDto(string ProjectId, string ProjectName, s
 
 internal record CdmsEntityDescriptorDto : EntityDescriptorDto
 {
+    public override List<EntityPropertyDescriptorDto> DtoProperties
+    {
+        get
+        {
+            return [.. this.Properties.Where(v1 => !v1.Modifiers.Contains("virtual")
+            && !v1.Name.Equals("CreatedDate", StringComparison.CurrentCultureIgnoreCase)
+            && !v1.Name.Equals("CreatedBy", StringComparison.CurrentCultureIgnoreCase)
+            && !v1.Name.Equals("ModifiedDate", StringComparison.CurrentCultureIgnoreCase)
+            && !v1.Name.Equals("ModifiedBy", StringComparison.CurrentCultureIgnoreCase)
+            )];
+        }
+    }
 }
 
 internal record CdmsEntityPropertyDescriptorDto : EntityPropertyDescriptorDto
@@ -106,12 +119,12 @@ internal record CdmsEntityPropertyDescriptorDto : EntityPropertyDescriptorDto
     {
         get
         {
-            return this.Name.Equals($"{this.Name}Id", StringComparison.OrdinalIgnoreCase);
+            return this.Name.Equals($"{this.EntityDescriptor.Name}Id", StringComparison.OrdinalIgnoreCase);
         }
     }
 }
 
-internal record HpmsProjectDescriptorDto(string ProjectId, string ProjectName, string ProjectPath, string ProjectPrefix) : ProjectDescriptorDto(ProjectId, ProjectName, ProjectPath, ProjectPrefix)
+internal record HpmsProjectDescriptorDto(string ProjectId, string ProjectName, string ProjectPath, string ProjectPathPrefix, string ProjectNamespacePrefix) : ProjectDescriptorDto(ProjectId, ProjectName, ProjectPath, ProjectPathPrefix, ProjectNamespacePrefix)
 {
     public override ITextTemplate GetModelTemplate(EntityDescriptorDto entityDescriptor) => new RfCodeGen.TextTemplates.HPMS.ModelTextTemplate(this, entityDescriptor);
     public override ITextTemplate GetDtoTemplate(EntityDescriptorDto entityDescriptor) => new RfCodeGen.TextTemplates.HPMS.DtoTextTemplate(this, entityDescriptor);

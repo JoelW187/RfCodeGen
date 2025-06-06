@@ -28,6 +28,77 @@ namespace RfCodeGen.TextTemplates.CDMS
         /// </summary>
         public virtual string TransformText()
         {
+            this.Write("using System.Diagnostics;\r\n\r\nnamespace ");
+            
+            #line 8 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\CDMS\DtoTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.ProjectDescriptor.ProjectNamespacePrefix));
+            
+            #line default
+            #line hidden
+            this.Write("Shared.Dtos;\r\n\r\n");
+            
+            #line 10 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\CDMS\DtoTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.DebuggerDisplay));
+            
+            #line default
+            #line hidden
+            this.Write("\r\npublic partial class ");
+            
+            #line 11 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\CDMS\DtoTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Name));
+            
+            #line default
+            #line hidden
+            this.Write("Dto : DtoBase\r\n{\r\n");
+            
+            #line 13 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\CDMS\DtoTextTemplate.tt"
+ foreach(var property in this.EntityDescriptor.DtoProperties){ 
+            
+            #line default
+            #line hidden
+            this.Write("\t");
+            
+            #line 14 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\CDMS\DtoTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(property.Modifiers));
+            
+            #line default
+            #line hidden
+            this.Write(" ");
+            
+            #line 14 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\CDMS\DtoTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(property.Type));
+            
+            #line default
+            #line hidden
+            this.Write(" ");
+            
+            #line 14 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\CDMS\DtoTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
+            
+            #line default
+            #line hidden
+            this.Write(" { get; set; }\r\n");
+            
+            #line 15 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\CDMS\DtoTextTemplate.tt"
+ } 
+            
+            #line default
+            #line hidden
+            this.Write("\tpublic override int GetId() => this.");
+            
+            #line 16 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\CDMS\DtoTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.PkColumnName));
+            
+            #line default
+            #line hidden
+            this.Write(";\r\n\tpublic override void SetId(int id) => ");
+            
+            #line 17 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\CDMS\DtoTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.PkColumnName));
+            
+            #line default
+            #line hidden
+            this.Write(" = id;\r\n}");
             return this.GenerationEnvironment.ToString();
         }
     }

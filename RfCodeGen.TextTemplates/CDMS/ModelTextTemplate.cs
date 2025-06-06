@@ -28,8 +28,14 @@ namespace RfCodeGen.TextTemplates.CDMS
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("using Mbi.RepositoryFramework;\r\nusing System.Diagnostics;\r\n\r\nnamespace CDMS.CostR" +
-                    "ecovery.DataAccess.Models;\r\n\r\n");
+            this.Write("using Mbi.RepositoryFramework;\r\nusing System.Diagnostics;\r\n\r\nnamespace ");
+            
+            #line 9 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\CDMS\ModelTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.ProjectDescriptor.ProjectNamespacePrefix));
+            
+            #line default
+            #line hidden
+            this.Write("DataAccess.Models;\r\n\r\n");
             
             #line 11 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\CDMS\ModelTextTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.DebuggerDisplay));

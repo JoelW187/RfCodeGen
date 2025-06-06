@@ -53,7 +53,7 @@ namespace RfCodeGen.TextTemplates.HPMS
             this.Write("\r\n{\r\n");
             
             #line 15 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\HPMS\DtoTextTemplate.tt"
- foreach(var property in this.EntityDescriptor.Properties){ 
+ foreach(var property in this.EntityDescriptor.DtoProperties){ 
             
             #line default
             #line hidden
@@ -73,7 +73,7 @@ namespace RfCodeGen.TextTemplates.HPMS
             #line hidden
             
             #line 19 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\HPMS\DtoTextTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Modifier));
+            this.Write(this.ToStringHelper.ToStringWithCulture(property.Modifiers));
             
             #line default
             #line hidden

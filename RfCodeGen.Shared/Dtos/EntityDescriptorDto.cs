@@ -38,6 +38,13 @@ public record EntityDescriptorDto()
         }
     }
 
+    public virtual List<EntityPropertyDescriptorDto> DtoProperties => this.Properties;
+    //{
+    //    get
+    //    {
+    //        return this.Properties.Where(v1 => !v1.Modifiers.Contains("virtual"));
+    //    }
+    //}
     public virtual string DtoInterfaces { get; } = string.Empty;
     public virtual string DefaultCollectionOrderBy { get; } = string.Empty;
     public virtual string Includes { get; } = string.Empty;
@@ -46,7 +53,8 @@ public record EntityDescriptorDto()
 
 public record EntityPropertyDescriptorDto()
 {
-    public string Modifier { get; set; } = string.Empty;
+    public EntityDescriptorDto EntityDescriptor { get; set; } = null!;
+    public string Modifiers { get; set; } = string.Empty;
     public string Type { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;
     public bool Get { get; set; }

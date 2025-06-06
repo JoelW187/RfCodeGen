@@ -12,10 +12,10 @@ namespace HPMS.Shared.Dtos;
 <#= this.EntityDescriptor.DebuggerDisplay #>
 public partial class <#= this.EntityDescriptor.Name #>Dto : DtoBase<#= this.EntityDescriptor.DtoInterfaces==string.Empty ? "" : $", {this.EntityDescriptor.DtoInterfaces}" #>
 {
-<# foreach(var property in this.EntityDescriptor.Properties){ #>
+<# foreach(var property in this.EntityDescriptor.DtoProperties){ #>
 	<# if(property.Required) { #>
 [Required]
 	<# } #>
-<#= property.Modifier #> <#= property.Type #> <#= property.Name #> { get; set; }
+<#= property.Modifiers #> <#= property.Type #> <#= property.Name #> { get; set; }
 <# } #>
 }

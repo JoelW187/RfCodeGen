@@ -43,6 +43,27 @@ public class RfCodeGenerator<TEntityDescriptor, TEntityPropertyDescriptor> : RfC
 {
     private Pluralizer Pluralizer { get; } = new();
 
+    private void ParsePropertyLine(string line, out string modifiers, out string type, out string name, out bool get, out bool set)
+    {
+        line = line.Trim();
+
+        var i = line.IndexOf('{');
+        string definition = line[..i].Trim();
+        string getset = line[i..].Trim();
+
+        var pieces = definition.Trim().Split(' ');
+        name = pieces.Last();
+        type = pieces[^2];
+        modifiers = string.Join(' ', pieces.Take(pieces.Length - 2)); // take all but the last two pieces
+        //modifiers = pieces[0]; // e.g., public, private, protected, internal
+        //type = pieces[1]; // e.g., string, int, DateTime, etc.
+        //name = pieces[2]; // e.g., MyProperty
+
+        get = getset.Contains("get;");
+        set = getset.Contains("set;");
+
+    }
+
     public async Task<int> Generate(IEnumerable<EntityDto> entities, ProjectDescriptorDto projectDescriptor, IProgress<string> progress)
     {
         int count = 0;
@@ -58,15 +79,18 @@ public class RfCodeGenerator<TEntityDescriptor, TEntityPropertyDescriptor> : RfC
             TEntityDescriptor entityDescriptor = new() { Entity = entity, PluralizedName = Pluralizer.Pluralize(entity.Name) };    //, declaration);
             foreach(string propertyLine in propertyLines)
             {
-                var pieces = propertyLine.Trim().Split(' ');
-                string modifier = pieces[0]; // e.g., public, private, protected, internal
-                string type = pieces[1]; // e.g., string, int, DateTime, etc.
-                string name = pieces[2]; // e.g., MyProperty
-                bool get = propertyLine.Contains(" get; ");
-                bool set = propertyLine.Contains(" set; ");
+                ParsePropertyLine(propertyLine, out string modifiers, out string type, out string name, out bool get, out bool set);
+
+                //var pieces = propertyLine.Trim().Split(' ');
+                //string modifier = pieces[0]; // e.g., public, private, protected, internal
+                //string type = pieces[1]; // e.g., string, int, DateTime, etc.
+                //string name = pieces[2]; // e.g., MyProperty
+                //bool get = propertyLine.Contains(" get; ");
+                //bool set = propertyLine.Contains(" set; ");
                 TEntityPropertyDescriptor entityProperty = new()
                 {
-                    Modifier = modifier,
+                    EntityDescriptor = entityDescriptor,
+                    Modifiers = modifiers,
                     Type = type,
                     Name = name,
                     Get = get,
@@ -87,7 +111,7 @@ public class RfCodeGenerator<TEntityDescriptor, TEntityPropertyDescriptor> : RfC
             var modelTemplate = projectDescriptor.GetModelTemplate(entityDescriptor);
             string modelPartialContent = modelTemplate.TransformText();
             string modelPartialFilePath = projectFolder.DataAccess.Models.Partials.GetFilePath($"{entityDescriptor.Entity.Name}.cs");   // Path.Combine(projectFolder.DataAccess.Models.Partials.FullPath, $"{entity.Name}Partial.cs");
-            await File.WriteAllTextAsync(modelPartialFilePath, modelPartialContent, Encoding.UTF8);
+            await File.WriteAllTextAsync(modelPartialFilePath, modelPartialContent, projectDescriptor.Encoding);
             progress.Report($"Generated Model partial for {entityDescriptor.Entity.Name}");
 
             count++;
@@ -100,7 +124,7 @@ public class RfCodeGenerator<TEntityDescriptor, TEntityPropertyDescriptor> : RfC
             var dtoTemplate = projectDescriptor.GetDtoTemplate(entityDescriptor);
             string dtoContent = dtoTemplate.TransformText();
             string dtoFilePath = projectFolder.Shared.Dtos.GetFilePath($"{entityDescriptor.Name}Dto.cs");   // Path.Combine(projectFolder.Shared.Dtos.FullPath, $"{entityDescriptor.Name}Dto.cs");
-            await File.WriteAllTextAsync(dtoFilePath, dtoContent, Encoding.UTF8);
+            await File.WriteAllTextAsync(dtoFilePath, dtoContent, projectDescriptor.Encoding);
             progress.Report($"Generated DTO for {entityDescriptor.Name}");
 
             count++;
@@ -113,7 +137,7 @@ public class RfCodeGenerator<TEntityDescriptor, TEntityPropertyDescriptor> : RfC
             var domainTemplate = projectDescriptor.GetDomainTemplate(entityDescriptor);
             string domainContent = domainTemplate.TransformText();
             string domainFilePath = projectFolder.ServiceLayer.Domains.GetFilePath($"{entityDescriptor.Name}Domain.cs");
-            await File.WriteAllTextAsync(domainFilePath, domainContent, Encoding.UTF8);
+            await File.WriteAllTextAsync(domainFilePath, domainContent, projectDescriptor.Encoding);
             progress.Report($"Generated ServiceLayer domain for {entityDescriptor.Name}");
 
             count++;
@@ -126,7 +150,7 @@ public class RfCodeGenerator<TEntityDescriptor, TEntityPropertyDescriptor> : RfC
             var controllerTemplate = projectDescriptor.GetControllerTemplate(entityDescriptor);
             string controllerContent = controllerTemplate.TransformText();
             string controllerFilePath = projectFolder.WebApi.Controllers.GetFilePath($"{this.Pluralizer.Pluralize(entityDescriptor.Name)}Controller.cs"); // Path.Combine(projectFolder.WebApi.Controllers.FullPath, $"{this.Pluralizer.Pluralize(entityDescriptor.Name)}Controller.cs");
-            await File.WriteAllTextAsync(controllerFilePath, controllerContent, Encoding.UTF8);
+            await File.WriteAllTextAsync(controllerFilePath, controllerContent, projectDescriptor.Encoding);
             progress.Report($"Generated Controller for {entityDescriptor.Name}");
 
             count++;

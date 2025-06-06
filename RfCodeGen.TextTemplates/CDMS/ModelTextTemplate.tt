@@ -6,7 +6,7 @@
 using Mbi.RepositoryFramework;
 using System.Diagnostics;
 
-namespace CDMS.CostRecovery.DataAccess.Models;
+namespace <#= this.ProjectDescriptor.ProjectNamespacePrefix #>DataAccess.Models;
 
 <#= this.EntityDescriptor.DebuggerDisplay #>
 public partial class <#= this.EntityDescriptor.Name #> : RfEntityBase, IRfAuditableEntity
