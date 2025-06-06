@@ -3,10 +3,12 @@
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
+using System.Diagnostics;
 using RepositoryFramework;
 
 namespace HPMS.DataAccess.Models;
 
+<#= this.EntityDescriptor.DebuggerDisplay #>
 public partial class <#= this.EntityDescriptor.Name #> : RfEntityBase
 {
 }

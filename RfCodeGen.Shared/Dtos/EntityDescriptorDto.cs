@@ -8,15 +8,46 @@ public record EntityDescriptorDto()
     public string PluralizedName { get; set; } = string.Empty;
     public EntityDto Entity { get; set; } = null!;
 
-    public virtual ITextTemplate GetModelTemplate() { throw new NotImplementedException(); }
-    public virtual ITextTemplate GetDtoTemplate() { throw new NotImplementedException(); }
-    public virtual ITextTemplate GetDomainTemplate() { throw new NotImplementedException(); }
-    public virtual ITextTemplate GetControllerTemplate() { throw new NotImplementedException(); }
+    //these can be overridden in derived classes to provide specific behavior
+    public virtual string PkColumnName
+    {
+        get
+        {
+            return this.Properties.FirstOrDefault(v1 => v1.IsPrimaryKey)?.Name ?? "";
+        }
+    }
+    public virtual string DebuggerDisplay
+    {
+        get
+        {
+            List<string> values = [];
+
+            if(this.PkColumnName != string.Empty)
+                values.Add($"{this.PkColumnName}={{{this.PkColumnName}}}");
+
+            string? desc = this.Properties.FirstOrDefault(v1 => v1.Type.Equals("string", StringComparison.OrdinalIgnoreCase) || v1.Type.Equals("string?", StringComparison.OrdinalIgnoreCase))?.Name;
+            if(desc != null)
+                values.Add($"{desc}={{{desc}}}");
+
+            desc = string.Join(",", values);
+
+            if(desc != string.Empty)
+                desc = $"[DebuggerDisplay(\"{desc}\")]";
+
+            return desc;
+        }
+    }
 
     public virtual string DtoInterfaces { get; } = string.Empty;
     public virtual string DefaultCollectionOrderBy { get; } = string.Empty;
     public virtual string Includes { get; } = string.Empty;
     public virtual bool IsLookupTable { get; }
+
+    //these must be implemented in derived classes to provide specific templates
+    public virtual ITextTemplate GetModelTemplate() { throw new NotImplementedException(); }
+    public virtual ITextTemplate GetDtoTemplate() { throw new NotImplementedException(); }
+    public virtual ITextTemplate GetDomainTemplate() { throw new NotImplementedException(); }
+    public virtual ITextTemplate GetControllerTemplate() { throw new NotImplementedException(); }
 }
 
 public record EntityPropertyDescriptorDto()
@@ -28,4 +59,5 @@ public record EntityPropertyDescriptorDto()
     public bool Set { get; set; }
 
     public virtual bool Required { get; }
+    public virtual bool IsPrimaryKey { get; }
 }

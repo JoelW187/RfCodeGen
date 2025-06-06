@@ -86,6 +86,25 @@ public static class RfCodeGeneratorFactory
     }
 }
 
+internal record CDMSEntityDescriptorDto : EntityDescriptorDto
+{
+    public override ITextTemplate GetModelTemplate() => new RfCodeGen.TextTemplates.CDMS.ModelTextTemplate(this);
+    public override ITextTemplate GetDtoTemplate() => new RfCodeGen.TextTemplates.CDMS.DtoTextTemplate(this);
+    public override ITextTemplate GetDomainTemplate() => new RfCodeGen.TextTemplates.CDMS.DomainTextTemplate(this);
+    public override ITextTemplate GetControllerTemplate() => new RfCodeGen.TextTemplates.CDMS.ControllerTextTemplate(this);
+}
+
+internal record CDMSEntityPropertyDescriptorDto : EntityPropertyDescriptorDto
+{
+    public override bool IsPrimaryKey
+    {
+        get
+        {
+            return this.Name.Equals($"{this.Name}Id", StringComparison.OrdinalIgnoreCase);
+        }
+    }
+}
+
 internal record HPMSEntityDescriptorDto : EntityDescriptorDto
 {
     private bool IIdColumn => this.Properties.Any(v1 => v1.Name.Equals("Id", StringComparison.OrdinalIgnoreCase));
@@ -95,11 +114,6 @@ internal record HPMSEntityDescriptorDto : EntityDescriptorDto
     private bool IFeature => this.Properties.Any(v1 => v1.Name.Equals("Sri", StringComparison.OrdinalIgnoreCase));
     private bool IPointFeature => IFeature && this.Properties.Any(v1 => v1.Name.Equals("MpStart", StringComparison.OrdinalIgnoreCase));
     private bool ILinearFeature => IFeature && this.Properties.Any(v1 => v1.Name.Equals("MpEnd", StringComparison.OrdinalIgnoreCase));
-
-    public override ITextTemplate GetModelTemplate() => new RfCodeGen.TextTemplates.HPMS.ModelTextTemplate(this);
-    public override ITextTemplate GetDtoTemplate() => new RfCodeGen.TextTemplates.HPMS.DtoTextTemplate(this);
-    public override ITextTemplate GetDomainTemplate() => new RfCodeGen.TextTemplates.HPMS.DomainTextTemplate(this);
-    public override ITextTemplate GetControllerTemplate() => new RfCodeGen.TextTemplates.HPMS.ControllerTextTemplate(this);
 
     public override string DtoInterfaces
     {
@@ -140,9 +154,52 @@ internal record HPMSEntityDescriptorDto : EntityDescriptorDto
                 return "null";
         }
     }
+    public override string DebuggerDisplay
+    {
+        get
+        {
+            List<string> values = [];
+
+            if(this.PkColumnName != string.Empty)
+                values.Add($"{this.PkColumnName}={{{this.PkColumnName}}}");
+
+            if(this.Properties.Any(v1 => v1.Name.Equals("Sri", StringComparison.CurrentCultureIgnoreCase)))
+                values.Add($"Sri={{Sri}}");
+            if(this.Properties.Any(v1 => v1.Name.Equals("MpStart", StringComparison.CurrentCultureIgnoreCase)))
+                values.Add($"MpStart={{MpStart}}");
+            if(this.Properties.Any(v1 => v1.Name.Equals("MpEnd", StringComparison.CurrentCultureIgnoreCase)))
+                values.Add($"MpEnd={{MpEnd}}");
+
+            string? desc = this.Properties.FirstOrDefault(v1 => v1.Name.StartsWith(this.Name, StringComparison.OrdinalIgnoreCase))?.Name;
+            if(desc is null)
+                desc = this.Properties.FirstOrDefault(v1 => v1.Type.Equals("string", StringComparison.OrdinalIgnoreCase) || v1.Type.Equals("string?", StringComparison.OrdinalIgnoreCase))?.Name;
+
+            if(desc != null)
+                values.Add($"{desc}={{{desc}}}");
+
+            desc = string.Join(",", values);
+
+            if(desc != string.Empty)
+                desc = $"[DebuggerDisplay(\"{desc}\")]";
+
+            return desc;
+        }
+    }
+
+    public override ITextTemplate GetModelTemplate() => new RfCodeGen.TextTemplates.HPMS.ModelTextTemplate(this);
+    public override ITextTemplate GetDtoTemplate() => new RfCodeGen.TextTemplates.HPMS.DtoTextTemplate(this);
+    public override ITextTemplate GetDomainTemplate() => new RfCodeGen.TextTemplates.HPMS.DomainTextTemplate(this);
+    public override ITextTemplate GetControllerTemplate() => new RfCodeGen.TextTemplates.HPMS.ControllerTextTemplate(this);
 }
 
 internal record HPMSEntityPropertyDescriptorDto : EntityPropertyDescriptorDto
 {
     public override bool Required => this.Name.Equals("Sri", StringComparison.OrdinalIgnoreCase) || this.Name.Equals("MpStart", StringComparison.OrdinalIgnoreCase) || this.Name.Equals("MpEnd", StringComparison.OrdinalIgnoreCase);
+    public override bool IsPrimaryKey   
+    {
+        get
+        {
+            return this.Name.Equals("Id", StringComparison.OrdinalIgnoreCase);
+        }
+    }
 }
