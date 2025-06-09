@@ -9,4 +9,13 @@ public record HpmsProjectDescriptorDto(string ProjectName, string ProjectPath) :
     public override ITextTemplate GetDtoTemplate(EntityDescriptorDto entityDescriptor) => new RfCodeGen.ProjectConfigs.HPMS.DtoTextTemplate(this, entityDescriptor);
     public override ITextTemplate GetDomainTemplate(EntityDescriptorDto entityDescriptor) => new RfCodeGen.ProjectConfigs.HPMS.DomainTextTemplate(this, entityDescriptor);
     public override ITextTemplate GetControllerTemplate(EntityDescriptorDto entityDescriptor) => new RfCodeGen.ProjectConfigs.HPMS.ControllerTextTemplate(this, entityDescriptor);
+
+    public override EntityDescriptorDto GetEntityDescriptor()
+    {
+        return new HpmsEntityDescriptorDto();
+    }
+    public override EntityPropertyDescriptorDto GetEntityPropertyDescriptor()
+    {
+        return new HpmsEntityPropertyDescriptorDto();
+    }
 }

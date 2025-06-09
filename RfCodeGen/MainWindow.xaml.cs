@@ -65,8 +65,8 @@ public partial class MainWindow : Window
 
         var selectedEntities = this.ViewModel.Entities.Where(v1 => v1.IsSelected).OrderBy(v1 => v1.Name).ToList();
 
-        var codeGenerator = RfCodeGeneratorFactory.Create(this.ViewModel.SelectedProjectDescriptor!);
-        var count = await codeGenerator.Generate(selectedEntities, this.ViewModel.SelectedProjectDescriptor!, progress);
+        var codeGenerator = new RfCodeGenerator(this.ViewModel.SelectedProjectDescriptor!);
+        var count = await codeGenerator.Generate(selectedEntities, progress);
 
         this.ViewModel.Messages.Add($"Generated {count} files.");
 
@@ -77,18 +77,18 @@ public partial class MainWindow : Window
     }
 }
 
-public static class RfCodeGeneratorFactory
-{
-    public static IRfCodeGenerator<EntityDescriptorDto, EntityPropertyDescriptorDto> Create(ProjectDescriptorDto projectDescriptor)
-    {
-        return projectDescriptor.ProjectId switch
-        {
-            "HPMS" => new RfCodeGenerator<HpmsEntityDescriptorDto, HpmsEntityPropertyDescriptorDto>(),
-            "CDMS" => new RfCodeGenerator<CdmsEntityDescriptorDto, CdmsEntityPropertyDescriptorDto>(),
-            _ => throw new NotSupportedException($"Project ID '{projectDescriptor.ProjectId}' is not defined."),
-        };
-    }
-}
+//public static class RfCodeGeneratorFactory
+//{
+//    public static RfCodeGenerator Create(IProjectDescriptor projectDescriptor)
+//    {
+//        return projectDescriptor.ProjectId switch
+//        {
+//            "HPMS" => new RfCodeGenerator<HpmsProjectDescriptorDto>(),
+//            "CDMS" => new RfCodeGenerator<T>(),
+//            _ => throw new NotSupportedException($"Project ID '{projectDescriptor.ProjectId}' is not defined."),
+//        };
+//    }
+//}
 
 
 
