@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\RfCodeGen.ProjectConfigs\RfCodeGen.ProjectConfigs.csproj" />
     <ProjectReference Include="..\RfCodeGen.ServiceLayer\RfCodeGen.ServiceLayer.csproj" />
     <ProjectReference Include="..\RfCodeGen.Shared\RfCodeGen.Shared.csproj" />
   </ItemGroup>

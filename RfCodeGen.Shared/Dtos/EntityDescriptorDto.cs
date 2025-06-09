@@ -1,12 +1,13 @@
-﻿namespace RfCodeGen.Shared.Dtos;
+﻿using System.Xml.Linq;
 
-public record EntityDescriptorDto()
+namespace RfCodeGen.Shared.Dtos;
+
+public abstract record EntityDescriptorDto(EntityDto Entity)
 {
     public string Name => this.Entity?.Name ?? "";
     public List<EntityPropertyDescriptorDto> Properties { get; } = [];
     public string CamelCaseName => char.ToLowerInvariant(this.Name[0]) + this.Name[1..];
     public string PluralizedName { get; set; } = string.Empty;
-    public EntityDto Entity { get; set; } = null!;
 
     public virtual string PkColumnName
     {
@@ -44,17 +45,66 @@ public record EntityDescriptorDto()
     public virtual bool IsManyToManyTable { get; }
 }
 
-public record EntityPropertyDescriptorDto()
+public abstract record EntityPropertyDescriptorDto
 {
-    public EntityDescriptorDto EntityDescriptor { get; set; } = null!;
-    public string Text { get; set; } = string.Empty;
-    public string Modifiers { get; set; } = string.Empty;
-    public string Type { get; set; } = string.Empty;
-    public string Name { get; set; } = string.Empty;
-    public bool Get { get; set; }
-    public bool Set { get; set; }
-    public string Assignment { get; set; } = string.Empty;
+    public EntityPropertyDescriptorDto(EntityDescriptorDto entityDescriptor, string text)
+    {
+        this.EntityDescriptor = entityDescriptor;
+        this.Text = text.Trim();
+
+        ParseText(this.Text, out string modifiers, out string type, out string name, out bool get, out bool set, out string assignment);
+
+        this.Modifiers = modifiers;
+        this.Type = type;
+        this.Name = name;
+        this.Get = get;
+        this.Set = set;
+        this.Assignment = assignment;
+    }
+
+    public EntityDescriptorDto EntityDescriptor { get; }
+    public string Text { get; }
+    public string Modifiers { get; } = string.Empty;
+    public string Type { get; } = string.Empty;
+    public string Name { get; } = string.Empty;
+    public bool Get { get; }
+    public bool Set { get; }
+    public string Assignment { get; } = string.Empty;
 
     public virtual bool Required { get; }
     public virtual bool IsPrimaryKey { get; }
+
+    private static void ParseText(string line, out string modifiers, out string type, out string name, out bool get, out bool set, out string assignment)
+    {
+        line = line.Trim();
+
+        var pieces = line.Split('=');
+        assignment = string.Empty;
+        if(pieces.Length == 2)
+        {
+            assignment = $" = {pieces[1].Trim()}";
+            line = pieces[0].Trim(); // take the first part before the '='
+        }
+
+        var i = line.IndexOf('{');
+        string definition = line[..i].Trim();
+        string getset = line[i..].Trim();
+
+        pieces = definition.Trim().Split(' ');
+        name = pieces.Last();
+        type = pieces[^2];
+        modifiers = string.Join(' ', pieces.Take(pieces.Length - 2)); // take all but the last two pieces
+
+        get = getset.Contains("get;");
+        set = getset.Contains("set;");
+
+        if(type.StartsWith("ICollection<"))
+        {
+            var collectionType = type[12..^1]; // e.g., ICollection<MyEntity>
+            type = type.Replace($"<{collectionType}>", $"<{collectionType}Dto>");
+
+            if(assignment != string.Empty)
+                assignment = " = [];";
+        }
+    }
 }

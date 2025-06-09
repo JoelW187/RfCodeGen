@@ -12,7 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\RfCodeGen.Shared\RfCodeGen.Shared.csproj" />
-    <ProjectReference Include="..\RfCodeGen.TextTemplates\RfCodeGen.TextTemplates.csproj" />
+    <ProjectReference Include="..\RfCodeGen.ProjectConfigs\RfCodeGen.ProjectConfigs.csproj" />
   </ItemGroup>
 
   <ItemGroup>
