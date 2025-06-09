@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace RfCodeGen.ProjectConfigs.CDMS.Dtos;
 
-public record CdmsEntityDescriptorDto : EntityDescriptorDto
+public record CdmsEntityDescriptorDto(EntityDto Entity) : EntityDescriptorDto(Entity)
 {
     public override List<EntityPropertyDescriptorDto> DtoProperties
     {

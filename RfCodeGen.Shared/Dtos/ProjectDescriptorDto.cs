@@ -13,8 +13,8 @@ public interface IProjectDescriptor
     ITextTemplate GetDtoTemplate(EntityDescriptorDto entityDescriptor);
     ITextTemplate GetDomainTemplate(EntityDescriptorDto entityDescriptor);
     ITextTemplate GetControllerTemplate(EntityDescriptorDto entityDescriptor);
-    EntityDescriptorDto GetEntityDescriptor();
-    EntityPropertyDescriptorDto GetEntityPropertyDescriptor();
+    EntityDescriptorDto GetEntityDescriptor(EntityDto entity);
+    EntityPropertyDescriptorDto GetEntityPropertyDescriptor(EntityDescriptorDto entityDescriptor, string text);
 }
 
 public abstract record ProjectDescriptorDto(string ProjectId, string ProjectName, string ProjectPath, string ProjectPathPrefix, string ProjectNamespacePrefix, System.Text.Encoding? TextEncoding = null) : IProjectDescriptor
@@ -28,8 +28,8 @@ public abstract record ProjectDescriptorDto(string ProjectId, string ProjectName
     public abstract ITextTemplate GetDomainTemplate(EntityDescriptorDto entityDescriptor);
     public abstract ITextTemplate GetControllerTemplate(EntityDescriptorDto entityDescriptor);
 
-    public abstract EntityDescriptorDto GetEntityDescriptor();
-    public abstract EntityPropertyDescriptorDto GetEntityPropertyDescriptor();
+    public abstract EntityDescriptorDto GetEntityDescriptor(EntityDto entity);
+    public abstract EntityPropertyDescriptorDto GetEntityPropertyDescriptor(EntityDescriptorDto entityDescriptor, string text);
 }
 
 

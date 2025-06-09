@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace RfCodeGen.ProjectConfigs.CDMS.Dtos;
 
-public record CdmsEntityPropertyDescriptorDto : EntityPropertyDescriptorDto
+public record CdmsEntityPropertyDescriptorDto(EntityDescriptorDto EntityDescriptor, string Text) : EntityPropertyDescriptorDto(EntityDescriptor, Text)
 {
     public override bool IsPrimaryKey
     {

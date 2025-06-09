@@ -10,12 +10,12 @@ public record CdmsProjectDescriptorDto(string ProjectName, string ProjectPath) :
     public override ITextTemplate GetDomainTemplate(EntityDescriptorDto entityDescriptor) => new RfCodeGen.ProjectConfigs.CDMS.TextTemplates.DomainTextTemplate(this, entityDescriptor);
     public override ITextTemplate GetControllerTemplate(EntityDescriptorDto entityDescriptor) => new RfCodeGen.ProjectConfigs.CDMS.TextTemplates.ControllerTextTemplate(this, entityDescriptor);
 
-    public override EntityDescriptorDto GetEntityDescriptor()
+    public override EntityDescriptorDto GetEntityDescriptor(EntityDto entity)
     {
-        return new CdmsEntityDescriptorDto();
+        return new CdmsEntityDescriptorDto(entity);
     }
-    public override EntityPropertyDescriptorDto GetEntityPropertyDescriptor()
+    public override EntityPropertyDescriptorDto GetEntityPropertyDescriptor(EntityDescriptorDto entityDescriptor, string text)
     {
-        return new CdmsEntityPropertyDescriptorDto();
+        return new CdmsEntityPropertyDescriptorDto(entityDescriptor, text);
     }
 }

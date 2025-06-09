@@ -77,19 +77,6 @@ public partial class MainWindow : Window
     }
 }
 
-//public static class RfCodeGeneratorFactory
-//{
-//    public static RfCodeGenerator Create(IProjectDescriptor projectDescriptor)
-//    {
-//        return projectDescriptor.ProjectId switch
-//        {
-//            "HPMS" => new RfCodeGenerator<HpmsProjectDescriptorDto>(),
-//            "CDMS" => new RfCodeGenerator<T>(),
-//            _ => throw new NotSupportedException($"Project ID '{projectDescriptor.ProjectId}' is not defined."),
-//        };
-//    }
-//}
-
 
 
 

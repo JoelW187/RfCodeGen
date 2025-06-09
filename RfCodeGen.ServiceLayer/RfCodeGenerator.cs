@@ -30,50 +30,10 @@ public abstract class RfCodeGeneratorBase
     }
 }
 
-//public interface IRfCodeGenerator<T>
-//    where T : IProjectDescriptor
-//{
-//    Task<int> Generate(IEnumerable<EntityDto> entities, T projectDescriptor, IProgress<string> progress);
-//}
-
-public class RfCodeGenerator(IProjectDescriptor projectDescriptor) : RfCodeGeneratorBase   //, IRfCodeGenerator<T>
+public class RfCodeGenerator(IProjectDescriptor projectDescriptor) : RfCodeGeneratorBase
 {
     private Pluralizer Pluralizer { get; } = new();
     private IProjectDescriptor ProjectDescriptor { get; } = projectDescriptor;
-
-    private static void ParsePropertyLine(string line, out string modifiers, out string type, out string name, out bool get, out bool set, out string assignment)
-    {
-        line = line.Trim();
-
-        var pieces = line.Split('=');
-        assignment = string.Empty;
-        if(pieces.Length == 2)
-        {
-            assignment = $" = {pieces[1].Trim()}";
-            line = pieces[0].Trim(); // take the first part before the '='
-        }
-
-        var i = line.IndexOf('{');
-        string definition = line[..i].Trim();
-        string getset = line[i..].Trim();
-
-        pieces = definition.Trim().Split(' ');
-        name = pieces.Last();
-        type = pieces[^2];
-        modifiers = string.Join(' ', pieces.Take(pieces.Length - 2)); // take all but the last two pieces
-
-        get = getset.Contains("get;");
-        set = getset.Contains("set;");
-
-        if(type.StartsWith("ICollection<"))
-        {
-            var collectionType = type[12..^1]; // e.g., ICollection<MyEntity>
-            type = type.Replace($"<{collectionType}>", $"<{collectionType}Dto>");
-
-            if(assignment != string.Empty)
-                assignment = " = [];";
-        }
-    }
 
     public async Task<int> Generate(IEnumerable<EntityDto> entities, IProgress<string> progress)
     {
@@ -85,25 +45,13 @@ public class RfCodeGenerator(IProjectDescriptor projectDescriptor) : RfCodeGener
             IEnumerable<string> lines = File.ReadAllLines(entity.FilePath);
             lines = lines.SkipWhile(v1 => !v1.StartsWith("public partial class"));
 
-            EntityDescriptorDto entityDescriptor = this.ProjectDescriptor.GetEntityDescriptor(); // { Entity = entity, PluralizedName = Pluralizer.Pluralize(entity.Name) };
-            entityDescriptor.Entity = entity;
+            EntityDescriptorDto entityDescriptor = this.ProjectDescriptor.GetEntityDescriptor(entity);
             entityDescriptor.PluralizedName = this.Pluralizer.Pluralize(entity.Name);
 
             var propertyLines = lines.SkipWhile(v1 => v1 != "{").Skip(1).TakeWhile(v1 => v1 != "}").Where(v1 => !string.IsNullOrWhiteSpace(v1));
             foreach(string propertyLine in propertyLines)
             {
-                RfCodeGenerator.ParsePropertyLine(propertyLine, out string modifiers, out string type, out string name, out bool get, out bool set, out string assignment);
-
-                EntityPropertyDescriptorDto entityProperty = this.ProjectDescriptor.GetEntityPropertyDescriptor();   //new()
-                entityProperty.Text = propertyLine.Trim();
-                entityProperty.EntityDescriptor = entityDescriptor;
-                entityProperty.Modifiers = modifiers;
-                entityProperty.Type = type;
-                entityProperty.Name = name;
-                entityProperty.Get = get;
-                entityProperty.Set = set;
-                entityProperty.Assignment = assignment;
-                
+                EntityPropertyDescriptorDto entityProperty = this.ProjectDescriptor.GetEntityPropertyDescriptor(entityDescriptor, propertyLine);   //new()
                 entityDescriptor.Properties.Add(entityProperty);
             }
 
