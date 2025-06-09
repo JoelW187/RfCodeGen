@@ -19,14 +19,12 @@ public class MainViewModel : INotifyPropertyChanged
         switch(e.PropertyName)
         {
         case nameof(SelectedProjectDescriptor):
+            this.Entities.Clear();
+            this.Messages.Clear();
+            this.AuxGenCode = "";
+
             if(this.SelectedProjectDescriptor == null)
-            {
-                //this.ProjectFolder = null;
-                this.Entities.Clear();
-                this.Messages.Clear();
-                this.AuxGenCode = "";
                 return;
-            }
 
             //this.ProjectFolder = new ProjectFolder(this.SelectedProjectDescriptor);
             var entityFileNames = Directory.EnumerateFiles(this.SelectedProjectDescriptor.ProjectFolder.DataAccess.Models.FullPath, "*.cs", SearchOption.TopDirectoryOnly).OrderBy(v1 => v1);
@@ -53,19 +51,6 @@ public class MainViewModel : INotifyPropertyChanged
             OnPropertyChanged();
         }
     }
-
-    //private ProjectFolder? _projectFolder;
-    //public ProjectFolder? ProjectFolder
-    //{
-    //    get { return _projectFolder; }
-    //    set
-    //    {
-    //        if(_projectFolder == value) return;
-
-    //        _projectFolder = value;
-    //        OnPropertyChanged();
-    //    }
-    //}
 
     public ObservableCollection<Entity> Entities { get; } = [];
 

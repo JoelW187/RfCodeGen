@@ -18,7 +18,7 @@
             </ToolBarTray>
         </ToolBarPanel>
         <StatusBar DockPanel.Dock="Bottom">
-            <StatusBarItem Content="{Binding Path=EntityNames.Count}"></StatusBarItem>
+            <StatusBarItem Content="{Binding Path=Entities.Count}"></StatusBarItem>
         </StatusBar>
         <Grid>
             <Grid.RowDefinitions>
@@ -31,8 +31,12 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Label Grid.Column="0" Content="Source code path"></Label>
-                <TextBox Grid.Column="1" IsReadOnly="True" Text="{Binding Path=ProjectFolder.FullName, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" VerticalContentAlignment="Center"/>
+                <Label Grid.Column="0" Content="Project"></Label>
+                <ComboBox Grid.Column="1"
+                    ItemsSource="{Binding Path=ProjectDescriptors}"
+                    SelectedItem="{Binding Path=SelectedProjectDescriptor}"
+                    DisplayMemberPath="ProjectName"
+                    ></ComboBox>
             </Grid>
 
             <Grid Grid.Row="1">
@@ -87,8 +91,10 @@
                         <RowDefinition Height="1*"/>
                     </Grid.RowDefinitions>
 
-                    <TextBlock Grid.Row="0" Text="{Binding Path=AuxGenCode}"></TextBlock>
-
+                    <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                        <TextBlock Text="{Binding Path=AuxGenCode}"></TextBlock>
+                    </ScrollViewer>
+                    
                     <ListBox Grid.Row="1"
                              ItemsSource="{Binding Path=Messages}"
                              >
