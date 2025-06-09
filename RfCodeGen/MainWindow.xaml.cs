@@ -26,8 +26,8 @@ public partial class MainWindow : Window
 
         this.ViewModel = vm;
 
-        //this.ViewModel.ProjectDescriptors.Add(new HpmsProjectDescriptorDto("HPMS", "NJDOT HPMS", @"C:\Source\mbakerintlapps\NJDOT\NJDOT_HPMS\src\NJDOT_HPMS", "HPMS.", "HPMS."));
-        this.ViewModel.ProjectDescriptors.Add(new CdmsProjectDescriptorDto("CDMS", "CDMS Cost Recovery", @"C:\Source\mbakerintlapps\Alaska\CDMS\CostRecovery\WebApi\", "CostRecovery.", "CDMS.CostRecovery."));
+        this.ViewModel.ProjectDescriptors.Add(new HpmsProjectDescriptorDto("HPMS", "NJDOT HPMS", @"C:\Source\mbakerintlapps\NJDOT\NJDOT_HPMS\src\NJDOT_HPMS", "HPMS.", "HPMS."));
+        //this.ViewModel.ProjectDescriptors.Add(new CdmsProjectDescriptorDto("CDMS", "CDMS Cost Recovery", @"C:\Source\mbakerintlapps\Alaska\CDMS\CostRecovery\WebApi\", "CostRecovery.", "CDMS.CostRecovery."));
         this.ViewModel.SelectedProjectDescriptor = this.ViewModel.ProjectDescriptors.FirstOrDefault();
     }
 
@@ -92,46 +92,14 @@ public static class RfCodeGeneratorFactory
 
 internal record CdmsProjectDescriptorDto(string ProjectId, string ProjectName, string ProjectPath, string ProjectPathPrefix, string ProjectNamespacePrefix) : ProjectDescriptorDto(ProjectId, ProjectName, ProjectPath, ProjectPathPrefix, ProjectNamespacePrefix)
 {
-    public override ITextTemplate GetModelTemplate(EntityDescriptorDto entityDescriptor) => entityDescriptor.IsLookupTable ? new RfCodeGen.TextTemplates.CDMS.ModelLookupTextTemplate(this, entityDescriptor) : new RfCodeGen.TextTemplates.CDMS.ModelTextTemplate(this, entityDescriptor);
-    public override ITextTemplate GetDtoTemplate(EntityDescriptorDto entityDescriptor) => entityDescriptor.IsLookupTable ? new RfCodeGen.TextTemplates.CDMS.DtoLookupTextTemplate(this, entityDescriptor) : new RfCodeGen.TextTemplates.CDMS.DtoTextTemplate(this, entityDescriptor);
-    public override ITextTemplate GetDomainTemplate(EntityDescriptorDto entityDescriptor) => new RfCodeGen.TextTemplates.CDMS.DomainTextTemplate(this, entityDescriptor);
-    public override ITextTemplate GetControllerTemplate(EntityDescriptorDto entityDescriptor) => new RfCodeGen.TextTemplates.CDMS.ControllerTextTemplate(this, entityDescriptor);
+    public override ITextTemplate GetModelTemplate(EntityDescriptorDto entityDescriptor) => entityDescriptor.IsLookupTable ? new RfCodeGen.ProjectConfigs.CDMS.ModelLookupTextTemplate(this, entityDescriptor) : new RfCodeGen.ProjectConfigs.CDMS.ModelTextTemplate(this, entityDescriptor);
+    public override ITextTemplate GetDtoTemplate(EntityDescriptorDto entityDescriptor) => entityDescriptor.IsLookupTable ? new RfCodeGen.ProjectConfigs.CDMS.DtoLookupTextTemplate(this, entityDescriptor) : new RfCodeGen.ProjectConfigs.CDMS.DtoTextTemplate(this, entityDescriptor);
+    public override ITextTemplate GetDomainTemplate(EntityDescriptorDto entityDescriptor) => new RfCodeGen.ProjectConfigs.CDMS.DomainTextTemplate(this, entityDescriptor);
+    public override ITextTemplate GetControllerTemplate(EntityDescriptorDto entityDescriptor) => new RfCodeGen.ProjectConfigs.CDMS.ControllerTextTemplate(this, entityDescriptor);
 }
 
 internal record CdmsEntityDescriptorDto : EntityDescriptorDto
 {
-    //private static readonly IEnumerable<string> LookupTableNames =
-    //[
-    //    "AddressType",
-    //    "AffiliateSubType",
-    //    "AffiliateType",
-    //    "Borough",
-    //    "BqProjectGroup",
-    //    "CdmsUserRole",
-    //    "City",
-    //    "ContactRole",
-    //    "CountryCode",
-    //    "CrittsBillingMode",
-    //    "CrittsSparProgram",
-    //    "CrittsSparProjectGroup",
-    //    "DataSource",
-    //    "Department",
-    //    "EmailAddressType",
-    //    "FeeCode",
-    //    "InvoiceCode",
-    //    "OperatingStatus",
-    //    "OrganizationSubType",
-    //    "OrganizationType",
-    //    "PhoneNumberType",
-    //    "PrefixType",
-    //    "Program",
-    //    "ResponsiblePartyType",
-    //    "RfaRequestStatus",
-    //    "SparSection",
-    //    "State",
-    //    "SuspendedBillingReason",
-    //];
-
     public override List<EntityPropertyDescriptorDto> DtoProperties
     {
         get
@@ -227,10 +195,10 @@ internal record CdmsEntityPropertyDescriptorDto : EntityPropertyDescriptorDto
 
 internal record HpmsProjectDescriptorDto(string ProjectId, string ProjectName, string ProjectPath, string ProjectPathPrefix, string ProjectNamespacePrefix) : ProjectDescriptorDto(ProjectId, ProjectName, ProjectPath, ProjectPathPrefix, ProjectNamespacePrefix)
 {
-    public override ITextTemplate GetModelTemplate(EntityDescriptorDto entityDescriptor) => new RfCodeGen.TextTemplates.HPMS.ModelTextTemplate(this, entityDescriptor);
-    public override ITextTemplate GetDtoTemplate(EntityDescriptorDto entityDescriptor) => new RfCodeGen.TextTemplates.HPMS.DtoTextTemplate(this, entityDescriptor);
-    public override ITextTemplate GetDomainTemplate(EntityDescriptorDto entityDescriptor) => new RfCodeGen.TextTemplates.HPMS.DomainTextTemplate(this, entityDescriptor);
-    public override ITextTemplate GetControllerTemplate(EntityDescriptorDto entityDescriptor) => new RfCodeGen.TextTemplates.HPMS.ControllerTextTemplate(this, entityDescriptor);
+    public override ITextTemplate GetModelTemplate(EntityDescriptorDto entityDescriptor) => new RfCodeGen.ProjectConfigs.HPMS.ModelTextTemplate(this, entityDescriptor);
+    public override ITextTemplate GetDtoTemplate(EntityDescriptorDto entityDescriptor) => new RfCodeGen.ProjectConfigs.HPMS.DtoTextTemplate(this, entityDescriptor);
+    public override ITextTemplate GetDomainTemplate(EntityDescriptorDto entityDescriptor) => new RfCodeGen.ProjectConfigs.HPMS.DomainTextTemplate(this, entityDescriptor);
+    public override ITextTemplate GetControllerTemplate(EntityDescriptorDto entityDescriptor) => new RfCodeGen.ProjectConfigs.HPMS.ControllerTextTemplate(this, entityDescriptor);
 }
 
 internal record HpmsEntityDescriptorDto : EntityDescriptorDto

@@ -1,7 +1,7 @@
 ﻿using RfCodeGen.Shared;
 using RfCodeGen.Shared.Dtos;
 
-namespace RfCodeGen.TextTemplates.CDMS;
+namespace RfCodeGen.ProjectConfigs.CDMS;
 
 public partial class DomainTextTemplate(ProjectDescriptorDto projectDescriptor, EntityDescriptorDto entityDescriptor) : ITextTemplate
 {

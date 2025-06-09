@@ -7,7 +7,7 @@
 //     the code is regenerated.
 // </auto-generated>
 // ------------------------------------------------------------------------------
-namespace RfCodeGen.TextTemplates.CDMS
+namespace RfCodeGen.ProjectConfigs.HPMS
 {
     using System.Linq;
     using System.Text;
@@ -18,9 +18,9 @@ namespace RfCodeGen.TextTemplates.CDMS
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\CDMS\ModelLookupTextTemplate.tt"
+    #line 1 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ProjectConfigs\HPMS\ModelTextTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "17.0.0.0")]
-    public partial class ModelLookupTextTemplate : ModelLookupTextTemplateBase
+    public partial class ModelTextTemplate : ModelTextTemplateBase
     {
 #line hidden
         /// <summary>
@@ -28,50 +28,22 @@ namespace RfCodeGen.TextTemplates.CDMS
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("using Mbi.RepositoryFramework;\r\nusing System.Diagnostics;\r\n\r\nnamespace ");
+            this.Write("using System.Diagnostics;\r\nusing RepositoryFramework;\r\n\r\nnamespace HPMS.DataAcces" +
+                    "s.Models;\r\n\r\n");
             
-            #line 9 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\CDMS\ModelLookupTextTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.ProjectDescriptor.ProjectNamespacePrefix));
-            
-            #line default
-            #line hidden
-            this.Write("DataAccess.Models;\r\n\r\n");
-            
-            #line 11 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\CDMS\ModelLookupTextTemplate.tt"
+            #line 11 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ProjectConfigs\HPMS\ModelTextTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.DebuggerDisplay));
             
             #line default
             #line hidden
-            this.Write("public partial class ");
+            this.Write("\r\npublic partial class ");
             
-            #line 11 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\CDMS\ModelLookupTextTemplate.tt"
+            #line 12 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ProjectConfigs\HPMS\ModelTextTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Name));
             
             #line default
             #line hidden
-            this.Write(" : RfEntityLookupBase, IRfEntityLookup, IRfAuditableEntity\r\n{\r\n\tpublic override i" +
-                    "nt GetId() => this.");
-            
-            #line 13 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\CDMS\ModelLookupTextTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Name));
-            
-            #line default
-            #line hidden
-            this.Write("Id;\r\n\tpublic override void SetId(int id) => ");
-            
-            #line 14 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\CDMS\ModelLookupTextTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Name));
-            
-            #line default
-            #line hidden
-            this.Write("Id = id;\r\n\tpublic override string GetAk() => this.");
-            
-            #line 15 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.TextTemplates\CDMS\ModelLookupTextTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Name));
-            
-            #line default
-            #line hidden
-            this.Write("Ak;\r\n}");
+            this.Write(" : RfEntityBase\r\n{\r\n}\r\n");
             return this.GenerationEnvironment.ToString();
         }
     }
@@ -83,7 +55,7 @@ namespace RfCodeGen.TextTemplates.CDMS
     /// Base class for this transformation
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "17.0.0.0")]
-    public class ModelLookupTextTemplateBase
+    public class ModelTextTemplateBase
     {
         #region Fields
         private global::System.Text.StringBuilder generationEnvironmentField;

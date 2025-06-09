@@ -1,9 +1,9 @@
 ﻿using RfCodeGen.Shared;
 using RfCodeGen.Shared.Dtos;
 
-namespace RfCodeGen.TextTemplates.CDMS;
+namespace RfCodeGen.ProjectConfigs.HPMS;
 
-public partial class ModelTextTemplate(ProjectDescriptorDto projectDescriptor, EntityDescriptorDto entityDescriptor) : ITextTemplate
+public partial class ControllerTextTemplate(ProjectDescriptorDto projectDescriptor, EntityDescriptorDto entityDescriptor) : ITextTemplate
 {
     public ProjectDescriptorDto ProjectDescriptor { get; } = projectDescriptor;
     public EntityDescriptorDto EntityDescriptor { get; } = entityDescriptor;
