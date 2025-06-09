@@ -116,6 +116,7 @@
 
   <ItemGroup>
     <Folder Include="CDMS\TextTemplates\" />
+    <Folder Include="Utils\" />
   </ItemGroup>
 
 </Project>
