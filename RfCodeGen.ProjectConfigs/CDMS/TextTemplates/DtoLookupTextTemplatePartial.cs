@@ -1,9 +1,9 @@
 ﻿using RfCodeGen.Shared;
 using RfCodeGen.Shared.Dtos;
 
-namespace RfCodeGen.ProjectConfigs.CDMS;
+namespace RfCodeGen.ProjectConfigs.CDMS.TextTemplates;
 
-public partial class DtoTextTemplate(ProjectDescriptorDto projectDescriptor, EntityDescriptorDto entityDescriptor) : ITextTemplate
+public partial class DtoLookupTextTemplate(ProjectDescriptorDto projectDescriptor, EntityDescriptorDto entityDescriptor) : ITextTemplate
 {
     public ProjectDescriptorDto ProjectDescriptor { get; } = projectDescriptor;
     public EntityDescriptorDto EntityDescriptor { get; } = entityDescriptor;

@@ -15,43 +15,43 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="CDMS\ControllerTextTemplate.tt">
+    <None Update="CDMS\TextTemplates\ControllerTextTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>ControllerTextTemplate.cs</LastGenOutput>
     </None>
-    <None Update="CDMS\DomainTextTemplate.tt">
+    <None Update="CDMS\TextTemplates\DomainTextTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>DomainTextTemplate.cs</LastGenOutput>
     </None>
-    <None Update="CDMS\DtoLookupTextTemplate.tt">
+    <None Update="CDMS\TextTemplates\DtoLookupTextTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>DtoLookupTextTemplate.cs</LastGenOutput>
     </None>
-    <None Update="CDMS\DtoTextTemplate.tt">
+    <None Update="CDMS\TextTemplates\DtoTextTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>DtoTextTemplate.cs</LastGenOutput>
     </None>
-    <None Update="CDMS\ModelLookupTextTemplate.tt">
+    <None Update="CDMS\TextTemplates\ModelLookupTextTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>ModelLookupTextTemplate.cs</LastGenOutput>
     </None>
-    <None Update="CDMS\ModelTextTemplate.tt">
+    <None Update="CDMS\TextTemplates\ModelTextTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>ModelTextTemplate.cs</LastGenOutput>
     </None>
-    <None Update="HPMS\ControllerTextTemplate.tt">
+    <None Update="HPMS\TextTemplates\ControllerTextTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>ControllerTextTemplate.cs</LastGenOutput>
     </None>
-    <None Update="HPMS\DomainTextTemplate.tt">
+    <None Update="HPMS\TextTemplates\DomainTextTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>DomainTextTemplate.cs</LastGenOutput>
     </None>
-    <None Update="HPMS\DtoTextTemplate.tt">
+    <None Update="HPMS\TextTemplates\DtoTextTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>DtoTextTemplate.cs</LastGenOutput>
     </None>
-    <None Update="HPMS\ModelTextTemplate.tt">
+    <None Update="HPMS\TextTemplates\ModelTextTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>ModelTextTemplate.cs</LastGenOutput>
     </None>
@@ -62,56 +62,60 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="CDMS\ControllerTextTemplate.cs">
+    <Compile Update="CDMS\TextTemplates\ControllerTextTemplate.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>ControllerTextTemplate.tt</DependentUpon>
     </Compile>
-    <Compile Update="CDMS\DomainTextTemplate.cs">
+    <Compile Update="CDMS\TextTemplates\DomainTextTemplate.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>DomainTextTemplate.tt</DependentUpon>
     </Compile>
-    <Compile Update="CDMS\DtoLookupTextTemplate.cs">
+    <Compile Update="CDMS\TextTemplates\DtoLookupTextTemplate.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>DtoLookupTextTemplate.tt</DependentUpon>
     </Compile>
-    <Compile Update="CDMS\DtoTextTemplate.cs">
+    <Compile Update="CDMS\TextTemplates\DtoTextTemplate.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>DtoTextTemplate.tt</DependentUpon>
     </Compile>
-    <Compile Update="CDMS\ModelLookupTextTemplate.cs">
+    <Compile Update="CDMS\TextTemplates\ModelLookupTextTemplate.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>ModelLookupTextTemplate.tt</DependentUpon>
     </Compile>
-    <Compile Update="CDMS\ModelTextTemplate.cs">
+    <Compile Update="CDMS\TextTemplates\ModelTextTemplate.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>ModelTextTemplate.tt</DependentUpon>
     </Compile>
-    <Compile Update="HPMS\ControllerTextTemplate.cs">
+    <Compile Update="HPMS\TextTemplates\ControllerTextTemplate.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>ControllerTextTemplate.tt</DependentUpon>
     </Compile>
-    <Compile Update="HPMS\DomainTextTemplate.cs">
+    <Compile Update="HPMS\TextTemplates\DomainTextTemplate.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>DomainTextTemplate.tt</DependentUpon>
     </Compile>
-    <Compile Update="HPMS\DtoTextTemplate.cs">
+    <Compile Update="HPMS\TextTemplates\DtoTextTemplate.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>DtoTextTemplate.tt</DependentUpon>
     </Compile>
-    <Compile Update="HPMS\ModelTextTemplate.cs">
+    <Compile Update="HPMS\TextTemplates\ModelTextTemplate.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>ModelTextTemplate.tt</DependentUpon>
     </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="CDMS\TextTemplates\" />
   </ItemGroup>
 
 </Project>
