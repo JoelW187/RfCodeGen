@@ -74,7 +74,7 @@ public abstract record EntityPropertyDescriptorDto
     public virtual bool Required { get; }
     public virtual bool IsPrimaryKey { get; }
 
-    private static void ParseText(string line, out string modifiers, out string type, out string name, out bool get, out bool set, out string assignment)
+    public virtual void ParseText(string line, out string modifiers, out string type, out string name, out bool get, out bool set, out string assignment)
     {
         line = line.Trim();
 

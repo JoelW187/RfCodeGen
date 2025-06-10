@@ -10,7 +10,7 @@ public record HpmsEntityDescriptorDto(EntityDto Entity) : EntityDescriptorDto(En
     private bool IInventory => this.Properties.Any(v1 => v1.Name.Equals("InvDate", StringComparison.OrdinalIgnoreCase));
     private bool IFeature => this.Properties.Any(v1 => v1.Name.Equals("Sri", StringComparison.OrdinalIgnoreCase));
     private bool IPointFeature => IFeature && this.Properties.Any(v1 => v1.Name.Equals("MpStart", StringComparison.OrdinalIgnoreCase));
-    private bool ILinearFeature => IFeature && this.Properties.Any(v1 => v1.Name.Equals("MpEnd", StringComparison.OrdinalIgnoreCase));
+    private bool ILinearFeature => IFeature && this.Properties.Any(v1 => v1.Name.Equals("MpEnd", StringComparison.OrdinalIgnoreCase));    
 
     public override string DtoInterfaces
     {
@@ -22,7 +22,7 @@ public record HpmsEntityDescriptorDto(EntityDto Entity) : EntityDescriptorDto(En
             if(this.IParentSri) interfaces.Add("IParentSri");
             if(this.ICheckout) interfaces.Add("ICheckout");
             if(this.IInventory) interfaces.Add("IInventory");
-            if(this.IPointFeature) interfaces.Add("IPointFeature");
+            if(this.IPointFeature && !this.ILinearFeature) interfaces.Add("IPointFeature"); //ILinearFeature implements IPointFeature so we don't need to declare both
             if(this.ILinearFeature) interfaces.Add("ILinearFeature");
 
             return string.Join(", ", interfaces);

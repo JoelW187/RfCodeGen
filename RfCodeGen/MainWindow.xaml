@@ -91,9 +91,10 @@
                         <RowDefinition Height="1*"/>
                     </Grid.RowDefinitions>
 
-                    <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                    <TextBox Grid.Row="0" Text="{Binding Path=AuxGenCode}" IsReadOnly="True"></TextBox>
+                    <!--<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
                         <TextBlock Text="{Binding Path=AuxGenCode}"></TextBlock>
-                    </ScrollViewer>
+                    </ScrollViewer>-->
                     
                     <ListBox Grid.Row="1"
                              ItemsSource="{Binding Path=Messages}"
