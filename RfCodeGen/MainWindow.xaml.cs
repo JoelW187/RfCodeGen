@@ -1,9 +1,10 @@
-﻿using RfCodeGen.ServiceLayer;
+﻿using RfCodeGen.ProjectConfigs.CDMS.Dtos;
+using RfCodeGen.ProjectConfigs.HPMS.Dtos;
+using RfCodeGen.ProjectConfigs.Utils;
+using RfCodeGen.ServiceLayer;
 using RfCodeGen.Shared;
 using RfCodeGen.Shared.Dtos;
-using RfCodeGen.ProjectConfigs.CDMS.Dtos;
 using System.Windows;
-using RfCodeGen.ProjectConfigs.HPMS.Dtos;
 
 namespace RfCodeGen;
 
@@ -27,8 +28,8 @@ public partial class MainWindow : Window
         this.ViewModel = vm;
         this.ViewModel.PropertyChanged += ViewModel_PropertyChanged;
 
-        this.ViewModel.ProjectDescriptors.Add(new HpmsProjectDescriptorDto("NJDOT HPMS", @"C:\Source\mbakerintlapps\NJDOT\NJDOT_HPMS\src\NJDOT_HPMS"));
-        this.ViewModel.ProjectDescriptors.Add(new CdmsProjectDescriptorDto("CDMS Cost Recovery", @"C:\Source\mbakerintlapps\Alaska\CDMS\CostRecovery\WebApi\"));
+        this.ViewModel.ProjectDescriptors.Add(ProjectFactory.CreateProjectDescriptor("HPMS", "NJDOT HPMS", @"C:\Source\mbakerintlapps\NJDOT\NJDOT_HPMS\src\NJDOT_HPMS"));
+        this.ViewModel.ProjectDescriptors.Add(ProjectFactory.CreateProjectDescriptor("CDMS", "CDMS Cost Recovery", @"C:\Source\mbakerintlapps\Alaska\CDMS\CostRecovery\WebApi\"));
 
         var selectedProjectId = Properties.Settings.Default.SelectedProjectId;
 
@@ -91,7 +92,7 @@ public partial class MainWindow : Window
         var domainServiceRegistrations = RfCodeGeneratorBase.GetDomainServiceRegistrations(selectedEntities);
         var autoMapperMappingProfiles = RfCodeGeneratorBase.GetAutoMapperMappingProfiles(selectedEntities);
 
-        this.ViewModel.AuxGenCode = string.Join("\n\n", domainServiceRegistrations) + "\n\n" + string.Join("\n\n", autoMapperMappingProfiles);
+        this.ViewModel.AuxGenCode = string.Join("\r\n", domainServiceRegistrations) + "\r\n" + string.Join("\r\n", autoMapperMappingProfiles);
     }
 }
 

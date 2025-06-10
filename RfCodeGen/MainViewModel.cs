@@ -37,10 +37,10 @@ public class MainViewModel : INotifyPropertyChanged
         }
     }
 
-    public ObservableCollection<ProjectDescriptorDto> ProjectDescriptors { get; } = [];
+    public ObservableCollection<IProjectDescriptor> ProjectDescriptors { get; } = [];
 
-    private ProjectDescriptorDto? _selectedProjectDescriptor;
-    public ProjectDescriptorDto? SelectedProjectDescriptor
+    private IProjectDescriptor? _selectedProjectDescriptor;
+    public IProjectDescriptor? SelectedProjectDescriptor
     {
         get { return _selectedProjectDescriptor; }
         set
