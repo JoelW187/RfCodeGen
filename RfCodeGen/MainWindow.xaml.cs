@@ -25,10 +25,28 @@ public partial class MainWindow : Window
         if(this.DataContext is not MainViewModel vm) return;
 
         this.ViewModel = vm;
+        this.ViewModel.PropertyChanged += ViewModel_PropertyChanged;
 
         this.ViewModel.ProjectDescriptors.Add(new HpmsProjectDescriptorDto("NJDOT HPMS", @"C:\Source\mbakerintlapps\NJDOT\NJDOT_HPMS\src\NJDOT_HPMS"));
         this.ViewModel.ProjectDescriptors.Add(new CdmsProjectDescriptorDto("CDMS Cost Recovery", @"C:\Source\mbakerintlapps\Alaska\CDMS\CostRecovery\WebApi\"));
-        this.ViewModel.SelectedProjectDescriptor = this.ViewModel.ProjectDescriptors.FirstOrDefault();
+
+        var selectedProjectId = Properties.Settings.Default.SelectedProjectId;
+
+        this.ViewModel.SelectedProjectDescriptor = this.ViewModel.ProjectDescriptors.FirstOrDefault(v1 => v1.ProjectId == selectedProjectId) ?? this.ViewModel.ProjectDescriptors.FirstOrDefault();
+    }
+
+    private void ViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        switch(e.PropertyName)
+        {             
+        case nameof(MainViewModel.SelectedProjectDescriptor):
+            if (this.ViewModel.SelectedProjectDescriptor != null)
+            {
+                Properties.Settings.Default.SelectedProjectId = this.ViewModel.SelectedProjectDescriptor.ProjectId;
+                Properties.Settings.Default.Save();
+            }
+            break;
+        }
     }
 
     private void SelectAll_Click(object sender, RoutedEventArgs e)
