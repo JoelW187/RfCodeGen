@@ -28,7 +28,7 @@ try
     entities.Add(new(Path.Combine(projectDescriptor.ProjectFolder.DataAccess.Models.FullPath, "CrackingPercent.cs")));
 
     var codeGenerator = new RfCodeGenerator(projectDescriptor);
-    var count = await codeGenerator.Generate(entities, new Progress<string>((message) => PrintProgress(message)));
+    var count = await codeGenerator.Generate(entities, new Progress<RfProgressUpdateDto>((update) => PrintProgress(update)));
 
     Console.WriteLine($"Generated {count} files.");
 
@@ -50,9 +50,9 @@ catch (Exception ex)
 Console.ReadKey();
 #endif
 
-static void PrintProgress(string message)
+static void PrintProgress(RfProgressUpdateDto update)
 {
-    Console.WriteLine(message);
+    Console.WriteLine($"{update.Entity.Name} - {update.Step}");
 }
 
 static void Exit(string? message)

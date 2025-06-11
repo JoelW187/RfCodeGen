@@ -35,7 +35,7 @@ public class RfCodeGenerator(IProjectDescriptor projectDescriptor) : RfCodeGener
     private Pluralizer Pluralizer { get; } = new();
     private IProjectDescriptor ProjectDescriptor { get; } = projectDescriptor;
 
-    public async Task<int> Generate(IEnumerable<EntityDto> entities, IProgress<string> progress)
+    public async Task<int> Generate(IEnumerable<EntityDto> entities, IProgress<RfProgressUpdateDto> progress)
     {
         int count = 0;
 
@@ -67,7 +67,7 @@ public class RfCodeGenerator(IProjectDescriptor projectDescriptor) : RfCodeGener
             string modelPartialContent = modelTemplate.TransformText();
             string modelPartialFilePath = projectFolder.DataAccess.Models.Partials.GetFilePath($"{entityDescriptor.Entity.Name}.cs");
             await File.WriteAllTextAsync(modelPartialFilePath, modelPartialContent, this.ProjectDescriptor.Encoding);
-            progress.Report($"Generated Model partial for {entityDescriptor.Entity.Name}");
+            progress.Report(new(entityDescriptor.Entity, "Model (partial)"));
 
             count++;
         }
@@ -81,7 +81,7 @@ public class RfCodeGenerator(IProjectDescriptor projectDescriptor) : RfCodeGener
             if(entityDescriptor.IsLookupTable)
                 dtoFilePath = projectFolder.Shared.Dtos.Lookups.GetFilePath($"{entityDescriptor.Name}Dto.cs");
             await File.WriteAllTextAsync(dtoFilePath, dtoContent, this.ProjectDescriptor.Encoding);
-            progress.Report($"Generated DTO for {entityDescriptor.Name}");
+            progress.Report(new(entityDescriptor.Entity, "Dto"));
 
             count++;
         }
@@ -93,7 +93,7 @@ public class RfCodeGenerator(IProjectDescriptor projectDescriptor) : RfCodeGener
             string domainContent = domainTemplate.TransformText();
             string domainFilePath = projectFolder.ServiceLayer.Domains.GetFilePath($"{entityDescriptor.Name}Domain.cs");
             await File.WriteAllTextAsync(domainFilePath, domainContent, this.ProjectDescriptor.Encoding);
-            progress.Report($"Generated ServiceLayer domain for {entityDescriptor.Name}");
+            progress.Report(new(entityDescriptor.Entity, "Domain"));
 
             count++;
         }
@@ -105,7 +105,7 @@ public class RfCodeGenerator(IProjectDescriptor projectDescriptor) : RfCodeGener
             string controllerContent = controllerTemplate.TransformText();
             string controllerFilePath = projectFolder.WebApi.Controllers.GetFilePath($"{this.Pluralizer.Pluralize(entityDescriptor.Name)}Controller.cs");
             await File.WriteAllTextAsync(controllerFilePath, controllerContent, this.ProjectDescriptor.Encoding);
-            progress.Report($"Generated Controller for {entityDescriptor.Name}");
+            progress.Report(new(entityDescriptor.Entity, "Controller"));
 
             count++;
         }

@@ -77,9 +77,9 @@ public partial class MainWindow : Window
 
     private async void Generate_Click(object sender, RoutedEventArgs e)
     {
-        var progress = new Progress<string>(message =>
+        var progress = new Progress<RfProgressUpdateDto>(update =>
         {
-            this.ViewModel.Messages.Add(message);
+            this.ViewModel.Messages.Add($"{update.Entity.Name} - {update.Step}");
         });
 
         var selectedEntities = this.ViewModel.Entities.Where(v1 => v1.IsSelected).OrderBy(v1 => v1.Name).ToList();
