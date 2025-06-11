@@ -49,7 +49,7 @@ try
     var codeGenerator = new RfCodeGenerator(projectDescriptor);
     var count = await codeGenerator.Generate(entities, new Progress<RfProgressUpdateDto>((update) => PrintProgress(update)));
 
-    Console.WriteLine($"Generated {count} files.");
+    Console.WriteLine($"Generated {count} files for {entities.Count} entities.");
 
     Console.WriteLine();
     var domainServiceRegistrations = RfCodeGeneratorBase.GetDomainServiceRegistrations(entities);

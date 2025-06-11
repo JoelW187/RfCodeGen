@@ -60,21 +60,17 @@ public class RfCodeGenerator(IProjectDescriptor projectDescriptor) : RfCodeGener
 
         var projectFolder = this.ProjectDescriptor.ProjectFolder;
 
-        //Model (partial)
         foreach(var entityDescriptor in entityDescriptors)
         {
+            //Model (partial)
             var modelTemplate = this.ProjectDescriptor.GetModelTemplate(entityDescriptor);
             string modelPartialContent = modelTemplate.TransformText();
             string modelPartialFilePath = projectFolder.DataAccess.Models.Partials.GetFilePath($"{entityDescriptor.Entity.Name}.cs");
             await File.WriteAllTextAsync(modelPartialFilePath, modelPartialContent, this.ProjectDescriptor.Encoding);
             progress.Report(new(entityDescriptor.Entity, "Model (partial)"));
-
             count++;
-        }
 
-        //Dto
-        foreach(var entityDescriptor in entityDescriptors)
-        {
+            //Dto
             var dtoTemplate = this.ProjectDescriptor.GetDtoTemplate(entityDescriptor);
             string dtoContent = dtoTemplate.TransformText();
             string dtoFilePath = projectFolder.Shared.Dtos.GetFilePath($"{entityDescriptor.Name}Dto.cs");
@@ -82,31 +78,22 @@ public class RfCodeGenerator(IProjectDescriptor projectDescriptor) : RfCodeGener
                 dtoFilePath = projectFolder.Shared.Dtos.Lookups.GetFilePath($"{entityDescriptor.Name}Dto.cs");
             await File.WriteAllTextAsync(dtoFilePath, dtoContent, this.ProjectDescriptor.Encoding);
             progress.Report(new(entityDescriptor.Entity, "Dto"));
-
             count++;
-        }
 
-        //Domain
-        foreach(var entityDescriptor in entityDescriptors.Where(v1 => !v1.IsLookupTable))
-        {
+            //Domain
             var domainTemplate = this.ProjectDescriptor.GetDomainTemplate(entityDescriptor);
             string domainContent = domainTemplate.TransformText();
             string domainFilePath = projectFolder.ServiceLayer.Domains.GetFilePath($"{entityDescriptor.Name}Domain.cs");
             await File.WriteAllTextAsync(domainFilePath, domainContent, this.ProjectDescriptor.Encoding);
             progress.Report(new(entityDescriptor.Entity, "Domain"));
-
             count++;
-        }
 
-        //Controller
-        foreach(var entityDescriptor in entityDescriptors.Where(v1 => !v1.IsLookupTable))
-        {
+            //Controller
             var controllerTemplate = this.ProjectDescriptor.GetControllerTemplate(entityDescriptor);
             string controllerContent = controllerTemplate.TransformText();
             string controllerFilePath = projectFolder.WebApi.Controllers.GetFilePath($"{this.Pluralizer.Pluralize(entityDescriptor.Name)}Controller.cs");
             await File.WriteAllTextAsync(controllerFilePath, controllerContent, this.ProjectDescriptor.Encoding);
             progress.Report(new(entityDescriptor.Entity, "Controller"));
-
             count++;
         }
 
