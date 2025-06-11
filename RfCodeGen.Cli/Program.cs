@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 
 IProjectDescriptor projectDescriptor;
 
-if(args.Length != 3)
+if(args.Length < 3 || args.Length > 4)
 {
     Exit("Invalid number of arguments");
 }
@@ -14,6 +14,11 @@ if(args.Length != 3)
 string projectId = args[0].Trim();
 string projectName = args[1].Trim();
 string projectPath = args[2].Trim();
+List<string> entityNames = [];
+if(args.Length == 4)
+{
+    entityNames.AddRange(args[3].Trim().Split(',').Select(e => e.Trim()));
+}
 
 if(!Directory.Exists(projectPath))
 {
@@ -24,8 +29,22 @@ try
 {
     projectDescriptor = ProjectFactory.CreateProjectDescriptor(projectId, projectName, projectPath);
 
+    if(entityNames.Count == 0)
+    {
+        entityNames.AddRange(Directory.EnumerateFiles(projectDescriptor.ProjectFolder.DataAccess.Models.FullPath, "*.cs", SearchOption.TopDirectoryOnly).Select(v1 => Path.GetFileName(v1)));
+    }
+
     List<EntityDto> entities = [];
-    entities.Add(new(Path.Combine(projectDescriptor.ProjectFolder.DataAccess.Models.FullPath, "CrackingPercent.cs")));
+    foreach(string entityName in entityNames)
+    {
+        string filename = Path.ChangeExtension(entityName, "cs");
+
+        string filePath = Path.Combine(projectDescriptor.ProjectFolder.DataAccess.Models.FullPath, filename);
+        if (!File.Exists(filePath))
+            Exit($"Entity file '{filePath}' does not exist.");
+
+        entities.Add(new(Path.Combine(projectDescriptor.ProjectFolder.DataAccess.Models.FullPath, filename)));
+    }
 
     var codeGenerator = new RfCodeGenerator(projectDescriptor);
     var count = await codeGenerator.Generate(entities, new Progress<RfProgressUpdateDto>((update) => PrintProgress(update)));
@@ -81,7 +100,7 @@ static void PrintUsage(string? message = null)
     Console.WriteLine();
 
     var projectIds = ProjectFactory.GetProjectIds();
-    Console.WriteLine("Usage: RfCodeGen.Cli <projectId> <projectName> <projectPath>");
+    Console.WriteLine("Usage: RfCodeGen.Cli <projectId> <projectName> <projectPath> [<entityNames>]");
     Console.WriteLine("Available project IDs:");
     foreach (var id in projectIds)
     {
@@ -89,6 +108,7 @@ static void PrintUsage(string? message = null)
     }
     Console.WriteLine($"projectName is user defined and can be any string.");
     Console.WriteLine($"projectPath is the path to the project folder where the generated code will be placed. Generally this will be the folder where the .sln file lives.");
+    Console.WriteLine($"entityNames is an optional comma-separated list of entity names to generate code for. If not provided, all entities in the DataAccess.Models folder will be processed.");
     Console.WriteLine();
     Console.WriteLine($"Example: RfCodeGen.Cli HPMS 'NJDOT HPMS' 'C:\\Source\\mbakerintlapps\\NJDOT\\NJDOT_HPMS\\src\\NJDOT_HPMS'");
 }
