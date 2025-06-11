@@ -47,15 +47,13 @@ try
     }
 
     var codeGenerator = new RfCodeGenerator(projectDescriptor);
-    var count = await codeGenerator.Generate(entities, new Progress<RfProgressUpdateDto>((update) => PrintProgress(update)));
+    var result = await codeGenerator.Generate(entities, new Progress<RfProgressUpdateDto>((update) => PrintProgress(update)));
 
-    Console.WriteLine($"Generated {count} files for {entities.Count} entities.");
+    Console.WriteLine($"Generated {result.GeneratedFileCount} files for {entities.Count} entities.");
 
     Console.WriteLine();
-    var domainServiceRegistrations = RfCodeGeneratorBase.GetDomainServiceRegistrations(entities);
-    var autoMapperMappingProfiles = RfCodeGeneratorBase.GetAutoMapperMappingProfiles(entities);
+    string auxGenCode = string.Join($"{Environment.NewLine}", result.DomainServiceRegistrations) + $"{Environment.NewLine}{Environment.NewLine}" + string.Join($"{Environment.NewLine}", result.AutoMapperMappingProfiles) + $"{Environment.NewLine}{Environment.NewLine}" + string.Join($",{Environment.NewLine}", result.LookupTableEnums);
 
-    string auxGenCode = string.Join("\r\n", domainServiceRegistrations) + "\r\n" + string.Join("\r\n", autoMapperMappingProfiles);
     Console.WriteLine("Auxiliary Generated Code:");
     Console.WriteLine(auxGenCode);
 }

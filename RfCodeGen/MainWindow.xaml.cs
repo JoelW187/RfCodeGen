@@ -85,14 +85,14 @@ public partial class MainWindow : Window
         var selectedEntities = this.ViewModel.Entities.Where(v1 => v1.IsSelected).OrderBy(v1 => v1.Name).ToList();
 
         var codeGenerator = new RfCodeGenerator(this.ViewModel.SelectedProjectDescriptor!);
-        var count = await codeGenerator.Generate(selectedEntities, progress);
+        var result = await codeGenerator.Generate(selectedEntities, progress);
 
-        this.ViewModel.Messages.Add($"Generated {count} files.");
+        this.ViewModel.Messages.Add($"Generated {result.GeneratedFileCount} files.");
 
-        var domainServiceRegistrations = RfCodeGeneratorBase.GetDomainServiceRegistrations(selectedEntities);
-        var autoMapperMappingProfiles = RfCodeGeneratorBase.GetAutoMapperMappingProfiles(selectedEntities);
+        //var domainServiceRegistrations = RfCodeGeneratorBase.GetDomainServiceRegistrations(selectedEntities);
+        //var autoMapperMappingProfiles = RfCodeGeneratorBase.GetAutoMapperMappingProfiles(selectedEntities);
 
-        this.ViewModel.AuxGenCode = string.Join("\r\n", domainServiceRegistrations) + "\r\n" + string.Join("\r\n", autoMapperMappingProfiles);
+        this.ViewModel.AuxGenCode = string.Join($"{Environment.NewLine}", result.DomainServiceRegistrations) + $"{Environment.NewLine}{Environment.NewLine}" + string.Join($"{Environment.NewLine}", result.AutoMapperMappingProfiles) + $"{Environment.NewLine}{Environment.NewLine}" + string.Join($",{Environment.NewLine}", result.LookupTableEnums);
     }
 }
 

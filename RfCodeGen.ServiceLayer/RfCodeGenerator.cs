@@ -5,37 +5,12 @@ using System.Text;
 
 namespace RfCodeGen.ServiceLayer;
 
-public abstract class RfCodeGeneratorBase
-{
-    public static string GetDomainServiceRegistrations(IEnumerable<EntityDto> entities)
-    {
-        StringBuilder sb = new();
-        foreach(EntityDto entity in entities)
-        {
-            sb.AppendLine($"builder.Services.AddScoped<I{entity.Name}Domain, {entity.Name}Domain>();");
-        }
-
-        return sb.ToString();
-    }
-
-    public static string GetAutoMapperMappingProfiles(IEnumerable<EntityDto> entities)
-    {
-        StringBuilder sb = new();
-        foreach(EntityDto entity in entities)
-        {
-            sb.AppendLine($"CreateMap<{entity.Name}, {entity.Name}Dto>().ReverseMap();");
-        }
-
-        return sb.ToString();
-    }
-}
-
-public class RfCodeGenerator(IProjectDescriptor projectDescriptor) : RfCodeGeneratorBase
+public class RfCodeGenerator(IProjectDescriptor projectDescriptor)
 {
     private Pluralizer Pluralizer { get; } = new();
     private IProjectDescriptor ProjectDescriptor { get; } = projectDescriptor;
 
-    public async Task<int> Generate(IEnumerable<EntityDto> entities, IProgress<RfProgressUpdateDto> progress)
+    public async Task<RfCodeGeneratorResultDto> Generate(IEnumerable<EntityDto> entities, IProgress<RfProgressUpdateDto> progress)
     {
         int count = 0;
 
@@ -100,6 +75,23 @@ public class RfCodeGenerator(IProjectDescriptor projectDescriptor) : RfCodeGener
             }
         }
 
-        return count;
+        RfCodeGeneratorResultDto result = new(count, GetDomainServiceRegistrations(entityDescriptors), GetAutoMapperMappingProfiles(entityDescriptors), GetLookupEnums(entityDescriptors));
+
+        return result;
+    }
+
+    private static IEnumerable<string> GetDomainServiceRegistrations(IEnumerable<EntityDescriptorDto> entities)
+    {
+        return entities.Select(entity => $"builder.Services.AddScoped<I{entity.Name}Domain, {entity.Name}Domain>();");
+    }
+
+    private static IEnumerable<string> GetAutoMapperMappingProfiles(IEnumerable<EntityDescriptorDto> entities)
+    {
+        return entities.Select(entity => $"CreateMap<{entity.Name}, {entity.Name}Dto>().ReverseMap();");
+    }
+
+    private static IEnumerable<string> GetLookupEnums(IEnumerable<EntityDescriptorDto> entities)
+    {
+        return entities.Where(v1 => v1.IsLookupTable).Select(entity => entity.Name);
     }
 }
