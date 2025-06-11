@@ -2,6 +2,8 @@
 
 public interface IProjectDescriptor
 {
+    static string Id => throw new NotImplementedException("ProjectId must be implemented in derived classes.");
+
     string ProjectId { get; }
     string ProjectName { get; }
     string ProjectPath { get; }

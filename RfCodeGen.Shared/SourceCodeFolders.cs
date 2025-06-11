@@ -8,13 +8,12 @@ public abstract record SourceCodeFolderBase(string FullPath)
     public string Name => Path.GetFileNameWithoutExtension(FullPath);
 
     public string GetFilePath(string filename) => Path.Combine(FullPath, filename);
+    public bool Exists() => Directory.Exists(FullPath);
     public override string ToString() => FullPath;
 }
 
 public record ProjectFolder(string FullPath, string Prefix) : SourceCodeFolderBase(FullPath)
 {
-    //public ProjectFolder(ProjectDescriptorDto projectDescriptor) : this(projectDescriptor.ProjectPath, projectDescriptor.ProjectPrefix) { }
-
     public DataAccessFolder DataAccess { get; } = new(Path.Combine(FullPath, $"{Prefix}DataAccess"));
     public SharedFolder Shared { get; } = new(Path.Combine(FullPath, $"{Prefix}Shared"));
     public ServiceLayerFolder ServiceLayer { get; } = new(Path.Combine(FullPath, $"{Prefix}ServiceLayer"));
