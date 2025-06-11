@@ -56,22 +56,33 @@ public record HpmsEntityDescriptorDto(EntityDto Entity) : EntityDescriptorDto(En
         get
         {
             List<string> values = [];
+            string? desc;
 
-            if(this.PkColumnName != string.Empty)
-                values.Add($"{this.PkColumnName}={{{this.PkColumnName}}}");
+            if(this.IsLookupTable)
+            {
+                foreach(var prop in this.Properties)
+                {
+                    values.Add($"{prop.Name}={{{prop.Name}}}");
+                }
+            }
+            else
+            {
+                if(this.PkColumnName != string.Empty)
+                    values.Add($"{this.PkColumnName}={{{this.PkColumnName}}}");
 
-            if(this.Properties.Any(v1 => v1.Name.Equals("Sri", StringComparison.CurrentCultureIgnoreCase)))
-                values.Add($"Sri={{Sri}}");
-            if(this.Properties.Any(v1 => v1.Name.Equals("MpStart", StringComparison.CurrentCultureIgnoreCase)))
-                values.Add($"MpStart={{MpStart}}");
-            if(this.Properties.Any(v1 => v1.Name.Equals("MpEnd", StringComparison.CurrentCultureIgnoreCase)))
-                values.Add($"MpEnd={{MpEnd}}");
+                if(this.Properties.Any(v1 => v1.Name.Equals("Sri", StringComparison.CurrentCultureIgnoreCase)))
+                    values.Add($"Sri={{Sri}}");
+                if(this.Properties.Any(v1 => v1.Name.Equals("MpStart", StringComparison.CurrentCultureIgnoreCase)))
+                    values.Add($"MpStart={{MpStart}}");
+                if(this.Properties.Any(v1 => v1.Name.Equals("MpEnd", StringComparison.CurrentCultureIgnoreCase)))
+                    values.Add($"MpEnd={{MpEnd}}");
 
-            string? desc = this.Properties.FirstOrDefault(v1 => v1.Name.StartsWith(this.Name, StringComparison.OrdinalIgnoreCase))?.Name;
-            desc ??= this.Properties.FirstOrDefault(v1 => v1.Type.Equals("string", StringComparison.OrdinalIgnoreCase) || v1.Type.Equals("string?", StringComparison.OrdinalIgnoreCase))?.Name;
+                desc = this.Properties.FirstOrDefault(v1 => v1.Name.StartsWith(this.Name, StringComparison.OrdinalIgnoreCase))?.Name;
+                desc ??= this.Properties.FirstOrDefault(v1 => v1.Type.Equals("string", StringComparison.OrdinalIgnoreCase) || v1.Type.Equals("string?", StringComparison.OrdinalIgnoreCase))?.Name;
 
-            if(desc != null)
-                values.Add($"{desc}={{{desc}}}");
+                if(desc != null)
+                    values.Add($"{desc}={{{desc}}}");
+            }
 
             desc = string.Join(",", values);
 
@@ -79,6 +90,13 @@ public record HpmsEntityDescriptorDto(EntityDto Entity) : EntityDescriptorDto(En
                 desc = $"[DebuggerDisplay(\"{desc}\")]";
 
             return desc;
+        }
+    }
+    public override bool IsLookupTable
+    {
+        get
+        {
+            return this.Entity.Name.StartsWith("Lst");
         }
     }
 }

@@ -8,8 +8,9 @@ public record HpmsProjectDescriptorDto(string ProjectName, string ProjectPath) :
     public static string Id => "HPMS";
 
     public override ITextTemplate GetModelTemplate(EntityDescriptorDto entityDescriptor) => new RfCodeGen.ProjectConfigs.HPMS.ModelTextTemplate(this, entityDescriptor);
-    public override ITextTemplate GetDtoTemplate(EntityDescriptorDto entityDescriptor) => new RfCodeGen.ProjectConfigs.HPMS.DtoTextTemplate(this, entityDescriptor);
-    public override ITextTemplate GetDomainTemplate(EntityDescriptorDto entityDescriptor) => new RfCodeGen.ProjectConfigs.HPMS.DomainTextTemplate(this, entityDescriptor);
+    //public override ITextTemplate GetDtoTemplate(EntityDescriptorDto entityDescriptor) => new RfCodeGen.ProjectConfigs.HPMS.DtoTextTemplate(this, entityDescriptor);
+    public override ITextTemplate GetDtoTemplate(EntityDescriptorDto entityDescriptor) => entityDescriptor.IsLookupTable ? new RfCodeGen.ProjectConfigs.HPMS.TextTemplates.DtoLookupTextTemplate(this, entityDescriptor) : new RfCodeGen.ProjectConfigs.HPMS.DtoTextTemplate(this, entityDescriptor);
+    public override ITextTemplate GetDomainTemplate(EntityDescriptorDto entityDescriptor) => new RfCodeGen.ProjectConfigs.HPMS.TextTemplates.DomainTextTemplate(this, entityDescriptor);
     public override ITextTemplate GetControllerTemplate(EntityDescriptorDto entityDescriptor) => new RfCodeGen.ProjectConfigs.HPMS.ControllerTextTemplate(this, entityDescriptor);
 
     public override EntityDescriptorDto GetEntityDescriptor(EntityDto entity)

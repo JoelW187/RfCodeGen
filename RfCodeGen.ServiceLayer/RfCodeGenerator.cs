@@ -89,12 +89,15 @@ public class RfCodeGenerator(IProjectDescriptor projectDescriptor) : RfCodeGener
             count++;
 
             //Controller
-            var controllerTemplate = this.ProjectDescriptor.GetControllerTemplate(entityDescriptor);
-            string controllerContent = controllerTemplate.TransformText();
-            string controllerFilePath = projectFolder.WebApi.Controllers.GetFilePath($"{this.Pluralizer.Pluralize(entityDescriptor.Name)}Controller.cs");
-            await File.WriteAllTextAsync(controllerFilePath, controllerContent, this.ProjectDescriptor.Encoding);
-            progress.Report(new(entityDescriptor.Entity, "Controller"));
-            count++;
+            if(!entityDescriptor.IsLookupTable)
+            {
+                var controllerTemplate = this.ProjectDescriptor.GetControllerTemplate(entityDescriptor);
+                string controllerContent = controllerTemplate.TransformText();
+                string controllerFilePath = projectFolder.WebApi.Controllers.GetFilePath($"{this.Pluralizer.Pluralize(entityDescriptor.Name)}Controller.cs");
+                await File.WriteAllTextAsync(controllerFilePath, controllerContent, this.ProjectDescriptor.Encoding);
+                progress.Report(new(entityDescriptor.Entity, "Controller"));
+                count++;
+            }
         }
 
         return count;

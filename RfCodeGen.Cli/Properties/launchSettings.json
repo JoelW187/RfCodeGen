@@ -2,7 +2,7 @@
   "profiles": {
     "RfCodeGen.Cli": {
       "commandName": "Project",
-      "commandLineArgs": "\"HPMS\" \"NJDOT HPMS\" \"C:\\Source\\mbakerintlapps\\NJDOT\\NJDOT_HPMS\\src\\NJDOT_HPMS\" \"CrackingPercent, CurveLength\""
+      "commandLineArgs": "\"HPMS\" \"NJDOT HPMS\" \"C:\\Source\\mbakerintlapps\\NJDOT\\NJDOT_HPMS\\src\\NJDOT_HPMS\" \"LstCounty\""
     }
   }
 }

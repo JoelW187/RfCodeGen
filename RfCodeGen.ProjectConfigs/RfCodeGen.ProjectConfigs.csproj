@@ -47,6 +47,10 @@
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>DomainTextTemplate.cs</LastGenOutput>
     </None>
+    <None Update="HPMS\TextTemplates\DtoLookupTextTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>DtoLookupTextTemplate.cs</LastGenOutput>
+    </None>
     <None Update="HPMS\TextTemplates\DtoTextTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>DtoTextTemplate.cs</LastGenOutput>
@@ -101,6 +105,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>DomainTextTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="HPMS\TextTemplates\DtoLookupTextTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DtoLookupTextTemplate.tt</DependentUpon>
     </Compile>
     <Compile Update="HPMS\TextTemplates\DtoTextTemplate.cs">
       <DesignTime>True</DesignTime>

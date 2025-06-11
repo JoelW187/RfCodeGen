@@ -5,7 +5,7 @@
 <#@ import namespace="System.Collections.Generic" #>
 using HPMS.DataAccess.Models;
 using HPMS.DataAccess.Repositories;
-using HPMS.Shared.Dtos;
+using HPMS.Shared.Dtos<# if(this.EntityDescriptor.IsLookupTable) { #>.Lookups<# } #>;
 using RepositoryFramework;
 
 namespace HPMS.ServiceLayer.Domains;
