@@ -1,7 +1,7 @@
 ﻿using RfCodeGen.Shared;
 using RfCodeGen.Shared.Dtos;
 
-namespace RfCodeGen.ProjectConfigs.HPMS;
+namespace RfCodeGen.ProjectConfigs.HPMS.TextTemplates;
 
 public partial class DtoTextTemplate(ProjectDescriptorDto projectDescriptor, EntityDescriptorDto entityDescriptor) : ITextTemplate
 {
