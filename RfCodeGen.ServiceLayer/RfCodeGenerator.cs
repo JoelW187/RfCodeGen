@@ -100,6 +100,6 @@ public class RfCodeGenerator(IProjectDescriptor projectDescriptor)
 
     private static IEnumerable<string> GetLookupEnums(IEnumerable<EntityDescriptorDto> entities)
     {
-        return entities.Where(v1 => v1.IsLookupTable).Select(entity => entity.Name);
+        return entities.Where(v1 => v1.IsLookupTable).Select(entity => entity.PluralizedName);
     }
 }
