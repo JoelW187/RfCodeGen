@@ -11,7 +11,7 @@ public record CdmsProjectDescriptorDto(string ProjectName, string ProjectPath) :
     public override ITextTemplate GetDtoTemplate(EntityDescriptorDto entityDescriptor) => entityDescriptor.IsLookupTable ? new RfCodeGen.ProjectConfigs.CDMS.TextTemplates.DtoLookupTextTemplate(this, entityDescriptor) : new RfCodeGen.ProjectConfigs.CDMS.TextTemplates.DtoTextTemplate(this, entityDescriptor);
     public override ITextTemplate GetDomainTemplate(EntityDescriptorDto entityDescriptor) => new RfCodeGen.ProjectConfigs.CDMS.TextTemplates.DomainTextTemplate(this, entityDescriptor);
     public override ITextTemplate GetControllerTemplate(EntityDescriptorDto entityDescriptor) => new RfCodeGen.ProjectConfigs.CDMS.TextTemplates.ControllerTextTemplate(this, entityDescriptor);
-    public override ITextTemplate GetRfControllerTestTemplate(EntityDescriptorDto entityDescriptor) => new RfCodeGen.ProjectConfigs.CDMS.TextTemplates.RfControllerTestTextTemplate(this, entityDescriptor);
+    public override ITextTemplate GetRfControllerTestTemplate(EntityDescriptorDto entityDescriptor) => entityDescriptor.IsLookupTable ? new RfCodeGen.ProjectConfigs.CDMS.TextTemplates.LookupsControllerTestTextTemplate(this, entityDescriptor) : new RfCodeGen.ProjectConfigs.CDMS.TextTemplates.RfControllerTestTextTemplate(this, entityDescriptor);
 
     public override EntityDescriptorDto GetEntityDescriptor(EntityDto entity)
     {

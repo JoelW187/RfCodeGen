@@ -5,7 +5,7 @@
 <#@ import namespace="System.Collections.Generic" #>
 using <#= this.ProjectDescriptor.ProjectNamespacePrefix #>DataAccess.Models;
 using <#= this.ProjectDescriptor.ProjectNamespacePrefix #>DataAccess.Repositories;
-using <#= this.ProjectDescriptor.ProjectNamespacePrefix #>Shared.Dtos;
+using <#= this.ProjectDescriptor.ProjectNamespacePrefix #>Shared.Dtos<# if(this.EntityDescriptor.IsLookupTable) {#>.Lookups<#} #>;
 using Mbi.RepositoryFramework;
 
 namespace <#= this.ProjectDescriptor.ProjectNamespacePrefix #>ServiceLayer.Domains;

@@ -31,6 +31,10 @@
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>DtoTextTemplate.cs</LastGenOutput>
     </None>
+    <None Update="CDMS\TextTemplates\LookupsControllerTestTextTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>LookupsControllerTestTextTemplate.cs</LastGenOutput>
+    </None>
     <None Update="CDMS\TextTemplates\ModelLookupTextTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>ModelLookupTextTemplate.cs</LastGenOutput>
@@ -97,6 +101,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>DtoTextTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="CDMS\TextTemplates\LookupsControllerTestTextTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>LookupsControllerTestTextTemplate.tt</DependentUpon>
     </Compile>
     <Compile Update="CDMS\TextTemplates\ModelLookupTextTemplate.cs">
       <DesignTime>True</DesignTime>

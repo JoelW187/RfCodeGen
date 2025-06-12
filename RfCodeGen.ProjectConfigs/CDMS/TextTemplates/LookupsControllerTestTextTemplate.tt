@@ -1,0 +1,15 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+using <#= this.ProjectDescriptor.ProjectNamespacePrefix #>DataAccess.EntityFramework;
+using <#= this.ProjectDescriptor.ProjectNamespacePrefix #>DataAccess.Repositories;
+using <#= this.ProjectDescriptor.ProjectNamespacePrefix #>DataAccess.Models;
+using <#= this.ProjectDescriptor.ProjectNamespacePrefix #>ServiceLayer.Domains;
+using <#= this.ProjectDescriptor.ProjectNamespacePrefix #>Shared.Dtos.Lookups;
+using <#= this.ProjectDescriptor.ProjectNamespacePrefix #>Shared.Utils;
+
+namespace <#= this.ProjectDescriptor.ProjectNamespacePrefix #>Tests.UnitTests.RfControllerTests;
+
+public partial class <#= this.EntityDescriptor.Name #>LookupsControllerTests : LookupsControllerTestsBase<CdmsContext, ICdmsRepository<<#= this.EntityDescriptor.Name #>>, <#= this.EntityDescriptor.Name #>, <#= this.EntityDescriptor.Name #>Dto, <#= this.EntityDescriptor.Name #>Domain, string, LookupTableName> { }
