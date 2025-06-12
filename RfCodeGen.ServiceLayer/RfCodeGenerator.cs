@@ -77,7 +77,7 @@ public class RfCodeGenerator(IProjectDescriptor projectDescriptor)
             //RfControllerTest
             var rfControllerTestTemplate = this.ProjectDescriptor.GetRfControllerTestTemplate(entityDescriptor);
             string rfControllerTestContent = rfControllerTestTemplate.TransformText();
-            string rfControllerTestFilePath = projectFolder.Tests.UnitTests.RfControllerTests.GetFilePath($"{entityDescriptor.PluralizedName}ControllerTests.cs");
+            string rfControllerTestFilePath = projectFolder.Tests.UnitTests.RfControllerTests.GetFilePath($"{entityDescriptor.PluralizedName}{(entityDescriptor.IsLookupTable ? "Lookups" : "")}ControllerTests.cs");
             await File.WriteAllTextAsync(rfControllerTestFilePath, rfControllerTestContent, this.ProjectDescriptor.Encoding);
             progress.Report(new(entityDescriptor.Entity, "RfControllerTest"));
             count++;

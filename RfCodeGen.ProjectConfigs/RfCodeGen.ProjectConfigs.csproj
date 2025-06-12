@@ -59,6 +59,10 @@
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>DtoTextTemplate.cs</LastGenOutput>
     </None>
+    <None Update="HPMS\TextTemplates\LookupsControllerTestTextTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>LookupsControllerTestTextTemplate.cs</LastGenOutput>
+    </None>
     <None Update="HPMS\TextTemplates\ModelTextTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>ModelTextTemplate.cs</LastGenOutput>
@@ -128,6 +132,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>DtoTextTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="HPMS\TextTemplates\LookupsControllerTestTextTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>LookupsControllerTestTextTemplate.tt</DependentUpon>
     </Compile>
     <Compile Update="HPMS\TextTemplates\ModelTextTemplate.cs">
       <DesignTime>True</DesignTime>
