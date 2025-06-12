@@ -68,11 +68,19 @@ public class RfCodeGenerator(IProjectDescriptor projectDescriptor)
             {
                 var controllerTemplate = this.ProjectDescriptor.GetControllerTemplate(entityDescriptor);
                 string controllerContent = controllerTemplate.TransformText();
-                string controllerFilePath = projectFolder.WebApi.Controllers.GetFilePath($"{this.Pluralizer.Pluralize(entityDescriptor.Name)}Controller.cs");
+                string controllerFilePath = projectFolder.WebApi.Controllers.GetFilePath($"{entityDescriptor.PluralizedName}Controller.cs");
                 await File.WriteAllTextAsync(controllerFilePath, controllerContent, this.ProjectDescriptor.Encoding);
                 progress.Report(new(entityDescriptor.Entity, "Controller"));
                 count++;
             }
+
+            //RfControllerTest
+            var rfControllerTestTemplate = this.ProjectDescriptor.GetRfControllerTestTemplate(entityDescriptor);
+            string rfControllerTestContent = rfControllerTestTemplate.TransformText();
+            string rfControllerTestFilePath = projectFolder.Tests.UnitTests.RfControllerTests.GetFilePath($"{entityDescriptor.PluralizedName}ControllerTests.cs");
+            await File.WriteAllTextAsync(rfControllerTestFilePath, rfControllerTestContent, this.ProjectDescriptor.Encoding);
+            progress.Report(new(entityDescriptor.Entity, "RfControllerTest"));
+            count++;
         }
 
         RfCodeGeneratorResultDto result = new(count, GetDomainServiceRegistrations(entityDescriptors), GetAutoMapperMappingProfiles(entityDescriptors), GetLookupEnums(entityDescriptors));

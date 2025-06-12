@@ -18,6 +18,7 @@ public record ProjectFolder(string FullPath, string Prefix) : SourceCodeFolderBa
     public SharedFolder Shared { get; } = new(Path.Combine(FullPath, $"{Prefix}Shared"));
     public ServiceLayerFolder ServiceLayer { get; } = new(Path.Combine(FullPath, $"{Prefix}ServiceLayer"));
     public WebApiFolder WebApi { get; } = new(Path.Combine(FullPath, $"{Prefix}WebApi"));
+    public TestsFolder Tests { get; } = new(Path.Combine(FullPath, $"{Prefix}Tests"));
 }
 
 //DataAccess
@@ -61,3 +62,16 @@ public record WebApiFolder(string FullPath) : SourceCodeFolderBase(FullPath)
 }
 
 public record WebApiControllersFolder(string FullPath) : SourceCodeFolderBase(FullPath) { }
+
+//Tests
+public record TestsFolder(string FullPath) : SourceCodeFolderBase(FullPath)
+{
+    public TestsUnitTestsFolder UnitTests { get; } = new(Path.Combine(FullPath, "UnitTests"));
+}
+
+public record TestsUnitTestsFolder(string FullPath) : SourceCodeFolderBase(FullPath)
+{
+    public TestsUnitTestsRfControllerTestsFolder RfControllerTests { get; } = new(Path.Combine(FullPath, "RfControllerTests"));
+}
+
+public record TestsUnitTestsRfControllerTestsFolder(string FullPath) : SourceCodeFolderBase(FullPath) { }

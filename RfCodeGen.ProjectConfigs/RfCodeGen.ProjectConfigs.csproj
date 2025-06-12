@@ -39,6 +39,10 @@
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>ModelTextTemplate.cs</LastGenOutput>
     </None>
+    <None Update="CDMS\TextTemplates\RfControllerTestTextTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>RfControllerTestTextTemplate.cs</LastGenOutput>
+    </None>
     <None Update="HPMS\TextTemplates\ControllerTextTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>ControllerTextTemplate.cs</LastGenOutput>
@@ -58,6 +62,10 @@
     <None Update="HPMS\TextTemplates\ModelTextTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>ModelTextTemplate.cs</LastGenOutput>
+    </None>
+    <None Update="HPMS\TextTemplates\RfControllerTestTextTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>RfControllerTestTextTemplate.cs</LastGenOutput>
     </None>
   </ItemGroup>
 
@@ -96,6 +104,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>ModelTextTemplate.tt</DependentUpon>
     </Compile>
+    <Compile Update="CDMS\TextTemplates\RfControllerTestTextTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>RfControllerTestTextTemplate.tt</DependentUpon>
+    </Compile>
     <Compile Update="HPMS\TextTemplates\ControllerTextTemplate.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -121,10 +134,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>ModelTextTemplate.tt</DependentUpon>
     </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="CDMS\TextTemplates\" />
+    <Compile Update="HPMS\TextTemplates\RfControllerTestTextTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>RfControllerTestTextTemplate.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
 
 </Project>
