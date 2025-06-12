@@ -28,6 +28,98 @@ namespace RfCodeGen.ProjectConfigs.CDMS.TextTemplates
         /// </summary>
         public virtual string TransformText()
         {
+            this.Write("using ");
+            
+            #line 6 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ProjectConfigs\CDMS\TextTemplates\RfControllerTestTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.ProjectDescriptor.ProjectNamespacePrefix));
+            
+            #line default
+            #line hidden
+            this.Write("DataAccess.EntityFramework;\r\nusing ");
+            
+            #line 7 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ProjectConfigs\CDMS\TextTemplates\RfControllerTestTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.ProjectDescriptor.ProjectNamespacePrefix));
+            
+            #line default
+            #line hidden
+            this.Write("DataAccess.Repositories;\r\nusing ");
+            
+            #line 8 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ProjectConfigs\CDMS\TextTemplates\RfControllerTestTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.ProjectDescriptor.ProjectNamespacePrefix));
+            
+            #line default
+            #line hidden
+            this.Write("DataAccess.Models;\r\nusing ");
+            
+            #line 9 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ProjectConfigs\CDMS\TextTemplates\RfControllerTestTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.ProjectDescriptor.ProjectNamespacePrefix));
+            
+            #line default
+            #line hidden
+            this.Write("ServiceLayer.Domains;\r\nusing ");
+            
+            #line 10 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ProjectConfigs\CDMS\TextTemplates\RfControllerTestTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.ProjectDescriptor.ProjectNamespacePrefix));
+            
+            #line default
+            #line hidden
+            this.Write("Shared.Dtos;\r\nusing ");
+            
+            #line 11 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ProjectConfigs\CDMS\TextTemplates\RfControllerTestTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.ProjectDescriptor.ProjectNamespacePrefix));
+            
+            #line default
+            #line hidden
+            this.Write("WebApi.Controllers;\r\nusing CDMS.Common.Tests;\r\n\r\nnamespace ");
+            
+            #line 14 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ProjectConfigs\CDMS\TextTemplates\RfControllerTestTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.ProjectDescriptor.ProjectNamespacePrefix));
+            
+            #line default
+            #line hidden
+            this.Write("Tests.UnitTests.RfControllerTests;\r\n\r\npublic partial class ");
+            
+            #line 16 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ProjectConfigs\CDMS\TextTemplates\RfControllerTestTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.PluralizedName));
+            
+            #line default
+            #line hidden
+            this.Write("ControllerTests : RfControllerTestsBase<CdmsContext, ICdmsRepository<");
+            
+            #line 16 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ProjectConfigs\CDMS\TextTemplates\RfControllerTestTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Name));
+            
+            #line default
+            #line hidden
+            this.Write(">, ");
+            
+            #line 16 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ProjectConfigs\CDMS\TextTemplates\RfControllerTestTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Name));
+            
+            #line default
+            #line hidden
+            this.Write(", ");
+            
+            #line 16 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ProjectConfigs\CDMS\TextTemplates\RfControllerTestTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Name));
+            
+            #line default
+            #line hidden
+            this.Write("Dto, ");
+            
+            #line 16 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ProjectConfigs\CDMS\TextTemplates\RfControllerTestTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Name));
+            
+            #line default
+            #line hidden
+            this.Write("Domain, ");
+            
+            #line 16 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ProjectConfigs\CDMS\TextTemplates\RfControllerTestTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.PluralizedName));
+            
+            #line default
+            #line hidden
+            this.Write("Controller, string> { }\r\n");
             return this.GenerationEnvironment.ToString();
         }
     }
