@@ -44,7 +44,7 @@ public partial class ");
             
             #line default
             #line hidden
-            this.Write("ControllerTests : RfControllerTestsBase<");
+            this.Write("ControllerTests : HpmsRfControllerTestsBase<");
             
             #line 15 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ProjectConfigs\HPMS\TextTemplates\RfControllerTestTextTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Name));
