@@ -44,15 +44,7 @@ public partial class ");
             
             #line default
             #line hidden
-            this.Write("LookupsControllerTests : RfLookupsControllerTestsBase<HpmsContext, IHpmsRepositor" +
-                    "y<");
-            
-            #line 15 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ProjectConfigs\HPMS\TextTemplates\LookupsControllerTestTextTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Name));
-            
-            #line default
-            #line hidden
-            this.Write(">, ");
+            this.Write("LookupsControllerTests : HpmsRfLookupsControllerTestsBase<");
             
             #line 15 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ProjectConfigs\HPMS\TextTemplates\LookupsControllerTestTextTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Name));
@@ -73,7 +65,7 @@ public partial class ");
             
             #line default
             #line hidden
-            this.Write("Domain, string, LookupTableName> { }\r\n");
+            this.Write("Domain, LookupTableName> { }\r\n");
             return this.GenerationEnvironment.ToString();
         }
     }

@@ -12,4 +12,4 @@ using HPMS.Shared.Utils;
 
 namespace HPMS.Tests.UnitTests.RfControllerTests;
 
-public partial class <#= this.EntityDescriptor.PluralizedName #>LookupsControllerTests : RfLookupsControllerTestsBase<HpmsContext, IHpmsRepository<<#= this.EntityDescriptor.Name #>>, <#= this.EntityDescriptor.Name #>, <#= this.EntityDescriptor.Name #>Dto, <#= this.EntityDescriptor.Name #>Domain, string, LookupTableName> { }
+public partial class <#= this.EntityDescriptor.PluralizedName #>LookupsControllerTests : HpmsRfLookupsControllerTestsBase<<#= this.EntityDescriptor.Name #>, <#= this.EntityDescriptor.Name #>Dto, <#= this.EntityDescriptor.Name #>Domain, LookupTableName> { }
