@@ -44,14 +44,7 @@ public partial class ");
             
             #line default
             #line hidden
-            this.Write("ControllerTests : RfControllerTestsBase<HpmsContext, IHpmsRepository<");
-            
-            #line 15 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ProjectConfigs\HPMS\TextTemplates\RfControllerTestTextTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Name));
-            
-            #line default
-            #line hidden
-            this.Write(">, ");
+            this.Write("ControllerTests : RfControllerTestsBase<");
             
             #line 15 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ProjectConfigs\HPMS\TextTemplates\RfControllerTestTextTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Name));
@@ -79,7 +72,7 @@ public partial class ");
             
             #line default
             #line hidden
-            this.Write("Controller, string> { }\r\n");
+            this.Write("Controller> { }\r\n");
             return this.GenerationEnvironment.ToString();
         }
     }

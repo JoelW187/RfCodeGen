@@ -12,4 +12,4 @@ using HPMS.WebApi.Controllers;
 
 namespace HPMS.Tests.UnitTests.RfControllerTests;
 
-public partial class <#= this.EntityDescriptor.PluralizedName #>ControllerTests : RfControllerTestsBase<HpmsContext, IHpmsRepository<<#= this.EntityDescriptor.Name #>>, <#= this.EntityDescriptor.Name #>, <#= this.EntityDescriptor.Name #>Dto, <#= this.EntityDescriptor.Name #>Domain, <#= this.EntityDescriptor.PluralizedName #>Controller, string> { }
+public partial class <#= this.EntityDescriptor.PluralizedName #>ControllerTests : RfControllerTestsBase<<#= this.EntityDescriptor.Name #>, <#= this.EntityDescriptor.Name #>Dto, <#= this.EntityDescriptor.Name #>Domain, <#= this.EntityDescriptor.PluralizedName #>Controller> { }
