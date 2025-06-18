@@ -43,6 +43,7 @@ public abstract record EntityDescriptorDto(EntityDto Entity)
     public virtual List<string> Includes { get; } = [];
     public virtual bool IsLookupTable { get; }
     public virtual bool IsManyToManyTable { get; }
+    public virtual string TInclude => this.Includes.Count == 0 ? "string" : $"{this.Name}Include";
 }
 
 public abstract record EntityPropertyDescriptorDto
