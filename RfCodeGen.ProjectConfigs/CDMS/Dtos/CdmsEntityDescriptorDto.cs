@@ -8,8 +8,10 @@ using System.Threading.Tasks;
 
 namespace RfCodeGen.ProjectConfigs.CDMS.Dtos;
 
-public record CdmsEntityDescriptorDto(EntityDto Entity) : EntityDescriptorDto(Entity)
+public record CdmsEntityDescriptorDto(EntityDto Entity, IEnumerable<EntityDescriptorDto> EntityDescriptors) : EntityDescriptorDto(Entity, EntityDescriptors)
 {
+    public Pluralizer Pluralizer { get; } = new();
+
     public override List<EntityPropertyDescriptorDto> DtoProperties
     {
         get
@@ -37,25 +39,50 @@ public record CdmsEntityDescriptorDto(EntityDto Entity) : EntityDescriptorDto(En
             }
         }
     }
-    public override List<string> Includes
+    public override IEnumerable<EntityDescriptorDto> Children
     {
         get
         {
-            Pluralizer pluralizer = new();
-            List<string> list = [];
+            List<EntityDescriptorDto> list = [];
+            string entityName;
 
             var names = this.Properties.Where(v1 => (v1.Modifiers.Contains("virtual") && (v1.Type.StartsWith("ICollection<") && !v1.Name.EndsWith("Navigation") && !v1.Name.EndsWith("Navigations")))).Select(v1 => v1.Name);
             foreach(var name in names)
             {
-                if(name.EndsWith(this.PluralizedName))
-                    list.Add(pluralizer.Pluralize(name[..^this.PluralizedName.Length])); //remove the pluralized name from the end
-                else
-                    list.Add(name); //keep the name as is
+                entityName = name;
+                if(entityName.EndsWith(this.PluralizedName))
+                    entityName = name[..^this.PluralizedName.Length]; //remove the pluralized name from the end
+                
+                entityName = this.Pluralizer.Singularize(entityName); //singularize the name
+                var childEntity = this.EntityDescriptors.FirstOrDefault(v1 => v1.Name.Equals(entityName, StringComparison.OrdinalIgnoreCase)) ?? throw new InvalidOperationException($"Entity '{this.Name}' has a collection property '{name}' that does not match any entity in the project. Expected singular name: '{entityName}'.");
+                list.Add(childEntity);
             }
 
             return list;
         }
     }
+    public override IEnumerable<string> Includes
+    {
+        get
+        {
+            return [.. this.Children.Select(v1 => this.Pluralizer.Pluralize(v1.Name))];
+            //Pluralizer pluralizer = new();
+            //List<string> list = [];
+
+            //var names = this.Properties.Where(v1 => (v1.Modifiers.Contains("virtual") && (v1.Type.StartsWith("ICollection<") && !v1.Name.EndsWith("Navigation") && !v1.Name.EndsWith("Navigations")))).Select(v1 => v1.Name);
+            //foreach(var name in names)
+            //{
+            //    if(name.EndsWith(this.PluralizedName))
+            //        list.Add(pluralizer.Pluralize(name[..^this.PluralizedName.Length])); //remove the pluralized name from the end
+            //    else
+            //        list.Add(name); //keep the name as is
+            //}
+
+            //return list;
+        }
+    }
+    public override string TInclude => !this.Includes.Any() ? "string" : $"{this.Name}Include";
+    public override string ChildDescriptor => $"ChildDescriptor.Create<CdmsContext, ICdmsRepository<{this.Name}>, {this.Name}, {this.Name}Dto, {this.Name}Domain, {this.PluralizedName}Controller, {this.TInclude}>(typeof(I{this.Name}Domain))";
     public override bool IsLookupTable
     {
         get

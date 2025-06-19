@@ -13,9 +13,9 @@ public record HpmsProjectDescriptorDto(string ProjectName, string ProjectPath) :
     public override ITextTemplate GetControllerTemplate(EntityDescriptorDto entityDescriptor) => new RfCodeGen.ProjectConfigs.HPMS.TextTemplates.ControllerTextTemplate(this, entityDescriptor);
     public override ITextTemplate GetRfControllerTestTemplate(EntityDescriptorDto entityDescriptor) => entityDescriptor.IsLookupTable ? new RfCodeGen.ProjectConfigs.HPMS.TextTemplates.LookupsControllerTestTextTemplate(this, entityDescriptor) : new RfCodeGen.ProjectConfigs.HPMS.TextTemplates.RfControllerTestTextTemplate(this, entityDescriptor);
 
-    public override EntityDescriptorDto GetEntityDescriptor(EntityDto entity)
+    public override EntityDescriptorDto GetEntityDescriptor(EntityDto entity, IEnumerable<EntityDescriptorDto> EntityDescriptors)
     {
-        return new HpmsEntityDescriptorDto(entity);
+        return new HpmsEntityDescriptorDto(entity, EntityDescriptors);
     }
     public override EntityPropertyDescriptorDto GetEntityPropertyDescriptor(EntityDescriptorDto entityDescriptor, string text)
     {

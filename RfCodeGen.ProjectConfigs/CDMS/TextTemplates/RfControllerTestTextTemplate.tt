@@ -9,11 +9,11 @@ using <#= this.ProjectDescriptor.ProjectNamespacePrefix #>DataAccess.Models;
 using <#= this.ProjectDescriptor.ProjectNamespacePrefix #>ServiceLayer.Domains;
 using <#= this.ProjectDescriptor.ProjectNamespacePrefix #>Shared.Dtos;
 using <#= this.ProjectDescriptor.ProjectNamespacePrefix #>WebApi.Controllers;
-using CDMS.Common.Tests;<# if(this.EntityDescriptor.Includes.Count>0) { #><#= Environment.NewLine #>using Mbi.RepositoryFramework.Tests;<#= Environment.NewLine #><# } else { #><#= Environment.NewLine #><# } #>
+using CDMS.Common.Tests;<# if(this.EntityDescriptor.HasChildren) { #><#= Environment.NewLine #>using Mbi.RepositoryFramework.Tests;<#= Environment.NewLine #><# } else { #><#= Environment.NewLine #><# } #>
 
 namespace <#= this.ProjectDescriptor.ProjectNamespacePrefix #>Tests.UnitTests.RfControllerTests;
 
-public partial class <#= this.EntityDescriptor.PluralizedName #>ControllerTests : CdmsRfControllerTestsBase<<#= this.EntityDescriptor.Name #>, <#= this.EntityDescriptor.Name #>Dto, <#= this.EntityDescriptor.Name #>Domain, <#= this.EntityDescriptor.PluralizedName #>Controller, <#= this.EntityDescriptor.TInclude #>><# if(this.EntityDescriptor.Includes.Count==0) { #> { }<#= Environment.NewLine #><# } #>
+public partial class <#= this.EntityDescriptor.PluralizedName #>ControllerTests : CdmsRfControllerTestsBase<<#= this.EntityDescriptor.Name #>, <#= this.EntityDescriptor.Name #>Dto, <#= this.EntityDescriptor.Name #>Domain, <#= this.EntityDescriptor.PluralizedName #>Controller, <#= this.EntityDescriptor.TInclude #>><# if(!this.EntityDescriptor.HasChildren) { #> { }<#= Environment.NewLine #><# } #>
 <# else { #>
 
 {
@@ -21,9 +21,7 @@ public partial class <#= this.EntityDescriptor.PluralizedName #>ControllerTests 
 	{
 		this.ChildDescriptors.AddRange(
 		[
-		<# foreach(var include in this.EntityDescriptor.Includes) { #>
-	ChildDescriptor.Create<CdmsContext, ICdmsRepository<<#= Pluralizer.Singularize(include) #>>, <#= Pluralizer.Singularize(include) #>, <#= Pluralizer.Singularize(include) #>Dto, <#= Pluralizer.Singularize(include) #>Domain, <#= Pluralizer.Pluralize(include) #>Controller, <#= Pluralizer.Singularize(include) #>Include>(typeof(I<#= Pluralizer.Singularize(include) #>Domain))
-		<# } #>
-]);
+			<#= this.EntityDescriptor.ChildDescriptors.Replace($"{Environment.NewLine}", $"{Environment.NewLine}\t\t\t") #>
+		]);
 	}
 }<# } #>

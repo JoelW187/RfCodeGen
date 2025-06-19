@@ -12,10 +12,10 @@ namespace <#= this.ProjectDescriptor.ProjectNamespacePrefix #>WebApi.Controllers
 
 [ApiController]
 [Route("api/v1/[controller]")]<#= this.EntityDescriptor.IsManyToManyTable ? "\r\n[ApiExplorerSettings(IgnoreApi = true)]\r\n[NonController]" : "" #>
-public class <#= this.EntityDescriptor.PluralizedName #>Controller : RfController<#= this.EntityDescriptor.Includes.Any() ? "" : "NoIncludes" #><I<#= this.EntityDescriptor.Name #>Domain, <#= this.EntityDescriptor.Name #>Dto<#= this.EntityDescriptor.Includes.Any() ? $", {this.EntityDescriptor.Name}Include" : "" #>>
+public class <#= this.EntityDescriptor.PluralizedName #>Controller : RfController<#= this.EntityDescriptor.HasChildren ? "" : "NoIncludes" #><I<#= this.EntityDescriptor.Name #>Domain, <#= this.EntityDescriptor.Name #>Dto<#= this.EntityDescriptor.HasChildren ? $", {this.EntityDescriptor.Name}Include" : "" #>>
 {
 	public <#= this.EntityDescriptor.PluralizedName #>Controller(I<#= this.EntityDescriptor.Name #>Domain domainService, ILogger<<#= this.EntityDescriptor.PluralizedName #>Controller> logger) : base(domainService, logger) { }
-}<# if(this.EntityDescriptor.Includes.Any()) {#>
+}<# if(this.EntityDescriptor.HasChildren) {#>
 
 
 public enum <#= this.EntityDescriptor.Name #>Include

@@ -2,7 +2,7 @@
 
 namespace RfCodeGen.ProjectConfigs.HPMS.Dtos;
 
-public record HpmsEntityDescriptorDto(EntityDto Entity) : EntityDescriptorDto(Entity)
+public record HpmsEntityDescriptorDto(EntityDto Entity, IEnumerable<EntityDescriptorDto> EntityDescriptors) : EntityDescriptorDto(Entity, EntityDescriptors)
 {
     private bool IIdColumn => this.Properties.Any(v1 => v1.Name.Equals("Id", StringComparison.OrdinalIgnoreCase));
     private bool IParentSri => this.Properties.Any(v1 => v1.Name.Equals("ParentSri", StringComparison.OrdinalIgnoreCase));

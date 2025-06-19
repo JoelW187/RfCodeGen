@@ -18,7 +18,7 @@ public interface IProjectDescriptor
     ITextTemplate GetControllerTemplate(EntityDescriptorDto entityDescriptor);
     ITextTemplate GetRfControllerTestTemplate(EntityDescriptorDto entityDescriptor);
 
-    EntityDescriptorDto GetEntityDescriptor(EntityDto entity);
+    EntityDescriptorDto GetEntityDescriptor(EntityDto entity, IEnumerable<EntityDescriptorDto> EntityDescriptors);
     EntityPropertyDescriptorDto GetEntityPropertyDescriptor(EntityDescriptorDto entityDescriptor, string text);
 }
 
@@ -34,7 +34,7 @@ public abstract record ProjectDescriptorDto(string ProjectId, string ProjectName
     public abstract ITextTemplate GetControllerTemplate(EntityDescriptorDto entityDescriptor);
     public abstract ITextTemplate GetRfControllerTestTemplate(EntityDescriptorDto entityDescriptor);
 
-    public abstract EntityDescriptorDto GetEntityDescriptor(EntityDto entity);
+    public abstract EntityDescriptorDto GetEntityDescriptor(EntityDto entity, IEnumerable<EntityDescriptorDto> EntityDescriptors);
     public abstract EntityPropertyDescriptorDto GetEntityPropertyDescriptor(EntityDescriptorDto entityDescriptor, string text);
 }
 

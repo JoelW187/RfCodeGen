@@ -1,13 +1,16 @@
-﻿using System.Xml.Linq;
+﻿using System.Diagnostics;
+using System.Xml.Linq;
 
 namespace RfCodeGen.Shared.Dtos;
 
-public abstract record EntityDescriptorDto(EntityDto Entity)
+[DebuggerDisplay("Name={Name}")]
+public abstract record EntityDescriptorDto(EntityDto Entity, IEnumerable<EntityDescriptorDto> EntityDescriptors)
 {
     public string Name => this.Entity?.Name ?? "";
     public List<EntityPropertyDescriptorDto> Properties { get; } = [];
     public string CamelCaseName => char.ToLowerInvariant(this.Name[0]) + this.Name[1..];
     public string PluralizedName { get; set; } = string.Empty;
+    public bool HasChildren => this.Children.Any();
 
     public virtual string PkColumnName
     {
@@ -40,12 +43,22 @@ public abstract record EntityDescriptorDto(EntityDto Entity)
     public virtual List<EntityPropertyDescriptorDto> DtoProperties => this.Properties;
     public virtual string DtoInterfaces { get; } = string.Empty;
     public virtual string DefaultCollectionOrderBy { get; } = string.Empty;
-    public virtual List<string> Includes { get; } = [];
+    public virtual IEnumerable<EntityDescriptorDto> Children { get; } = [];
+    public virtual IEnumerable<string> Includes { get; } = [];
+    public virtual string TInclude => string.Empty;
+    public virtual string ChildDescriptor => string.Empty;
+    public virtual string ChildDescriptors
+    {
+        get
+        {
+            return string.Join($",{Environment.NewLine}", this.Children.Select(v1 => v1.ChildDescriptor));
+        }
+    }
     public virtual bool IsLookupTable { get; }
     public virtual bool IsManyToManyTable { get; }
-    public virtual string TInclude => this.Includes.Count == 0 ? "string" : $"{this.Name}Include";
 }
 
+[DebuggerDisplay("Name={Name}")]
 public abstract record EntityPropertyDescriptorDto
 {
     public EntityPropertyDescriptorDto(EntityDescriptorDto entityDescriptor, string text)

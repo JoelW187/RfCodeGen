@@ -20,7 +20,7 @@ public class RfCodeGenerator(IProjectDescriptor projectDescriptor)
             IEnumerable<string> lines = File.ReadAllLines(entity.FilePath);
             lines = lines.SkipWhile(v1 => !v1.StartsWith("public partial class"));
 
-            EntityDescriptorDto entityDescriptor = this.ProjectDescriptor.GetEntityDescriptor(entity);
+            EntityDescriptorDto entityDescriptor = this.ProjectDescriptor.GetEntityDescriptor(entity, entityDescriptors);
             entityDescriptor.PluralizedName = this.Pluralizer.Pluralize(entity.Name);
 
             var propertyLines = lines.SkipWhile(v1 => v1 != "{").Skip(1).TakeWhile(v1 => v1 != "}").Where(v1 => !string.IsNullOrWhiteSpace(v1));
@@ -75,6 +75,7 @@ public class RfCodeGenerator(IProjectDescriptor projectDescriptor)
             }
 
             //RfControllerTest
+            //if(entityDescriptor.Name != "Attachment" && entityDescriptor.Name!="Contact") continue;
             var rfControllerTestTemplate = this.ProjectDescriptor.GetRfControllerTestTemplate(entityDescriptor);
             string rfControllerTestContent = rfControllerTestTemplate.TransformText();
             string rfControllerTestFilePath = projectFolder.Tests.UnitTests.RfControllerTests.GetFilePath($"{(entityDescriptor.IsLookupTable ? entityDescriptor.Name : entityDescriptor.PluralizedName)}{(entityDescriptor.IsLookupTable ? "Lookups" : "")}ControllerTests.cs");
