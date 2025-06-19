@@ -13,7 +13,7 @@ using CDMS.Common.Tests;<# if(this.EntityDescriptor.HasChildren) { #><#= Environ
 
 namespace <#= this.ProjectDescriptor.ProjectNamespacePrefix #>Tests.UnitTests.RfControllerTests;
 
-public partial class <#= this.EntityDescriptor.PluralizedName #>ControllerTests : CdmsRfControllerTestsBase<CdmsContext, <#= this.EntityDescriptor.Name #>, <#= this.EntityDescriptor.Name #>Dto, <#= this.EntityDescriptor.Name #>Domain, <#= this.EntityDescriptor.PluralizedName #>Controller, <#= this.EntityDescriptor.TInclude #>><# if(!this.EntityDescriptor.HasChildren) { #> { }<#= Environment.NewLine #><# } #>
+public partial class <#= this.EntityDescriptor.PluralizedName #>ControllerTests : CdmsRfControllerTestsBase<CdmsContext, ICdmsRepository<<#= this.EntityDescriptor.Name #>>, <#= this.EntityDescriptor.Name #>, <#= this.EntityDescriptor.Name #>Dto, <#= this.EntityDescriptor.Name #>Domain, <#= this.EntityDescriptor.PluralizedName #>Controller, <#= this.EntityDescriptor.TInclude #>><# if(!this.EntityDescriptor.HasChildren) { #> { }<#= Environment.NewLine #><# } #>
 <# else { #>
 
 {
