@@ -91,8 +91,8 @@ namespace RfCodeGen.ProjectConfigs.CDMS.TextTemplates
             
             #line default
             #line hidden
-            this.Write("LookupsControllerTests : LookupsControllerTestsBase<CdmsContext, ICdmsRepository<" +
-                    "");
+            this.Write("LookupsControllerTests : CdmsLookupsControllerTestsBase<CdmsContext, ICdmsReposit" +
+                    "ory<");
             
             #line 16 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ProjectConfigs\CDMS\TextTemplates\LookupsControllerTestTextTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Name));

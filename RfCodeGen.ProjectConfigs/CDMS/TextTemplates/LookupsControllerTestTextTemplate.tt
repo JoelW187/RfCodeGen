@@ -13,4 +13,4 @@ using <#= this.ProjectDescriptor.ProjectNamespacePrefix #>Shared.Utils;
 
 namespace <#= this.ProjectDescriptor.ProjectNamespacePrefix #>Tests.UnitTests.RfControllerTests;
 
-public partial class <#= this.EntityDescriptor.Name #>LookupsControllerTests : LookupsControllerTestsBase<CdmsContext, ICdmsRepository<<#= this.EntityDescriptor.Name #>>, <#= this.EntityDescriptor.Name #>, <#= this.EntityDescriptor.Name #>Dto, <#= this.EntityDescriptor.Name #>Domain, string, LookupTableName> { }
+public partial class <#= this.EntityDescriptor.Name #>LookupsControllerTests : CdmsLookupsControllerTestsBase<CdmsContext, ICdmsRepository<<#= this.EntityDescriptor.Name #>>, <#= this.EntityDescriptor.Name #>, <#= this.EntityDescriptor.Name #>Dto, <#= this.EntityDescriptor.Name #>Domain, string, LookupTableName> { }

@@ -122,7 +122,7 @@ namespace RfCodeGen.ProjectConfigs.CDMS.TextTemplates
             
             #line default
             #line hidden
-            this.Write("ControllerTests : CdmsRfControllerTestsBase<CdmsContext, ICdmsRepository<");
+            this.Write("ControllerTests : CdmsControllerTestsBase<CdmsContext, ICdmsRepository<");
             
             #line 16 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ProjectConfigs\CDMS\TextTemplates\RfControllerTestTextTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Name));
