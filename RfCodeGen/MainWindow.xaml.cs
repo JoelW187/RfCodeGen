@@ -28,8 +28,9 @@ public partial class MainWindow : Window
         this.ViewModel = vm;
         this.ViewModel.PropertyChanged += ViewModel_PropertyChanged;
 
-        this.ViewModel.ProjectDescriptors.Add(ProjectFactory.CreateProjectDescriptor("HPMS", "NJDOT HPMS", @"C:\Source\mbakerintlapps\NJDOT\NJDOT_HPMS\src\NJDOT_HPMS"));
-        this.ViewModel.ProjectDescriptors.Add(ProjectFactory.CreateProjectDescriptor("CDMS", "CDMS Cost Recovery", @"C:\Source\mbakerintlapps\Alaska\CDMS\CostRecovery\WebApi\"));
+        this.ViewModel.ProjectDescriptors.Add(ProjectFactory.CreateProjectDescriptor("HPMS", @"C:\Source\mbakerintlapps\NJDOT\NJDOT_HPMS\src\NJDOT_HPMS"));
+        this.ViewModel.ProjectDescriptors.Add(ProjectFactory.CreateProjectDescriptor("CDMS Cost Recovery", @"C:\Source\mbakerintlapps\Alaska\CDMS\CostRecovery\WebApi"));
+        this.ViewModel.ProjectDescriptors.Add(ProjectFactory.CreateProjectDescriptor("CDMS Spills", @"C:\Source\mbakerintlapps\Alaska\CDMS\Spills\WebApi\src"));
 
         var selectedProjectId = Properties.Settings.Default.SelectedProjectId;
 

@@ -3,7 +3,7 @@ using RfCodeGen.Shared.Dtos;
 
 namespace RfCodeGen.ProjectConfigs.CDMS.Dtos;
 
-public record CdmsProjectDescriptorDto(string ProjectName, string ProjectPath) : ProjectDescriptorDto("CDMS", ProjectName, ProjectPath, "CostRecovery.", "CDMS.CostRecovery.")
+public record CdmsProjectDescriptorDto(string ProjectId, string ProjectPath, string ProjectPathPrefix, string ProjectNamespacePrefix) : ProjectDescriptorDto(ProjectId, ProjectPath, ProjectPathPrefix, ProjectNamespacePrefix)
 {
     public static string Id => "CDMS";
 

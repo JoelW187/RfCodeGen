@@ -7,12 +7,13 @@ namespace RfCodeGen.ProjectConfigs.Utils;
 
 public static class ProjectFactory
 {
-    public static IProjectDescriptor CreateProjectDescriptor(string projectId, string projectName, string projectPath)
+    public static IProjectDescriptor CreateProjectDescriptor(string projectId, string projectPath)
     {
         return projectId switch
         {
-            "HPMS" => new HpmsProjectDescriptorDto(projectName, projectPath),
-            "CDMS" => new CdmsProjectDescriptorDto(projectName, projectPath),
+            "HPMS" => new HpmsProjectDescriptorDto(projectPath),
+            "CDMS Cost Recovery" => new CdmsProjectDescriptorDto(projectId, projectPath, "CostRecovery.", "CDMS.CostRecovery."),
+            "CDMS Spills" => new CdmsProjectDescriptorDto(projectId, projectPath, "Spills.", "CDMS.Spills."),
             _ => throw new NotSupportedException($"Project type '{projectId}' is not supported.")
         };
     }

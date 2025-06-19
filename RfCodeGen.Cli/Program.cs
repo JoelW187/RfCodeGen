@@ -12,10 +12,9 @@ if(args.Length < 3 || args.Length > 4)
 }
 
 string projectId = args[0].Trim();
-string projectName = args[1].Trim();
-string projectPath = args[2].Trim();
+string projectPath = args[1].Trim();
 List<string> entityNames = [];
-if(args.Length == 4)
+if(args.Length == 3)
 {
     entityNames.AddRange(args[3].Trim().Split(',').Select(e => e.Trim()));
 }
@@ -27,7 +26,7 @@ if(!Directory.Exists(projectPath))
 
 try
 {
-    projectDescriptor = ProjectFactory.CreateProjectDescriptor(projectId, projectName, projectPath);
+    projectDescriptor = ProjectFactory.CreateProjectDescriptor(projectId, projectPath);
 
     if(entityNames.Count == 0)
     {

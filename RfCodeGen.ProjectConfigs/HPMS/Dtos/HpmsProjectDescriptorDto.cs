@@ -3,7 +3,7 @@ using RfCodeGen.Shared.Dtos;
 
 namespace RfCodeGen.ProjectConfigs.HPMS.Dtos;
 
-public record HpmsProjectDescriptorDto(string ProjectName, string ProjectPath) : ProjectDescriptorDto("HPMS", ProjectName, ProjectPath, "HPMS.", "HPMS.")
+public record HpmsProjectDescriptorDto(string ProjectPath) : ProjectDescriptorDto("HPMS", ProjectPath, "HPMS.", "HPMS.")
 {
     public static string Id => "HPMS";
 

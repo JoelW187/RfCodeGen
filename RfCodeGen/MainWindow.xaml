@@ -35,7 +35,7 @@
                 <ComboBox Grid.Column="1"
                     ItemsSource="{Binding Path=ProjectDescriptors}"
                     SelectedItem="{Binding Path=SelectedProjectDescriptor}"
-                    DisplayMemberPath="ProjectName"
+                    DisplayMemberPath="ProjectId"
                     ></ComboBox>
             </Grid>
 

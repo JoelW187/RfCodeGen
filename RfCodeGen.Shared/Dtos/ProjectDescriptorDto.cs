@@ -5,7 +5,6 @@ public interface IProjectDescriptor
     static string Id => throw new NotImplementedException("ProjectId must be implemented in derived classes.");
 
     string ProjectId { get; }
-    string ProjectName { get; }
     string ProjectPath { get; }
     string ProjectPathPrefix { get; }
     string ProjectNamespacePrefix { get; }
@@ -22,7 +21,7 @@ public interface IProjectDescriptor
     EntityPropertyDescriptorDto GetEntityPropertyDescriptor(EntityDescriptorDto entityDescriptor, string text);
 }
 
-public abstract record ProjectDescriptorDto(string ProjectId, string ProjectName, string ProjectPath, string ProjectPathPrefix, string ProjectNamespacePrefix, System.Text.Encoding? TextEncoding = null) : IProjectDescriptor
+public abstract record ProjectDescriptorDto(string ProjectId, string ProjectPath, string ProjectPathPrefix, string ProjectNamespacePrefix, System.Text.Encoding? TextEncoding = null) : IProjectDescriptor
 {
     public ProjectFolder ProjectFolder => new(ProjectPath, ProjectPathPrefix);
     public System.Text.Encoding Encoding { get; } = TextEncoding ?? System.Text.Encoding.Default;

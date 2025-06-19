@@ -78,7 +78,8 @@ public class RfCodeGenerator(IProjectDescriptor projectDescriptor)
             //if(entityDescriptor.Name != "Attachment" && entityDescriptor.Name!="Contact") continue;
             var rfControllerTestTemplate = this.ProjectDescriptor.GetRfControllerTestTemplate(entityDescriptor);
             string rfControllerTestContent = rfControllerTestTemplate.TransformText();
-            string rfControllerTestFilePath = projectFolder.Tests.UnitTests.RfControllerTests.GetFilePath($"{entityDescriptor.PluralizedName}{(entityDescriptor.IsLookupTable ? "Lookups" : "")}ControllerTests.cs");
+            string rfControllerTestFilePath = projectFolder.Tests.UnitTests.RfControllerTests.GetFilePath($"{(entityDescriptor.IsLookupTable ? entityDescriptor.Name : entityDescriptor.PluralizedName)}{(entityDescriptor.IsLookupTable ? "Lookups" : "")}ControllerTests.cs");
+            //string rfControllerTestFilePath = projectFolder.Tests.UnitTests.RfControllerTests.GetFilePath($"{entityDescriptor.PluralizedName}{(entityDescriptor.IsLookupTable ? "Lookups" : "")}ControllerTests.cs");
             await File.WriteAllTextAsync(rfControllerTestFilePath, rfControllerTestContent, this.ProjectDescriptor.Encoding);
             progress.Report(new(entityDescriptor.Entity, "RfControllerTest"));
             count++;
