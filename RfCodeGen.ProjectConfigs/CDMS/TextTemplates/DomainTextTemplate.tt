@@ -10,10 +10,10 @@ using Mbi.RepositoryFramework;
 
 namespace <#= this.ProjectDescriptor.ProjectNamespacePrefix #>ServiceLayer.Domains;
 
-public interface I<#= this.EntityDescriptor.Name #>Domain : IRfDomain<<#= this.EntityDescriptor.Name #>Dto>
+public interface I<#= this.EntityDescriptor.Name #>Domain : ICdmsDomain<<#= this.EntityDescriptor.Name #>, <#= this.EntityDescriptor.Name #>Dto>
 {
 }
-public class <#= this.EntityDescriptor.Name #>Domain : RfDomain<<#= this.EntityDescriptor.Name #>, <#= this.EntityDescriptor.Name #>Dto>, I<#= this.EntityDescriptor.Name #>Domain
+public class <#= this.EntityDescriptor.Name #>Domain : CdmsDomain<<#= this.EntityDescriptor.Name #>, <#= this.EntityDescriptor.Name #>Dto>, I<#= this.EntityDescriptor.Name #>Domain
 {
 	public <#= this.EntityDescriptor.Name #>Domain(ICdmsRepository<<#= this.EntityDescriptor.Name #>> repository, IRfEntityDtoMapper<<#= this.EntityDescriptor.Name #>, <#= this.EntityDescriptor.Name #>Dto> mapper) : base(repository, mapper) { }
 }
