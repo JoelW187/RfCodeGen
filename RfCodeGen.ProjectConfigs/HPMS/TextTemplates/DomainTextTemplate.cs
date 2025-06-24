@@ -51,7 +51,14 @@ namespace RfCodeGen.ProjectConfigs.HPMS.TextTemplates
             
             #line default
             #line hidden
-            this.Write("Domain : IRfDomain<");
+            this.Write("Domain : IHpmsDomain<");
+            
+            #line 13 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ProjectConfigs\HPMS\TextTemplates\DomainTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Name));
+            
+            #line default
+            #line hidden
+            this.Write(", ");
             
             #line 13 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ProjectConfigs\HPMS\TextTemplates\DomainTextTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Name));
@@ -65,7 +72,7 @@ namespace RfCodeGen.ProjectConfigs.HPMS.TextTemplates
             
             #line default
             #line hidden
-            this.Write("Domain : RfDomain<");
+            this.Write("Domain : HpmsDomain<");
             
             #line 17 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ProjectConfigs\HPMS\TextTemplates\DomainTextTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Name));

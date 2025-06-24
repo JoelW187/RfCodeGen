@@ -10,11 +10,11 @@ using RepositoryFramework;
 
 namespace HPMS.ServiceLayer.Domains;
 
-public interface I<#= this.EntityDescriptor.Name #>Domain : IRfDomain<<#= this.EntityDescriptor.Name #>Dto>
+public interface I<#= this.EntityDescriptor.Name #>Domain : IHpmsDomain<<#= this.EntityDescriptor.Name #>, <#= this.EntityDescriptor.Name #>Dto>
 {
 }
 
-public class <#= this.EntityDescriptor.Name #>Domain : RfDomain<<#= this.EntityDescriptor.Name #>, <#= this.EntityDescriptor.Name #>Dto>, I<#= this.EntityDescriptor.Name #>Domain
+public class <#= this.EntityDescriptor.Name #>Domain : HpmsDomain<<#= this.EntityDescriptor.Name #>, <#= this.EntityDescriptor.Name #>Dto>, I<#= this.EntityDescriptor.Name #>Domain
 {
     public <#= this.EntityDescriptor.Name #>Domain(IHpmsRepository<<#= this.EntityDescriptor.Name #>> <#= this.EntityDescriptor.CamelCaseName #>Repository, IRfEntityDtoMapper<<#= this.EntityDescriptor.Name #>, <#= this.EntityDescriptor.Name #>Dto> mapper)
         : base(<#= this.EntityDescriptor.CamelCaseName #>Repository, mapper, <#= this.EntityDescriptor.DefaultCollectionOrderBy #>) { }
