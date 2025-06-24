@@ -93,21 +93,7 @@ namespace RfCodeGen.ProjectConfigs.HPMS.TextTemplates
             
             #line default
             #line hidden
-            this.Write("Dto> mapper, IRfMemoryCache<RfDomain<");
-            
-            #line 17 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ProjectConfigs\HPMS\TextTemplates\DomainTextTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Name));
-            
-            #line default
-            #line hidden
-            this.Write(", ");
-            
-            #line 17 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ProjectConfigs\HPMS\TextTemplates\DomainTextTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Name));
-            
-            #line default
-            #line hidden
-            this.Write("Dto>> domainCache)\r\n    : RfDomain<");
+            this.Write("Dto> mapper)\r\n    : RfDomain<");
             
             #line 18 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ProjectConfigs\HPMS\TextTemplates\DomainTextTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Name));
@@ -128,7 +114,7 @@ namespace RfCodeGen.ProjectConfigs.HPMS.TextTemplates
             
             #line default
             #line hidden
-            this.Write("Repository, mapper, domainCache, ");
+            this.Write("Repository, mapper, ");
             
             #line 18 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ProjectConfigs\HPMS\TextTemplates\DomainTextTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.DefaultCollectionOrderBy));
