@@ -58,7 +58,7 @@ public record ServiceLayerDomainsFolder(string FullPath) : SourceCodeFolderBase(
 //Controller
 public record WebApiFolder(string FullPath) : SourceCodeFolderBase(FullPath)
 {
-    public WebApiControllersFolder Controllers { get; } = new(Path.Combine(FullPath, "Controllers"));
+    public WebApiControllersFolder Controllers { get; } = new(Path.Combine(FullPath, "Controllers", "RfControllers"));
 }
 
 public record WebApiControllersFolder(string FullPath) : SourceCodeFolderBase(FullPath) { }

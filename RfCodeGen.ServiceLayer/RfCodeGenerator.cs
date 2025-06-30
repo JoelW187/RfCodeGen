@@ -41,7 +41,7 @@ public class RfCodeGenerator(IProjectDescriptor projectDescriptor)
             var modelTemplate = this.ProjectDescriptor.GetModelTemplate(entityDescriptor);
             string modelPartialContent = modelTemplate.TransformText();
             string modelPartialFilePath = projectFolder.DataAccess.Models.Partials.GetFilePath($"{entityDescriptor.Entity.Name}.cs");
-            await File.WriteAllTextAsync(modelPartialFilePath, modelPartialContent, this.ProjectDescriptor.Encoding);
+            await WriteAllTextAsync(modelPartialFilePath, modelPartialContent, this.ProjectDescriptor.Encoding);
             progress.Report(new(entityDescriptor.Entity, "Model (partial)"));
             count++;
 
@@ -51,7 +51,7 @@ public class RfCodeGenerator(IProjectDescriptor projectDescriptor)
             string dtoFilePath = projectFolder.Shared.Dtos.GetFilePath($"{entityDescriptor.Name}Dto.cs");
             if(entityDescriptor.IsLookupTable)
                 dtoFilePath = projectFolder.Shared.Dtos.Lookups.GetFilePath($"{entityDescriptor.Name}Dto.cs");
-            await File.WriteAllTextAsync(dtoFilePath, dtoContent, this.ProjectDescriptor.Encoding);
+            await WriteAllTextAsync(dtoFilePath, dtoContent, this.ProjectDescriptor.Encoding);
             progress.Report(new(entityDescriptor.Entity, "Dto"));
             count++;
 
@@ -59,7 +59,7 @@ public class RfCodeGenerator(IProjectDescriptor projectDescriptor)
             var domainTemplate = this.ProjectDescriptor.GetDomainTemplate(entityDescriptor);
             string domainContent = domainTemplate.TransformText();
             string domainFilePath = projectFolder.ServiceLayer.Domains.GetFilePath($"{entityDescriptor.Name}Domain.cs");
-            await File.WriteAllTextAsync(domainFilePath, domainContent, this.ProjectDescriptor.Encoding);
+            await WriteAllTextAsync(domainFilePath, domainContent, this.ProjectDescriptor.Encoding);
             progress.Report(new(entityDescriptor.Entity, "Domain"));
             count++;
 
@@ -69,7 +69,7 @@ public class RfCodeGenerator(IProjectDescriptor projectDescriptor)
                 var controllerTemplate = this.ProjectDescriptor.GetControllerTemplate(entityDescriptor);
                 string controllerContent = controllerTemplate.TransformText();
                 string controllerFilePath = projectFolder.WebApi.Controllers.GetFilePath($"{entityDescriptor.PluralizedName}Controller.cs");
-                await File.WriteAllTextAsync(controllerFilePath, controllerContent, this.ProjectDescriptor.Encoding);
+                await WriteAllTextAsync(controllerFilePath, controllerContent, this.ProjectDescriptor.Encoding);
                 progress.Report(new(entityDescriptor.Entity, "Controller"));
                 count++;
             }
@@ -78,7 +78,7 @@ public class RfCodeGenerator(IProjectDescriptor projectDescriptor)
             var rfControllerTestTemplate = this.ProjectDescriptor.GetRfControllerTestTemplate(entityDescriptor);
             string rfControllerTestContent = rfControllerTestTemplate.TransformText();
             string rfControllerTestFilePath = projectFolder.Tests.UnitTests.RfControllerTests.GetFilePath($"{entityDescriptor.PluralizedName}{(entityDescriptor.IsLookupTable ? "Lookups" : "")}ControllerTests.cs");
-            await File.WriteAllTextAsync(rfControllerTestFilePath, rfControllerTestContent, this.ProjectDescriptor.Encoding);
+            await WriteAllTextAsync(rfControllerTestFilePath, rfControllerTestContent, this.ProjectDescriptor.Encoding);
             progress.Report(new(entityDescriptor.Entity, "RfControllerTest"));
             count++;
         }
@@ -86,6 +86,15 @@ public class RfCodeGenerator(IProjectDescriptor projectDescriptor)
         RfCodeGeneratorResultDto result = new(count, GetDomainServiceRegistrations(entityDescriptors), GetAutoMapperMappingProfiles(entityDescriptors), GetLookupEnums(entityDescriptors));
 
         return result;
+    }
+
+    private static async Task WriteAllTextAsync(string path, string content, Encoding encoding)
+    {
+        string directory = Path.GetDirectoryName(path) ?? throw new DirectoryNotFoundException($"Directory for path '{path}' not found.");
+        if (!Directory.Exists(directory))
+            Directory.CreateDirectory(directory);
+
+        await File.WriteAllTextAsync(path, content, encoding);
     }
 
     private static IEnumerable<string> GetDomainServiceRegistrations(IEnumerable<EntityDescriptorDto> entities)
