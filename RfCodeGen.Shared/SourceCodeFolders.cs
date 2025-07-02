@@ -37,7 +37,7 @@ public record DataAccessModelsPartialsFolder(string FullPath) : SourceCodeFolder
 //Shared
 public record SharedFolder(string FullPath) : SourceCodeFolderBase(FullPath)
 {
-    public SharedDtosFolder Dtos { get; } = new(Path.Combine(FullPath, "Dtos"));
+    public SharedDtosFolder Dtos { get; } = new(Path.Combine(FullPath, "Dtos", "RfDtos"));
 }
 
 public record SharedDtosFolder(string FullPath) : SourceCodeFolderBase(FullPath)
