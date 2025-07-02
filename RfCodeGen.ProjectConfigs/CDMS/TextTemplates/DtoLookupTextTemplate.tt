@@ -5,7 +5,9 @@
 <#@ import namespace="System.Collections.Generic" #>
 using System.Diagnostics;
 
+#pragma warning disable IDE0130 // Namespace does not match folder structure
 namespace <#= this.ProjectDescriptor.ProjectNamespacePrefix #>Shared.Dtos.Lookups;
+#pragma warning restore IDE0130 // Namespace does not match folder structure
 
 [DebuggerDisplay("<#= this.EntityDescriptor.Name #>Id={<#= this.EntityDescriptor.Name #>Id},<#= this.EntityDescriptor.Name #>Ak={<#= this.EntityDescriptor.Name #>Ak},Description={Description}")]
 public partial class <#= this.EntityDescriptor.Name #>Dto : DtoLookupBase

@@ -8,7 +8,9 @@ using <#= this.ProjectDescriptor.ProjectNamespacePrefix #>Shared.Dtos;
 using Mbi.RepositoryFramework;
 using Microsoft.AspNetCore.Mvc;
 
+#pragma warning disable IDE0130 // Namespace does not match folder structure
 namespace <#= this.ProjectDescriptor.ProjectNamespacePrefix #>WebApi.Controllers;
+#pragma warning restore IDE0130 // Namespace does not match folder structure
 
 [ApiController]
 [Route("api/v1/[controller]")]<#= this.EntityDescriptor.IsManyToManyTable ? "\r\n[ApiExplorerSettings(IgnoreApi = true)]\r\n[NonController]" : "" #>
