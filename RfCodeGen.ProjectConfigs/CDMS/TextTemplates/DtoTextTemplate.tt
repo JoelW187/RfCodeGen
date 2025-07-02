@@ -10,7 +10,7 @@ namespace <#= this.ProjectDescriptor.ProjectNamespacePrefix #>Shared.Dtos;
 #pragma warning restore IDE0130 // Namespace does not match folder structure
 
 <#= this.EntityDescriptor.DebuggerDisplay #>
-public partial class <#= this.EntityDescriptor.Name #>Dto : DtoBase
+public partial class <#= this.EntityDescriptor.Name #>Dto : CdmsRfDtoBase
 {
 <# foreach(var property in this.EntityDescriptor.DtoProperties){ #>
 	<#= property.Modifiers #> <#= property.Type #> <#= property.Name #> { get; set; }<#= property.Assignment #>

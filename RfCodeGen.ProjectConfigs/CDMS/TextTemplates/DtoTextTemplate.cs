@@ -51,7 +51,7 @@ namespace RfCodeGen.ProjectConfigs.CDMS.TextTemplates
             
             #line default
             #line hidden
-            this.Write("Dto : DtoBase\r\n{\r\n");
+            this.Write("Dto : CdmsRfDtoBase\r\n{\r\n");
             
             #line 15 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ProjectConfigs\CDMS\TextTemplates\DtoTextTemplate.tt"
  foreach(var property in this.EntityDescriptor.DtoProperties){ 

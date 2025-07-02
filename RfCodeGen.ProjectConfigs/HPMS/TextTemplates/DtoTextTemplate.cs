@@ -52,7 +52,7 @@ namespace RfCodeGen.ProjectConfigs.HPMS.TextTemplates
             
             #line default
             #line hidden
-            this.Write("Dto : DtoBase");
+            this.Write("Dto : HpmsRfDtoBase");
             
             #line 15 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ProjectConfigs\HPMS\TextTemplates\DtoTextTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.DtoInterfaces==string.Empty ? "" : $", {this.EntityDescriptor.DtoInterfaces}"));
