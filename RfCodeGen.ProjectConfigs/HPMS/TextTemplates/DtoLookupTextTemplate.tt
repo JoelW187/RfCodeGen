@@ -6,7 +6,9 @@
 using RepositoryFramework;
 using System.Diagnostics;
 
+#pragma warning disable IDE0130 // Namespace does not match folder structure
 namespace <#= this.ProjectDescriptor.ProjectNamespacePrefix #>Shared.Dtos.Lookups;
+#pragma warning restore IDE0130 // Namespace does not match folder structure
 
 <#= this.EntityDescriptor.DebuggerDisplay #>
 public partial class <#= this.EntityDescriptor.Name #>Dto : RfDtoLookupBase

@@ -28,65 +28,67 @@ namespace RfCodeGen.ProjectConfigs.HPMS.TextTemplates
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("using RepositoryFramework;\r\nusing System.Diagnostics;\r\n\r\nnamespace ");
+            this.Write("using RepositoryFramework;\r\nusing System.Diagnostics;\r\n\r\n#pragma warning disable " +
+                    "IDE0130 // Namespace does not match folder structure\r\nnamespace ");
             
-            #line 9 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ProjectConfigs\HPMS\TextTemplates\DtoLookupTextTemplate.tt"
+            #line 10 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ProjectConfigs\HPMS\TextTemplates\DtoLookupTextTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.ProjectDescriptor.ProjectNamespacePrefix));
             
             #line default
             #line hidden
-            this.Write("Shared.Dtos.Lookups;\r\n\r\n");
+            this.Write("Shared.Dtos.Lookups;\r\n#pragma warning restore IDE0130 // Namespace does not match" +
+                    " folder structure\r\n\r\n");
             
-            #line 11 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ProjectConfigs\HPMS\TextTemplates\DtoLookupTextTemplate.tt"
+            #line 13 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ProjectConfigs\HPMS\TextTemplates\DtoLookupTextTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.DebuggerDisplay));
             
             #line default
             #line hidden
             this.Write("\r\npublic partial class ");
             
-            #line 12 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ProjectConfigs\HPMS\TextTemplates\DtoLookupTextTemplate.tt"
+            #line 14 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ProjectConfigs\HPMS\TextTemplates\DtoLookupTextTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Name));
             
             #line default
             #line hidden
             this.Write("Dto : RfDtoLookupBase\r\n{\r\n");
             
-            #line 14 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ProjectConfigs\HPMS\TextTemplates\DtoLookupTextTemplate.tt"
+            #line 16 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ProjectConfigs\HPMS\TextTemplates\DtoLookupTextTemplate.tt"
  foreach(var property in this.EntityDescriptor.DtoProperties){ 
             
             #line default
             #line hidden
             this.Write("\t");
             
-            #line 15 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ProjectConfigs\HPMS\TextTemplates\DtoLookupTextTemplate.tt"
+            #line 17 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ProjectConfigs\HPMS\TextTemplates\DtoLookupTextTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Modifiers));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 15 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ProjectConfigs\HPMS\TextTemplates\DtoLookupTextTemplate.tt"
+            #line 17 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ProjectConfigs\HPMS\TextTemplates\DtoLookupTextTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Type));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 15 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ProjectConfigs\HPMS\TextTemplates\DtoLookupTextTemplate.tt"
+            #line 17 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ProjectConfigs\HPMS\TextTemplates\DtoLookupTextTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
             
             #line default
             #line hidden
             this.Write(" { get; set; }");
             
-            #line 15 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ProjectConfigs\HPMS\TextTemplates\DtoLookupTextTemplate.tt"
+            #line 17 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ProjectConfigs\HPMS\TextTemplates\DtoLookupTextTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Assignment));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 16 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ProjectConfigs\HPMS\TextTemplates\DtoLookupTextTemplate.tt"
+            #line 18 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ProjectConfigs\HPMS\TextTemplates\DtoLookupTextTemplate.tt"
  } 
             
             #line default

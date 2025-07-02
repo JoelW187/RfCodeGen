@@ -7,7 +7,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using HPMS.Shared.Interfaces;
 
+#pragma warning disable IDE0130 // Namespace does not match folder structure
 namespace <#= this.ProjectDescriptor.ProjectNamespacePrefix #>Shared.Dtos;
+#pragma warning restore IDE0130 // Namespace does not match folder structure
 
 <#= this.EntityDescriptor.DebuggerDisplay #>
 public partial class <#= this.EntityDescriptor.Name #>Dto : DtoBase<#= this.EntityDescriptor.DtoInterfaces==string.Empty ? "" : $", {this.EntityDescriptor.DtoInterfaces}" #>
