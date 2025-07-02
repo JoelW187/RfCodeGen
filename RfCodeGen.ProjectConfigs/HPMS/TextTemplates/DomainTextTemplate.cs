@@ -43,8 +43,14 @@ namespace RfCodeGen.ProjectConfigs.HPMS.TextTemplates
             
             #line default
             #line hidden
-            this.Write(";\r\nusing RepositoryFramework;\r\n\r\nnamespace HPMS.ServiceLayer.Domains;\r\n\r\npublic i" +
-                    "nterface I");
+            this.Write(";\r\nusing RepositoryFramework;\r\n\r\nnamespace ");
+            
+            #line 11 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ProjectConfigs\HPMS\TextTemplates\DomainTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.ProjectDescriptor.ProjectNamespacePrefix));
+            
+            #line default
+            #line hidden
+            this.Write("ServiceLayer.Domains;\r\n\r\npublic interface I");
             
             #line 13 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ProjectConfigs\HPMS\TextTemplates\DomainTextTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.Name));

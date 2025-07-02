@@ -29,7 +29,14 @@ namespace RfCodeGen.ProjectConfigs.HPMS.TextTemplates
         public virtual string TransformText()
         {
             this.Write("using System.ComponentModel.DataAnnotations;\r\nusing System.Diagnostics;\r\nusing HP" +
-                    "MS.Shared.Interfaces;\r\n\r\nnamespace HPMS.Shared.Dtos;\r\n\r\n");
+                    "MS.Shared.Interfaces;\r\n\r\nnamespace ");
+            
+            #line 10 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ProjectConfigs\HPMS\TextTemplates\DtoTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.ProjectDescriptor.ProjectNamespacePrefix));
+            
+            #line default
+            #line hidden
+            this.Write("Shared.Dtos;\r\n\r\n");
             
             #line 12 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ProjectConfigs\HPMS\TextTemplates\DtoTextTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.DebuggerDisplay));

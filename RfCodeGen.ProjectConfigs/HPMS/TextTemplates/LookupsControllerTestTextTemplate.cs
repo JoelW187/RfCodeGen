@@ -28,16 +28,16 @@ namespace RfCodeGen.ProjectConfigs.HPMS.TextTemplates
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write(@"using HPMS.DataAccess.EntityFramework;
-using HPMS.DataAccess.Models;
-using HPMS.DataAccess.Repositories;
-using HPMS.ServiceLayer.Domains;
-using HPMS.Shared.Dtos.Lookups;
-using HPMS.Shared.Utils;
-
-namespace HPMS.Tests.UnitTests.RfControllerTests;
-
-public partial class ");
+            this.Write("using HPMS.DataAccess.EntityFramework;\r\nusing HPMS.DataAccess.Models;\r\nusing HPMS" +
+                    ".DataAccess.Repositories;\r\nusing HPMS.ServiceLayer.Domains;\r\nusing HPMS.Shared.D" +
+                    "tos.Lookups;\r\nusing HPMS.Shared.Utils;\r\n\r\nnamespace ");
+            
+            #line 13 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ProjectConfigs\HPMS\TextTemplates\LookupsControllerTestTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.ProjectDescriptor.ProjectNamespacePrefix));
+            
+            #line default
+            #line hidden
+            this.Write("Tests.UnitTests.RfControllerTests;\r\n\r\npublic partial class ");
             
             #line 15 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ProjectConfigs\HPMS\TextTemplates\LookupsControllerTestTextTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.PluralizedName));

@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using HPMS.Shared.Interfaces;
 
-namespace HPMS.Shared.Dtos;
+namespace <#= this.ProjectDescriptor.ProjectNamespacePrefix #>Shared.Dtos;
 
 <#= this.EntityDescriptor.DebuggerDisplay #>
 public partial class <#= this.EntityDescriptor.Name #>Dto : DtoBase<#= this.EntityDescriptor.DtoInterfaces==string.Empty ? "" : $", {this.EntityDescriptor.DtoInterfaces}" #>

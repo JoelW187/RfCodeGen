@@ -28,8 +28,14 @@ namespace RfCodeGen.ProjectConfigs.HPMS.TextTemplates
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("using System.Diagnostics;\r\nusing RepositoryFramework;\r\n\r\nnamespace HPMS.DataAcces" +
-                    "s.Models;\r\n\r\n");
+            this.Write("using System.Diagnostics;\r\nusing RepositoryFramework;\r\n\r\nnamespace ");
+            
+            #line 9 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ProjectConfigs\HPMS\TextTemplates\ModelTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.ProjectDescriptor.ProjectNamespacePrefix));
+            
+            #line default
+            #line hidden
+            this.Write("DataAccess.Models;\r\n\r\n");
             
             #line 11 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ProjectConfigs\HPMS\TextTemplates\ModelTextTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.DebuggerDisplay));

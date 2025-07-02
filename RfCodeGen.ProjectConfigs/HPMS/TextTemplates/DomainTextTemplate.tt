@@ -8,7 +8,7 @@ using HPMS.DataAccess.Repositories;
 using HPMS.Shared.Dtos<# if(this.EntityDescriptor.IsLookupTable) { #>.Lookups<# } #>;
 using RepositoryFramework;
 
-namespace HPMS.ServiceLayer.Domains;
+namespace <#= this.ProjectDescriptor.ProjectNamespacePrefix #>ServiceLayer.Domains;
 
 public interface I<#= this.EntityDescriptor.Name #>Domain : IHpmsDomain<<#= this.EntityDescriptor.Name #>, <#= this.EntityDescriptor.Name #>Dto>
 {

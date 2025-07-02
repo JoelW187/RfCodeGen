@@ -8,7 +8,7 @@ using HPMS.Shared.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using RepositoryFramework;
 
-namespace HPMS.WebApi.Controllers;
+namespace <#= this.ProjectDescriptor.ProjectNamespacePrefix #>WebApi.Controllers;
 
 [Route("api/v1/[controller]")]
 [ApiController]

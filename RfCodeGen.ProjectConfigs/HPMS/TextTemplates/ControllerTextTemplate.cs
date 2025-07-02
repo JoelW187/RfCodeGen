@@ -29,8 +29,15 @@ namespace RfCodeGen.ProjectConfigs.HPMS.TextTemplates
         public virtual string TransformText()
         {
             this.Write("using HPMS.ServiceLayer.Domains;\r\nusing HPMS.Shared.Dtos;\r\nusing Microsoft.AspNet" +
-                    "Core.Mvc;\r\nusing RepositoryFramework;\r\n\r\nnamespace HPMS.WebApi.Controllers;\r\n\r\n[" +
-                    "Route(\"api/v1/[controller]\")]\r\n[ApiController]\r\npublic class ");
+                    "Core.Mvc;\r\nusing RepositoryFramework;\r\n\r\nnamespace ");
+            
+            #line 11 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ProjectConfigs\HPMS\TextTemplates\ControllerTextTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.ProjectDescriptor.ProjectNamespacePrefix));
+            
+            #line default
+            #line hidden
+            this.Write("WebApi.Controllers;\r\n\r\n[Route(\"api/v1/[controller]\")]\r\n[ApiController]\r\npublic cl" +
+                    "ass ");
             
             #line 15 "C:\Source\GitHub - joel.wilson\RfCodeGen\RfCodeGen.ProjectConfigs\HPMS\TextTemplates\ControllerTextTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityDescriptor.PluralizedName));

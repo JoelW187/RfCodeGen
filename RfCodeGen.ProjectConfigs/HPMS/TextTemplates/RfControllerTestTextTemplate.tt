@@ -10,6 +10,6 @@ using HPMS.ServiceLayer.Domains;
 using HPMS.Shared.Dtos;
 using HPMS.WebApi.Controllers;
 
-namespace HPMS.Tests.UnitTests.RfControllerTests;
+namespace <#= this.ProjectDescriptor.ProjectNamespacePrefix #>Tests.UnitTests.RfControllerTests;
 
 public partial class <#= this.EntityDescriptor.PluralizedName #>ControllerTests : HpmsRfControllerTestsBase<<#= this.EntityDescriptor.Name #>, <#= this.EntityDescriptor.Name #>Dto, <#= this.EntityDescriptor.Name #>Domain, <#= this.EntityDescriptor.PluralizedName #>Controller> { }
