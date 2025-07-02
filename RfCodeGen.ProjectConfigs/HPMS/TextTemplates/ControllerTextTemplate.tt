@@ -8,7 +8,9 @@ using HPMS.Shared.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using RepositoryFramework;
 
+#pragma warning disable IDE0130 // Namespace does not match folder structure
 namespace <#= this.ProjectDescriptor.ProjectNamespacePrefix #>WebApi.Controllers;
+#pragma warning restore IDE0130 // Namespace does not match folder structure
 
 [Route("api/v1/[controller]")]
 [ApiController]
